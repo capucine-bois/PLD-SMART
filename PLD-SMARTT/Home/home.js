@@ -1,18 +1,30 @@
 import { StatusBar } from 'expo-status-bar';
 import { TouchableOpacity,StyleSheet, Text, TouchableWithoutFeedbackBase, View } from 'react-native';
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
   
   
-  const Home = () =>{
+  const Home = ({route,navigation}) =>{
+    
+    const{mail,motdepasse}= route.params;
+    const onPress = () =>  
+    /* 1. Navigate to the Details route with params */
+    navigation.navigate('Connexion', {
+      mail: mail,
+      motdepasse: motdepasse,
+    })
+    console.log(mail)
+    console.log(motdepasse)
+
     return(
       <View style={styles.container}>
-    <TouchableOpacity style={styles.AppelBtn}>
+    <TouchableOpacity style={styles.AppelBtn} onPress={onPress}>
           
           <Text style={styles.text}>
         Appel d'urgence
         
         </Text>
+        
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.DossierBtn}>
@@ -45,11 +57,12 @@ import { TouchableOpacity,StyleSheet, Text, TouchableWithoutFeedbackBase, View }
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.ParametreBtn}>
-          
+        <MaterialCommunityIcons name="cog-outline" color="#fff" size={35} />
         <Text style={styles.text}>
         Paramètres
         
         </Text>
+
         </TouchableOpacity>
       </View>
      
@@ -64,6 +77,7 @@ import { TouchableOpacity,StyleSheet, Text, TouchableWithoutFeedbackBase, View }
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    
   },
   AppelBtn: {
     width: "100%",
@@ -125,12 +139,15 @@ import { TouchableOpacity,StyleSheet, Text, TouchableWithoutFeedbackBase, View }
     marginTop: 0,
     backgroundColor: "#7f00ff",
     marginBottom: 100,
+   
 },
 text: {
   fontSize: 40,
-  
-  textAlign: 'left',
+  flex: 1,
+  textAlign: 'right',
   fontWeight: 'bold',
-  color: "#fff"
+  color: "#fff",
+  
+
 },
 });
