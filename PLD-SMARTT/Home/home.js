@@ -46,14 +46,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.TraitementBtn}>
-        <Text style={styles.text}>Traitement</Text>
+        <Text style={styles.text}>Traitements</Text>
         
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.cahierBtn}>
           
         <Text style={styles.text}>
-        Cahier de Notes
+        Bloc Notes
         
         </Text>
         </TouchableOpacity>
@@ -61,7 +61,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
         <TouchableOpacity style={styles.consultationBtn}>
           
         <Text style={styles.text}>
-        Consultations
+        Mes rendez-vous
         
         </Text>
         </TouchableOpacity>
@@ -98,16 +98,16 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
     display:"flex",
     flexDirection:"row",
     alignItems:"flex-end",
-    marginTop: 0,
+    marginTop: '25%',
     paddingBottom:20,
-    backgroundColor: "#0080ff",
+    backgroundColor: "#5169A7",
     marginBottom:30,
     
   },
   AppelBtn: {
     width: "100%",
     
-    height: 80,
+    height: 75,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 0,
@@ -118,7 +118,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
   DossierBtn: {
     width: "100%",
     
-    height: 80,
+    height: 100,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 0,
@@ -128,7 +128,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
   TraitementBtn: {
     width: "100%",
     
-    height: 80,
+    height: 100,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 0,
@@ -138,7 +138,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
   cahierBtn: {
     width: "100%",
     
-    height: 80,
+    height: 100,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 0,
@@ -148,7 +148,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
     consultationBtn: {
       width: "100%",
       
-      height: 80,
+      height: 100,
       alignItems: "center",
       justifyContent: "center",
       marginTop: 0,
@@ -158,7 +158,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
   ParametreBtn: {
     width: "100%",
     
-    height: 80,
+    height: 100,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 0,
@@ -181,7 +181,5 @@ text2: {
   textAlign:"center",
   fontWeight: 'bold',
   color: "#fff",
-  
-
 },
 });
