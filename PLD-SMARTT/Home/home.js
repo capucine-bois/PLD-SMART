@@ -17,63 +17,43 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
     console.log(prenom)
     console.log(nom)
 
+    const BoutonMenu = (props) =>{
+      return (
+        <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
+        <MaterialCommunityIcons style= {props.styleIcone} name={props.icone} color="#fff" size={35}/>
+
+          <Text style={props.styleText}>
+        {props.text}
+        
+        </Text>
+        
+        </TouchableOpacity>
+      )
+
+    }
+
     return(
       <View style={styles.container}>
+        
         <TouchableOpacity style={styles.headerBtn} onPress={onPress}>
-          
           <Text style={styles.text2}>
-        Bonjour, {prenom} {nom}
-        
-        </Text>
-        
-        </TouchableOpacity>
-        
-    <TouchableOpacity style={styles.AppelBtn} onPress={onPress}>
-          
-          <Text style={styles.text}>
-        Appel d'urgence
-        
-        </Text>
-        
+          Bonjour, {prenom} {nom}
+          </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.DossierBtn}>
-          
-        <Text style={styles.text}>
-        Dossier Médical
-        
-        </Text>
-        </TouchableOpacity>
+        <BoutonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={onPress} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
 
-        <TouchableOpacity style={styles.TraitementBtn}>
-        <Text style={styles.text}>Traitement</Text>
-        
-        </TouchableOpacity>
+        <BoutonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={onPress} text="Dossier Médical"/>
 
-        <TouchableOpacity style={styles.cahierBtn}>
-          
-        <Text style={styles.text}>
-        Cahier de Notes
-        
-        </Text>
-        </TouchableOpacity>
+        <BoutonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress={onPress} text="Traitement"/>
 
-        <TouchableOpacity style={styles.consultationBtn}>
-          
-        <Text style={styles.text}>
-        Consultations
-        
-        </Text>
-        </TouchableOpacity>
+        <BoutonMenu styleButton={styles.cahierBtn} styleText={styles.text} onPress={onPress} text="Carnet de vie"/>
 
-        <TouchableOpacity style={styles.ParametreBtn}>
-        <MaterialCommunityIcons name="cog-outline" color="#fff" size={35} />
-        <Text style={styles.text}>
-        Paramètres
-        
-        </Text>
+        <BoutonMenu styleButton={styles.consultationBtn} styleText={styles.text} onPress={onPress} text="Consultations"/>
 
-        </TouchableOpacity>
+        <BoutonMenu styleButton={styles.ParametreBtn} styleText={styles.text} onPress={onPress} text="Parametre" icone="cog-outline" styleIcone ={styles.iconParametre}/>
+
+        
       </View>
      
     )
@@ -106,7 +86,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
   },
   AppelBtn: {
     width: "100%",
-    
+    display:"flex",
+    flexDirection:"row",
     height: 80,
     alignItems: "center",
     justifyContent: "center",
@@ -157,6 +138,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
   },
   ParametreBtn: {
     width: "100%",
+    display:"flex",
+    flexDirection:"row",
     
     height: 80,
     alignItems: "center",
@@ -164,12 +147,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
     marginTop: 0,
     backgroundColor: "#7f00ff",
     marginBottom: 210,
+    
    
 },
 text: {
   fontSize: 40,
   flex: 1,
-  textAlign: 'right',
+  textAlign: 'center',
   fontWeight: 'bold',
   color: "#fff",
   
@@ -182,6 +166,13 @@ text2: {
   fontWeight: 'bold',
   color: "#fff",
   
+
+},
+iconParametre: {
+  marginLeft:"10%"
+},
+iconTelephone: {
+  marginLeft:"5%"
 
 },
 });
