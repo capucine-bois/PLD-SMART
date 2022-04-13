@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class MedicalFile {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id_medical_file")
     private long medicalId;
 
@@ -21,6 +21,15 @@ public class MedicalFile {
     @OneToOne
     @JoinColumn(name = "id_user", referencedColumnName = "id_user")
     private User user;
+
+    /**
+    @OneToMany
+    @Column(name="id_allergy",nullable=false)
+    private Allergy allergy;
+
+    @OneToMany
+    @Column(name="id_disease",nullable=false)
+    private Disease disease;*/
 
 
 
