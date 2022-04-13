@@ -12,7 +12,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Log = ({navigation}) =>{
     const [prenom, setPrenom] = React.useState('');
-  
+    const [bouton, setBouton] = useState(false);
  
     return(
 <View style={styles.container}>
@@ -33,6 +33,7 @@ const Log = ({navigation}) =>{
             placeholder="Saisissez votre Prénom"
             placeholderTextColor="#003f5c"
             onChangeText={(prenom) => setPrenom(prenom)}
+            onChange={()=>setBouton(true)}
           />
         </View>
    
@@ -44,7 +45,7 @@ const Log = ({navigation}) =>{
           
           <Button
         title="Suivant"
-        
+        disabled={!bouton}
         onPress={() => 
           /* 1. Navigate to the Details route with params */
           navigation.navigate('Bonjour2', {

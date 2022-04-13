@@ -13,11 +13,21 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
       prenom: prenom,
       nom: nom,
     })
+    console.log("salut")
     console.log(prenom)
     console.log(nom)
 
     return(
       <View style={styles.container}>
+        <TouchableOpacity style={styles.headerBtn} onPress={onPress}>
+          
+          <Text style={styles.text2}>
+        Bonjour, {prenom} {nom}
+        
+        </Text>
+        
+        </TouchableOpacity>
+        
     <TouchableOpacity style={styles.AppelBtn} onPress={onPress}>
           
           <Text style={styles.text}>
@@ -79,13 +89,24 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
     justifyContent: 'center',
     
   },
+  headerBtn: {
+    width: "100%",
+    
+    height: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 0,
+    backgroundColor: "#0080ff",
+    marginBottom:30,
+    
+  },
   AppelBtn: {
     width: "100%",
     
     height: 80,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 30,
+    marginTop: 0,
     backgroundColor: "#f00020",
     marginBottom: 5,
     
@@ -138,7 +159,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
     justifyContent: "center",
     marginTop: 0,
     backgroundColor: "#7f00ff",
-    marginBottom: 100,
+    marginBottom: 210,
    
 },
 text: {
@@ -146,6 +167,16 @@ text: {
   flex: 1,
   textAlign: 'right',
   fontWeight: 'bold',
+  color: "#fff",
+  
+
+},
+text2: {
+  fontSize: 20,
+  flex: 1,
+  textAlign: 'center',
+  fontWeight: 'bold',
+  padding: 70,
   color: "#fff",
   
 
