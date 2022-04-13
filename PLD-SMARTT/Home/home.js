@@ -111,7 +111,7 @@ import React, { Component, useState } from 'react';
     alignItems: "center",
     justifyContent: "center",
     marginTop: 0,
-    backgroundColor: "#008000",
+    backgroundColor: "#34C924",
     marginBottom: 5,
   },
   cahierBtn: {
@@ -122,7 +122,7 @@ import React, { Component, useState } from 'react';
     alignItems: "center",
     justifyContent: "center",
     marginTop: 0,
-    backgroundColor: "#ff8000",
+    backgroundColor: "#ffd700",
     marginBottom: 5,
   },
     consultationBtn: {
