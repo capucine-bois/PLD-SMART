@@ -2,58 +2,54 @@ import { StatusBar } from 'expo-status-bar';
 import { TouchableOpacity,StyleSheet, Text, TouchableWithoutFeedbackBase, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import React, { Component, useState } from 'react';
+
+
+
+
+
+  
   
   
   const Home = ({route,navigation}) =>{
-    
+    const [param, setParam] = useState('Bonjour');
     const{prenom,nom}= route.params;
-    const onPress = () =>  
-    /* 1. Navigate to the Details route with params */
-    navigation.navigate('Bonjour', {
-      prenom: prenom,
-      nom: nom,
-    })
-    console.log("salut")
-    console.log(prenom)
-    console.log(nom)
-
     const BoutonMenu = (props) =>{
       return (
-        <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
-        <MaterialCommunityIcons style= {props.styleIcone} name={props.icone} color="#fff" size={35}/>
-
+        <TouchableOpacity style={props.styleButton} onPress={() =>  
+            navigation.navigate(props.onPress, {
+            prenom: prenom,
+            nom: nom,
+            })}>
+          <MaterialCommunityIcons style= {props.styleIcone} name={props.icone} color="#fff" size={35}/>
           <Text style={props.styleText}>
-        {props.text}
-        
-        </Text>
-        
+            {props.text}
+          </Text>
         </TouchableOpacity>
       )
-
+    
     }
-
     return(
       <View style={styles.container}>
         
-        <TouchableOpacity style={styles.headerBtn} onPress={onPress}>
+        <TouchableOpacity style={styles.headerBtn} >
           <Text style={styles.text2}>
           Bonjour, {prenom} {nom}
           </Text>
         </TouchableOpacity>
 
-        <BoutonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={onPress} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
+        <BoutonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress='Bonjour' text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
 
-        <BoutonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={onPress} text="Dossier Médical"/>
+        <BoutonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress='Bonjour' text="Dossier Médical" />
 
-        <BoutonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress={onPress} text="Traitements"icone="pill" styleIcone ={styles.iconTraitements}/>
+        <BoutonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress='Bonjour' text="Traitements" icone="pill" styleIcone ={styles.iconTraitements}/>
 
-        <BoutonMenu styleButton={styles.cahierBtn} styleText={styles.text} onPress={onPress} text="Bloc Notes"/>
+        <BoutonMenu styleButton={styles.cahierBtn} styleText={styles.text} onPress='Bonjour' text="Bloc Notes"/>
 
-        <BoutonMenu styleButton={styles.consultationBtn} styleText={styles.text} onPress={onPress} text="Mes rendez-vous" icone="calendar" styleIcone ={styles.iconTelephone}/>
+        <BoutonMenu styleButton={styles.consultationBtn} styleText={styles.text} onPress='Bonjour' text="Mes rendez-vous" icone="calendar" styleIcone ={styles.iconTelephone}/>
 
-        <BoutonMenu styleButton={styles.ParametreBtn} styleText={styles.text} onPress={onPress} text="Paramètres" icone="cog-outline" styleIcone ={styles.iconParametre}/>
+        <BoutonMenu styleButton={styles.ParametreBtn} styleText={styles.text} onPress='Bonjour' text="Paramètres" icone="cog-outline" styleIcone ={styles.iconParametre}/>
 
-        
       </View>
      
     )
