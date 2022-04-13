@@ -45,11 +45,11 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
         <BoutonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={onPress} text="Dossier Médical"/>
 
-        <BoutonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress={onPress} text="Traitements"/>
+        <BoutonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress={onPress} text="Traitements"icone="pill" styleIcone ={styles.iconTraitements}/>
 
         <BoutonMenu styleButton={styles.cahierBtn} styleText={styles.text} onPress={onPress} text="Bloc Notes"/>
 
-        <BoutonMenu styleButton={styles.consultationBtn} styleText={styles.text} onPress={onPress} text="Mes rendez-vous"/>
+        <BoutonMenu styleButton={styles.consultationBtn} styleText={styles.text} onPress={onPress} text="Mes rendez-vous" icone="calendar" styleIcone ={styles.iconTelephone}/>
 
         <BoutonMenu styleButton={styles.ParametreBtn} styleText={styles.text} onPress={onPress} text="Paramètres" icone="cog-outline" styleIcone ={styles.iconParametre}/>
 
@@ -108,7 +108,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
   },
   TraitementBtn: {
     width: "100%",
-    
+    display:"flex",
+    flexDirection:"row-reverse",
     height: 100,
     alignItems: "center",
     justifyContent: "center",
@@ -128,7 +129,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
   },
     consultationBtn: {
       width: "100%",
-      
+      display:"flex",
+    flexDirection:"row",
       height: 100,
       alignItems: "center",
       justifyContent: "center",
@@ -171,6 +173,10 @@ iconParametre: {
 },
 iconTelephone: {
   marginLeft:"5%"
+
+},
+iconTraitements: {
+  marginRight:"5%"
 
 },
 });
