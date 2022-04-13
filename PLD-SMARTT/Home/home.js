@@ -6,15 +6,15 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
   
   const Home = ({route,navigation}) =>{
     
-    const{mail,motdepasse}= route.params;
+    const{prenom,nom}= route.params;
     const onPress = () =>  
     /* 1. Navigate to the Details route with params */
-    navigation.navigate('Connexion', {
-      mail: mail,
-      motdepasse: motdepasse,
+    navigation.navigate('Bonjour', {
+      prenom: prenom,
+      nom: nom,
     })
-    console.log(mail)
-    console.log(motdepasse)
+    console.log(prenom)
+    console.log(nom)
 
     return(
       <View style={styles.container}>

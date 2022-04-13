@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import {TouchableOpacity, Button,StyleSheet, Text, View } from 'react-native';
 import Home from './Home/home'
 import Log from './Login/login'
+import Log2 from './Login/login2'
 
 import { NavigationContainer } from '@react-navigation/native';
 import {createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -13,10 +14,11 @@ export default function App() {
     
     
 
-      <NavigationContainer>
-      <Stack.Navigator >
+      <NavigationContainer style={styles.container} >
+      <Stack.Navigator screenOptions={{headerShown: false}}>
       
-        <Stack.Screen name="Connexion" component={Log} />
+        <Stack.Screen name="Bonjour" component={Log}  />
+        <Stack.Screen name="Bonjour2" component={Log2}   />
         <Stack.Screen name="Accueil" component={Home}   />
        
       </Stack.Navigator>
@@ -30,7 +32,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#0080ff',
     alignItems: 'center',
     justifyContent: 'center',
   },

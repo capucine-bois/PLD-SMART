@@ -10,9 +10,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
 
-const Log = ({navigation}) =>{
-    const [prenom, setPrenom] = React.useState('');
-  
+const Log2 = ({route,navigation}) =>{
+    const{prenom}= route.params;
+    const [nom, setNom] = React.useState('');
  
     return(
 <View style={styles.container}>
@@ -23,16 +23,16 @@ const Log = ({navigation}) =>{
             
         </Text>
         <Text style={styles.text2}>
-            Entrez Votre Prénom
+            Entrez Votre Nom
         </Text>
 
         <View style={styles.inputView}>
           <TextInput
             style={styles.TextInput}
            
-            placeholder="Saisissez votre Prénom"
-            placeholderTextColor="#003f5c"
-            onChangeText={(prenom) => setPrenom(prenom)}
+            placeholder="Saisissez votre Nom"
+            placeholderTextColor="#000000"
+            onChangeText={(nom) => setNom(nom)}
           />
         </View>
    
@@ -47,9 +47,9 @@ const Log = ({navigation}) =>{
         
         onPress={() => 
           /* 1. Navigate to the Details route with params */
-          navigation.navigate('Bonjour2', {
+          navigation.navigate('Accueil', {
             prenom: prenom,
-            
+            nom: nom,
           })
         }
       />
@@ -62,7 +62,7 @@ const Log = ({navigation}) =>{
 
 
 
-export default Log;
+export default Log2;
 
 
 
