@@ -1,26 +1,53 @@
 import { StatusBar } from 'expo-status-bar';
-import { TouchableOpacity,StyleSheet, Text, TouchableWithoutFeedbackBase, View } from 'react-native';
+import { Alert, Modal, Pressable,TouchableOpacity,StyleSheet, Text, TouchableWithoutFeedbackBase, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import React, { Component, useState } from 'react';
-
-
-
-
-
-  
-  
   
   const Home = ({route,navigation}) =>{
-    
+
+    const [modalVisible, setModalVisible] = useState(false);
     const{prenom,nom}= route.params;
+
+    const PopUp = () => {
+      return (
+        <View style={styles.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Appeler le Samu ?</Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  
+                  <Text style={styles.textStyle}>Appeler</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.button, styles.buttonClose2]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  
+                  <Text style={styles.textStyle}>Annuler</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      );
+    };
+
     const BoutonMenu = (props) =>{
       return (
-        <TouchableOpacity style={props.styleButton} onPress={() =>  
-            navigation.navigate(props.onPress, {
-            prenom: prenom,
-            nom: nom,
-            })}>
+        <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
           <MaterialCommunityIcons style= {props.styleIcone} name={props.icone} color="#fff" size={45}/>
           <Text style={props.styleText}>
             {props.text}
@@ -37,18 +64,33 @@ import React, { Component, useState } from 'react';
           Bonjour, {prenom} {nom}
           </Text>
         </TouchableOpacity>
+        <PopUp/>
+        <BoutonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={() => setModalVisible(true)} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
 
-        <BoutonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress='Bonjour' text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
+        <BoutonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Accueil', {
+            prenom: prenom,
+            nom: nom,
+            })} text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
 
-        <BoutonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress='Bonjour' text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
+        <BoutonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Bonjour', {
+            prenom: prenom,
+            nom: nom,
+            })} text="Traitements" icone="pill" styleIcone ={styles.iconTraitements}/>
 
-        <BoutonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress='Bonjour' text="Traitements" icone="pill" styleIcone ={styles.iconTraitements}/>
+        <BoutonMenu styleButton={styles.cahierBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Bonjour', {
+            prenom: prenom,
+            nom: nom,
+            })} text="Bloc Notes" icone="pen" styleIcone ={styles.iconBlocNotes}/>
 
-        <BoutonMenu styleButton={styles.cahierBtn} styleText={styles.text} onPress='Bonjour' text="Bloc Notes" icone="pen" styleIcone ={styles.iconBlocNotes}/>
+        <BoutonMenu styleButton={styles.consultationBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Bonjour', {
+            prenom: prenom,
+            nom: nom,
+            })} text="Mes rendez-vous" icone="calendar" styleIcone ={styles.iconRDV}/>
 
-        <BoutonMenu styleButton={styles.consultationBtn} styleText={styles.text} onPress='Bonjour' text="Mes rendez-vous" icone="calendar" styleIcone ={styles.iconRDV}/>
-
-        <BoutonMenu styleButton={styles.ParametreBtn} styleText={styles.text} onPress='Bonjour' text="Générer ma Fiche" icone="file" styleIcone ={styles.iconParametre}/>
+        <BoutonMenu styleButton={styles.ParametreBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Bonjour', {
+            prenom: prenom,
+            nom: nom,
+            })} text="Générer ma Fiche" icone="file" styleIcone ={styles.iconParametre}/>
 
       </View>
      
@@ -187,4 +229,69 @@ iconBlocNotes: {
 iconRDV: {
   marginLeft:"2%"
 },
+centeredView: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+  marginTop: 22
+},
+modalView: {
+  height: "80%",
+  width: "80%",
+  margin: 20,
+  backgroundColor: "white",
+  borderRadius: 20,
+  padding: 35,
+  alignItems: "center",
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 2
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+  elevation: 5
+},
+button: {
+  borderRadius: 20,
+  padding: 10,
+  elevation: 2
+},
+buttonOpen: {
+  backgroundColor: "#F194FF",
+},
+buttonClose: {
+  flex: 1,
+  alignItems: "center",
+      justifyContent: "center",
+      flexDirection: 'column',
+
+  
+  height: "30%",
+  width:"90%",
+  backgroundColor: "#FF0000",
+},
+buttonClose2: {
+  flex: 1,
+  alignItems: "center",
+      justifyContent: "center",
+      flexDirection: 'column',
+  marginTop:"2%",
+  height: "30%",
+  width:"90%",
+  backgroundColor: "#9C9C9C",
+},
+textStyle: {
+  fontSize:30,
+  textAlign:"center",
+  
+  color: "white",
+  fontWeight: "bold",
+  
+},
+modalText: {
+  fontSize: 50,
+  alignItems: "center",
+  textAlign: "center"
+}
 });
