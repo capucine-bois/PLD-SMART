@@ -1,9 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
-import { Alert, Modal, Pressable,TouchableOpacity,StyleSheet, Text, TouchableWithoutFeedbackBase, View } from 'react-native';
+import { Linking, Image,Platform,Alert, Modal, Pressable,TouchableOpacity,StyleSheet, Text, TouchableWithoutFeedbackBase, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import React, { Component, useState } from 'react';
   
+const onPressMobileNumberClick = (number) => {
+
+  let phoneNumber = '';
+  if (Platform.OS === 'android') {
+    phoneNumber = `tel:${number}`;
+  } else {
+    phoneNumber = `telprompt:${number}`;
+  }
+
+  Linking.openURL(phoneNumber);
+}
+
+
   const Home = ({route,navigation}) =>{
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -26,7 +39,7 @@ import React, { Component, useState } from 'react';
                 <Text style={styles.modalText}>Appeler le Samu ?</Text>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
+                  onPress={() => { onPressMobileNumberClick("0769837263") }}
                 >
                   
                   <Text style={styles.textStyle}>Appeler</Text>
