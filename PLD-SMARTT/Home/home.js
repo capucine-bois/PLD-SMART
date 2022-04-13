@@ -12,7 +12,7 @@ import React, { Component, useState } from 'react';
   
   
   const Home = ({route,navigation}) =>{
-    const [param, setParam] = useState('Bonjour');
+    
     const{prenom,nom}= route.params;
     const BoutonMenu = (props) =>{
       return (
@@ -21,7 +21,7 @@ import React, { Component, useState } from 'react';
             prenom: prenom,
             nom: nom,
             })}>
-          <MaterialCommunityIcons style= {props.styleIcone} name={props.icone} color="#fff" size={35}/>
+          <MaterialCommunityIcons style= {props.styleIcone} name={props.icone} color="#fff" size={45}/>
           <Text style={props.styleText}>
             {props.text}
           </Text>
@@ -40,15 +40,15 @@ import React, { Component, useState } from 'react';
 
         <BoutonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress='Bonjour' text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
 
-        <BoutonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress='Bonjour' text="Dossier Médical" />
+        <BoutonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress='Bonjour' text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
 
         <BoutonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress='Bonjour' text="Traitements" icone="pill" styleIcone ={styles.iconTraitements}/>
 
-        <BoutonMenu styleButton={styles.cahierBtn} styleText={styles.text} onPress='Bonjour' text="Bloc Notes"/>
+        <BoutonMenu styleButton={styles.cahierBtn} styleText={styles.text} onPress='Bonjour' text="Bloc Notes" icone="pen" styleIcone ={styles.iconBlocNotes}/>
 
-        <BoutonMenu styleButton={styles.consultationBtn} styleText={styles.text} onPress='Bonjour' text="Mes rendez-vous" icone="calendar" styleIcone ={styles.iconTelephone}/>
+        <BoutonMenu styleButton={styles.consultationBtn} styleText={styles.text} onPress='Bonjour' text="Mes rendez-vous" icone="calendar" styleIcone ={styles.iconRDV}/>
 
-        <BoutonMenu styleButton={styles.ParametreBtn} styleText={styles.text} onPress='Bonjour' text="Paramètres" icone="cog-outline" styleIcone ={styles.iconParametre}/>
+        <BoutonMenu styleButton={styles.ParametreBtn} styleText={styles.text} onPress='Bonjour' text="Générer ma Fiche" icone="file" styleIcone ={styles.iconParametre}/>
 
       </View>
      
@@ -94,7 +94,8 @@ import React, { Component, useState } from 'react';
   },
   DossierBtn: {
     width: "100%",
-    
+    display:"flex",
+    flexDirection:"row-reverse",
     height: 100,
     alignItems: "center",
     justifyContent: "center",
@@ -105,7 +106,7 @@ import React, { Component, useState } from 'react';
   TraitementBtn: {
     width: "100%",
     display:"flex",
-    flexDirection:"row-reverse",
+    flexDirection:"row",
     height: 100,
     alignItems: "center",
     justifyContent: "center",
@@ -115,7 +116,8 @@ import React, { Component, useState } from 'react';
   },
   cahierBtn: {
     width: "100%",
-    
+    display:"flex",
+    flexDirection:"row-reverse",
     height: 100,
     alignItems: "center",
     justifyContent: "center",
@@ -172,7 +174,17 @@ iconTelephone: {
 
 },
 iconTraitements: {
-  marginRight:"5%"
+  marginLeft:"10%"
 
+},
+
+iconDossier: {
+  marginRight:"5%"
+},
+iconBlocNotes: {
+  marginRight:"5%"
+},
+iconRDV: {
+  marginLeft:"2%"
 },
 });
