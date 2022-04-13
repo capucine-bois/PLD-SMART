@@ -1,0 +1,8 @@
+package com.controller;
+
+public class UserNotFoundException extends RuntimeException {
+
+    UserNotFoundException(String token){
+        super("Could not find user " + token);
+    }
+}
