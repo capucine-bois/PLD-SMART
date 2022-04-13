@@ -93,9 +93,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
     width: "100%",
     
     height: 100,
-    alignItems: "center",
-    justifyContent: "center",
+    
+    
+    display:"flex",
+    flexDirection:"row",
+    alignItems:"flex-end",
     marginTop: 0,
+    paddingBottom:20,
     backgroundColor: "#0080ff",
     marginBottom:30,
     
@@ -174,9 +178,8 @@ text: {
 text2: {
   fontSize: 20,
   flex: 1,
-  textAlign: 'center',
+  textAlign:"center",
   fontWeight: 'bold',
-  padding: 70,
   color: "#fff",
   
 
