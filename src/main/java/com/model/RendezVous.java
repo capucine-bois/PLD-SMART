@@ -44,6 +44,72 @@ public class RendezVous {
         this.user = user;
     }
 
+    public long getMedicationId() {
+        return medicationId;
+    }
 
+    public void setMedicationId(long medicationId) {
+        this.medicationId = medicationId;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTypePractitioner() {
+        return typePractitioner;
+    }
+
+    public void setTypePractitioner(String typePractitioner) {
+        this.typePractitioner = typePractitioner;
+    }
+
+    public String getNamePractitioner() {
+        return namePractitioner;
+    }
+
+    public void setNamePractitioner(String namePractitioner) {
+        this.namePractitioner = namePractitioner;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public java.lang.String toString() {
+        return "RendezVous{" +
+                "medicationId=" + medicationId +
+                ", name='" + name + '\'' +
+                ", typePractitioner='" + typePractitioner + '\'' +
+                ", namePractitioner='" + namePractitioner + '\'' +
+                ", date=" + date +
+                ", location='" + location + '\'' +
+                ", user=" + user +
+                '}';
+    }
 }

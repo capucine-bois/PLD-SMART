@@ -32,5 +32,19 @@ public class Disease {
     @Column(name="description",length = 50)
     private String description;
 
+    public Disease(long diseaseId) {
+        this.diseaseId = diseaseId;
+    }
 
+    @Override
+    public java.lang.String toString() {
+        return "Disease{" +
+                "diseaseId=" + diseaseId +
+                ", name='" + name + '\'' +
+                ", startDate=" + startDate +
+                ", severity=" + severity +
+                ", medicalFile=" + medicalFile +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

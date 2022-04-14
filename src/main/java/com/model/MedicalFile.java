@@ -31,6 +31,52 @@ public class MedicalFile {
     @Column(name="id_disease",nullable=false)
     private Disease disease;*/
 
+    public MedicalFile(long medicalId, float height, float weight, User user) {
+        this.medicalId = medicalId;
+        this.height = height;
+        this.weight = weight;
+        this.user = user;
+    }
 
+    public long getMedicalId() {
+        return medicalId;
+    }
 
+    public void setMedicalId(long medicalId) {
+        this.medicalId = medicalId;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public java.lang.String toString() {
+        return "MedicalFile{" +
+                "medicalId=" + medicalId +
+                ", height=" + height +
+                ", weight=" + weight +
+                ", user=" + user +
+                '}';
+    }
 }
