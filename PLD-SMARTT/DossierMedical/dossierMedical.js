@@ -21,9 +21,30 @@ function DossierMedical() {
             <Text style={styles.text}>Poids : {poids} kg</Text>
             <Text style={styles.text}>Taille : {taille}</Text>
         </View>
-        <View style={styles.dossierMed}>
-            <Text style={styles.text}>Poids : {poids} kg</Text>
-            <Text style={styles.text}>Taille : {taille}</Text>
+        <View style={styles.etiquette}>
+            <Text style={styles.text}>Allergies</Text>
+            <View style={styles.contenuEtiquette}>
+                <Text style={styles.text}>Rhume des foins</Text>
+                <Text style={styles.text}>Acariens</Text>
+            </View>
+        </View>
+        <View style={styles.etiquette}>
+            <Text style={styles.text}>Pathologies</Text>
+            <View style={styles.contenuEtiquette}>
+                <Text style={styles.text}>Hypertension artérielle</Text>
+            </View>
+        </View>
+        <View style={styles.etiquette}>
+            <Text style={styles.text}>Appareillages</Text>
+            <View style={styles.contenuEtiquette}>
+                <Text style={styles.text}>Prothèses auditives</Text>
+                <Text style={styles.text}>Lunettes</Text>
+            </View>
+        </View>
+        <View style={styles.etiquette}>
+            <Text style={styles.text}>Indicateurs</Text>
+            <View style={styles.contenuEtiquette}>
+            </View>
         </View>
 
 
@@ -43,7 +64,10 @@ const styles = StyleSheet.create({
     profil:{
 
     },
-    dossierMed:{
+    etiquette:{
+
+    },
+    contenuEtiquette:{
         
-    }
+    },
   });
