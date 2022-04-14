@@ -22,7 +22,7 @@ const onPressMobileNumberClick = (number) => {
   const Home = ({route,navigation}) =>{
 
     const [modalVisible, setModalVisible] = useState(false);
-    const{prenom,nom}= route.params;
+    const {prenom,nom}= route.params;
 
     const PopUp = () => {
       return (
@@ -71,21 +71,33 @@ const onPressMobileNumberClick = (number) => {
       )
     
     }
-    const getMoviesFromApi = () => {
-      return fetch('https://reactnative.dev/movies.json')
-        .then((response) => response.json())
-        .then((json) => {
-          console.log(json.movies)
-          return json.movies;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+
+
+
+
+    const createUser = () => {
+
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json', "Access-Control-Allow-Origin" : "*",'Access-Control-Allow-Credentials': 'true'},
+            body: JSON.stringify({
+                "name": prenom ,
+                "surname": nom,
+            })
+        }
+        fetch('http://localhost:8080/user',params)
+            .then(console.log("c'est bon"));
+
+
+
     };
 
     useEffect(() => {
-      getMoviesFromApi();
+      createUser();
     }, []);
+
+
+
 
 
     return(
