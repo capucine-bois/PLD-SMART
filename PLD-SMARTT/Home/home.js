@@ -20,7 +20,7 @@ const onPressMobileNumberClick = (number) => {
   const Home = ({route,navigation}) =>{
 
     const [modalVisible, setModalVisible] = useState(false);
-    const{prenom,nom}= route.params;
+    const {prenom,nom}= route.params;
 
     const PopUp = () => {
       return (
