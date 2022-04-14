@@ -4,6 +4,7 @@ import {TouchableOpacity, Button,StyleSheet, Text, View } from 'react-native';
 import Home from './Home/home'
 import Log from './Login/login'
 import Log2 from './Login/login2'
+import Notes from './Notes/Notes'
 
 import { NavigationContainer } from '@react-navigation/native';
 import {createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -21,7 +22,7 @@ export default function App() {
         <Stack.Screen name="Bonjour" component={Log}  />
         <Stack.Screen name="Bonjour2" component={Log2}   />
         <Stack.Screen name="Accueil" component={Home}   />
-       
+        <Stack.Screen name="BlocNotes" component={Notes}   />
       </Stack.Navigator>
 
     </NavigationContainer>
