@@ -72,30 +72,7 @@ const onPressMobileNumberClick = (number) => {
     
     }
 
-    const createUser = () => {
-
-        const params = {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                "name": prenom ,
-                "surname": nom,
-            })
-        }
-        fetch('http://localhost:8080/user',params)
-            .then(console.log("c'est bon"));
-
-
-
-    };
-
-    useEffect(() => {
-      createUser();
-    }, []);
-
-
-
-
+    
 
     return(
       <View style={styles.container}>
