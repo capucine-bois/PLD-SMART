@@ -5,11 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 
@@ -30,14 +26,11 @@ public class UserController {
     }
 
 
-    @PutMapping("/user/{name}/{surname}")
+    @PutMapping("/user/")
     @ResponseBody
     @Transactional
-    public ResponseEntity<String> createUser(@PathVariable(value = "name") String name, @PathVariable(value="surname") String surname){
-        User user = new User();
-        user.setName(name);
-        user.setSurname(surname);
-        String token = "aaa";
+    public ResponseEntity<String> createUser(@RequestBody User user){
+        String token = "ccc";
         user.setToken(token);
         userRepository.save(user);
         return new ResponseEntity<String>(token, HttpStatus.OK);
