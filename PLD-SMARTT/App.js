@@ -1,4 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
+
 import {TouchableOpacity, Button,StyleSheet, Text, View } from 'react-native';
 import Home from './Home/home'
 import Log from './Login/login'

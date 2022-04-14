@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Linking, Image,Platform,Alert, Modal, Pressable,TouchableOpacity,StyleSheet, Text, TouchableWithoutFeedbackBase, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import React, { Component, useState } from 'react';
+import React, { useEffect,Component, useState } from 'react';
 
 import styles from '../Style/styleHome'
   
@@ -71,6 +71,23 @@ const onPressMobileNumberClick = (number) => {
       )
     
     }
+    const getMoviesFromApi = () => {
+      return fetch('https://reactnative.dev/movies.json')
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(json.movies)
+          return json.movies;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+
+    useEffect(() => {
+      getMoviesFromApi();
+    }, []);
+
+
     return(
       <View style={styles.container}>
         
