@@ -39,11 +39,10 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user){
         String token = TokenGenerator.generateRandomPassword(12);
         user.setToken(token);
-
         MedicalFile medicalFile = new MedicalFile(user);
+        userRepository.save(user);
         medicalFileRepository.save(medicalFile);
         user.setMedicalFile(medicalFile);
-        userRepository.save(user);
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 

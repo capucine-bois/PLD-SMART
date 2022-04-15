@@ -11,4 +11,5 @@ import com.model.User;
 
 @Repository
 public interface MedicalFileRepository extends JpaRepository<MedicalFile,Long> {
+    Optional<MedicalFile> findByUser(User user);
 }
