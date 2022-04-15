@@ -3,7 +3,17 @@ import {StyleSheet, Text, ScrollView, View, TouchableOpacity} from 'react-native
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import style from "../Style/styleHome";
+
+function Bouton(props){
+    return (
+        <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
+            <Text style={props.styleText}>
+                {props.text}
+            </Text>
+            <MaterialCommunityIcons style = {styles.iconChevron} name='chevron-right' color="#fff" size={45}/>
+        </TouchableOpacity>
+    )
+}
 
 function DossierMedical({navigation}) {
     const prenom = "Gérard"
@@ -38,35 +48,31 @@ function DossierMedical({navigation}) {
                 <Text style={styles.text}>Poids : {poids} kg</Text>
                 <Text style={styles.text}>Taille : {taille}</Text>
             </View>
-            <View style={styles.etiquette}>
-                <Text style={styles.textEtiquette}>Allergies</Text>
-                <MaterialCommunityIcons style = {styles.iconChevron} name='chevron-right' color="#fff" size={45}/>
-            </View>
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
+                    text="Allergies" />
             <View style={styles.contenuEtiquette}>
                     <Text style={styles.textContenuEtiquette}>Rhume des foins</Text>
                     <Text style={styles.textContenuEtiquette}>Acariens</Text>
                 </View>
-            <View style={styles.etiquette}>
-                <Text style={styles.textEtiquette}>Pathologies</Text>
-                <MaterialCommunityIcons style = {styles.iconChevron} name='chevron-right' color="#fff" size={45}/>
-            </View>
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
+                    text="Pathologies" />
             <View style={styles.contenuEtiquette}>
                     <Text style={styles.textContenuEtiquette}>Hypertension artérielle</Text>
-                </View>
-            <View style={styles.etiquette}>
-                <Text style={styles.textEtiquette}>Appareillages</Text>
-                <MaterialCommunityIcons style = {styles.iconChevron} name='chevron-right' color="#fff" size={45}/>
             </View>
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
+                    text="Vaccins" />
+            <View style={styles.contenuEtiquette}>
+            </View>
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
+                    text="Appareillages" />
                 <View style={styles.contenuEtiquette}>
                     <Text style={styles.textContenuEtiquette}>Prothèses auditives</Text>
                     <Text style={styles.textContenuEtiquette}>Lunettes</Text>
                 </View>
-            <View style={styles.etiquette}>
-                <Text style={styles.textEtiquette}>Indicateurs</Text>
-                <MaterialCommunityIcons style = {styles.iconChevron} name='chevron-right' color="#fff" size={45}/>
-            </View>
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
+                    text="Indicateurs" />
             <View style={styles.contenuEtiquette}>
-                </View>
+            </View>
         </ScrollView>
     </View>)
 }

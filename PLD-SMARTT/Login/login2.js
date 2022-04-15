@@ -73,7 +73,11 @@ const Log2 = ({route,navigation}) => {
                     disabled={!bouton}
                     onPress={() =>
                         /* 1. Navigate to the Details route with params */
-                        createUser()
+                        //createUser()
+                        navigation.navigate('Accueil', {
+                            prenom: prenom,
+
+                        })
                     }
                 />
             </TouchableOpacity>

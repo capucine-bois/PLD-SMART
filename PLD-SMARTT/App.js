@@ -9,6 +9,7 @@ import Notes2 from './Notes/Notes2'
 import DossierMedical from './DossierMedical/dossierMedical';
 import RDV from './RDV/RDV'
 import RDV2 from './RDV/RDV2'
+import DosMedAllergies from './DossierMedical/dosMedAllergies'
 import React, {useEffect} from "react"
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -48,6 +49,8 @@ export default function App() {
         <Stack.Screen name="DossierMedical" component={DossierMedical}   />
         <Stack.Screen name="RDV" component={RDV}   />
         <Stack.Screen name="RDV2" component={RDV2}   />
+        <Stack.Screen name="DosMedAllergies" component={DosMedAllergies}   />
+
       </Stack.Navigator>
 
     </NavigationContainer>
