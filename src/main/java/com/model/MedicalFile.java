@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class MedicalFile {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_medical_file")
     private long medicalId;
 
@@ -36,6 +36,13 @@ public class MedicalFile {
         this.height = height;
         this.weight = weight;
         this.user = user;
+    }
+
+    public MedicalFile(User user) {
+        this.medicalId=null;
+        this.user = user;
+        this.height = 0;
+        this.weight = 0;
     }
 
     public long getMedicalId() {
