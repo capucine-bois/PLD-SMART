@@ -1,7 +1,6 @@
 import React, { Component, useState } from 'react';
-
 import { Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity } from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -26,13 +25,15 @@ const Log2 = ({route,navigation}) => {
             })
         }
         fetch('http://localhost:8080/user/',params)
-            .then(response => {
-                if(response.status == 200){
-                    navigation.navigate('Accueil', {
-                        prenom: prenom,
-                        nom: nom,
-                    });
-                }
+            .then(response => response.json())
+            .then(data => {
+                AsyncStorage.setItem('token', data.token);
+                AsyncStorage.setItem('name',data.name);
+                AsyncStorage.setItem('surname',data.surname);
+                navigation.navigate('Accueil', {
+                    prenom: prenom,
+                    nom: nom,
+                });
             });
 
 
