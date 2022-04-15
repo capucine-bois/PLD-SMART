@@ -64,14 +64,14 @@ export default Notes;
 const style = StyleSheet.create({
     headerBtn: {
         width: "100%",
-        height: 100,
+        height: "11%",
         display:"flex",
         flexDirection:"row",
         alignItems:"flex-end",
         paddingBottom:20,
         backgroundColor: "#ffd700",
         marginBottom:30,
-        
+
       },
       container: {
         display:"flex",
