@@ -9,19 +9,39 @@ import Notes2 from './Notes/Notes2'
 import DossierMedical from './DossierMedical/dossierMedical';
 import RDV from './RDV/RDV'
 import RDV2 from './RDV/RDV2'
+import React, {useEffect} from "react"
 
 import { NavigationContainer } from '@react-navigation/native';
 import {createNativeStackNavigator } from '@react-navigation/native-stack';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  const [token, setToken] = React.useState(null);
+
+    useEffect(() => {
+        const tok = AsyncStorage.getItem("token")
+            .then(result => {
+                setToken(result);
+            })
+    }, []);
+
   return (
       <NavigationContainer style={styles.container} >
       <Stack.Navigator screenOptions={{headerShown: false}}>
-      
-        <Stack.Screen name="Bonjour" component={Log}  />
-        <Stack.Screen name="Bonjour2" component={Log2}   />
+        {token == null ? (
+          <>
+            <Stack.Screen name="Bonjour" component={Log}  />
+            <Stack.Screen name="Bonjour2" component={Log2}   />
+          </>
+          ):(
+              null
+          )
+        }
+
+
         <Stack.Screen name="Accueil" component={Home}   />
         <Stack.Screen name="BlocNotes" component={Notes}   />
         <Stack.Screen name="BlocNotes2" component={Notes2}   />
@@ -34,6 +54,10 @@ export default function App() {
       
     
   );
+
+
+
+
 }
 
 const styles = StyleSheet.create({
