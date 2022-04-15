@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class MedicalFile {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_medical_file")
     private long medicalId;
 
@@ -22,6 +22,8 @@ public class MedicalFile {
     @JoinColumn(name = "id_user", referencedColumnName = "id_user")
     private User user;
 
+
+
     /**
     @OneToMany
     @Column(name="id_allergy",nullable=false)
@@ -31,10 +33,16 @@ public class MedicalFile {
     @Column(name="id_disease",nullable=false)
     private Disease disease;*/
 
-    public MedicalFile(long medicalId, float height, float weight, User user) {
-        this.medicalId = medicalId;
+    public MedicalFile() {
+    }
+
+    public MedicalFile(float height, float weight, User user) {
         this.height = height;
         this.weight = weight;
+        this.user = user;
+    }
+
+    public MedicalFile(User user) {
         this.user = user;
     }
 

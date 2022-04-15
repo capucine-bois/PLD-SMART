@@ -1,5 +1,7 @@
 package com.controller;
 
+import com.model.MedicalFile;
+import com.repository.MedicalFileRepository;
 import com.util.TokenGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +22,14 @@ public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     private UserRepository userRepository;
+    private MedicalFileRepository medicalFileRepository;
+
+
 
     @Autowired
-    UserController(final UserRepository userRepository) {
+    UserController(final UserRepository userRepository, final MedicalFileRepository medicalFileRepository) {
         this.userRepository = userRepository;
+        this.medicalFileRepository  = medicalFileRepository;
     }
 
 
@@ -33,7 +39,10 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user){
         String token = TokenGenerator.generateRandomPassword(12);
         user.setToken(token);
+        MedicalFile medicalFile = new MedicalFile(user);
         userRepository.save(user);
+        medicalFileRepository.save(medicalFile);
+        user.setMedicalFile(medicalFile);
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
@@ -44,6 +53,16 @@ public class UserController {
 
         User user = userRepository.findByToken(token)
                                   .orElseThrow(() -> new UserNotFoundException(token));
+
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/name/{name}")
+    @ResponseBody
+    public ResponseEntity<User> getUserByName(@PathVariable(value = "name") String name){
+
+        User user = userRepository.findByName(name)
+                .orElseThrow(() -> new UserNotFoundException(name));
 
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
