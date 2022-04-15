@@ -41,7 +41,7 @@ const Log2 = ({route,navigation}) => {
 
     return(
         <View style={styles.container}>
-   
+
             <StatusBar style="auto" />
             <Text style={styles.text}>
                 Bienvenue,
@@ -52,37 +52,34 @@ const Log2 = ({route,navigation}) => {
             </Text>
 
             <View style={styles.inputView}>
-              <TextInput
-                style={styles.TextInput}
+                <TextInput
+                    style={styles.TextInput}
 
-                placeholder="Saisissez votre Nom"
-                placeholderTextColor="#000000"
-                onChangeText={(nom) => setNom(nom)}
-                onChange={()=>setBouton(true)}
-              />
+                    placeholder="Saisissez votre Nom"
+                    placeholderTextColor="#000000"
+                    onChangeText={(nom) => setNom(nom)}
+                    onChange={()=>setBouton(true)}
+                />
+            </View>
+
+
+
+
+
+            <TouchableOpacity style={styles.loginBtn}>
+
+                <Button
+                    title="Suivant"
+                    disabled={!bouton}
+                    onPress={() =>
+                        /* 1. Navigate to the Details route with params */
+                        createUser()
+                    }
+                />
+            </TouchableOpacity>
+
+
         </View>
-   
-        
-   
-        
-   
-        <TouchableOpacity style={styles.loginBtn}>
-          
-          <Button
-        title="Suivant"
-        disabled={!bouton}
-        onPress={() => 
-          /* 1. Navigate to the Details route with params */
-          navigation.navigate('Accueil', {
-            prenom: prenom,
-            nom: nom,
-        })
-        }
-      />
-        </TouchableOpacity>
-
-        
-      </View>
     )
 
 }
@@ -91,45 +88,45 @@ export default Log2;
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: "#0080ff",
-      alignItems: "center",
-      justifyContent: "center",
-      flexDirection: 'column'
+        flex: 1,
+        backgroundColor: "#0080ff",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: 'column'
     },
-   
+
     image: {
-      marginBottom: 40,
+        marginBottom: 40,
     },
-   
+
     inputView: {
-      backgroundColor: "#FFFF",
-      borderRadius: 30,
-      width: "80%",
-      height: 70,
-      marginBottom: 150,
-   
-      alignItems: "center",
+        backgroundColor: "#FFFF",
+        borderRadius: 30,
+        width: "80%",
+        height: 70,
+        marginBottom: 150,
+
+        alignItems: "center",
     },
-   
+
     TextInput: {
-      height: 50,
-      flex: 1,
-      padding: 10,
-      marginLeft: 20,
-      color: "#000000",
+        height: 50,
+        flex: 1,
+        padding: 10,
+        marginLeft: 20,
+        color: "#000000",
     },
-   
-   
+
+
     loginBtn: {
-      width: "80%",
-      borderRadius: 25,
-      height: 50,
-      alignItems: "center",
-      justifyContent: "center",
-      marginTop: 50,
-      backgroundColor: "#FFFF",
-      marginBottom: 160,
+        width: "80%",
+        borderRadius: 25,
+        height: 50,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 50,
+        backgroundColor: "#FFFF",
+        marginBottom: 160,
     },
     text: {
         fontSize: 40,
@@ -138,15 +135,15 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: "#fff",
         marginTop: 100,
-      },
-      text2: {
+    },
+    text2: {
         fontSize: 40,
         flex: 1,
         textAlign: 'center',
         fontWeight: 'bold',
         color: "#fff",
-        
-        
-      },
 
-  });
+
+    },
+
+});
