@@ -1,5 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
-import { Linking, Image,Platform,Alert, Modal, Pressable,TouchableOpacity,StyleSheet, Text, TouchableWithoutFeedbackBase, View } from 'react-native';
+import {
+    Linking,
+    Image,
+    Platform,
+    Alert,
+    Modal,
+    Pressable,
+    TouchableOpacity,
+    StyleSheet,
+    Text,
+    TouchableWithoutFeedbackBase,
+    View,
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import React, { useEffect,Component, useState } from 'react';
@@ -22,7 +35,19 @@ const onPressMobileNumberClick = (number) => {
   const Home = ({route,navigation}) =>{
 
     const [modalVisible, setModalVisible] = useState(false);
-    const {prenom,nom}= route.params;
+    const [prenom, setPrenom] = useState("");
+    const [nom, setNom] = useState("");
+
+    useEffect(() => {
+        const name = AsyncStorage.getItem("name")
+            .then(result => {
+                setPrenom(result);
+            })
+        const surname = AsyncStorage.getItem("surname")
+            .then(result => {
+                setNom(result);
+            })
+    }, []);
 
     const PopUp = () => {
       return (
@@ -72,7 +97,6 @@ const onPressMobileNumberClick = (number) => {
     
     }
 
-    
 
     return(
       <View style={styles.container}>
