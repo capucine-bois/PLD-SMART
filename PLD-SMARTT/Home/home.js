@@ -85,7 +85,7 @@ const onPressMobileNumberClick = (number) => {
         <PopUp/>
         <BoutonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={() => setModalVisible(true)} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
 
-        <BoutonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Accueil', {
+        <BoutonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DossierMedical', {
             prenom: prenom,
             nom: nom,
             })} text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
@@ -95,12 +95,12 @@ const onPressMobileNumberClick = (number) => {
             nom: nom,
             })} text="Traitements" icone="pill" styleIcone ={styles.iconTraitements}/>
 
-        <BoutonMenu styleButton={styles.cahierBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Bonjour', {
+        <BoutonMenu styleButton={styles.cahierBtn} styleText={styles.text} onPress={() =>  navigation.navigate('BlocNotes', {
             prenom: prenom,
             nom: nom,
             })} text="Bloc Notes" icone="pen" styleIcone ={styles.iconBlocNotes}/>
 
-        <BoutonMenu styleButton={styles.consultationBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Bonjour', {
+        <BoutonMenu styleButton={styles.consultationBtn} styleText={styles.text} onPress={() =>  navigation.navigate('RDV', {
             prenom: prenom,
             nom: nom,
             })} text="Mes rendez-vous" icone="calendar" styleIcone ={styles.iconRDV}/>

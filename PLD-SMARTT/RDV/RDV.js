@@ -17,7 +17,7 @@ const Bouton = (props) =>{
   }
 
 
-const Notes =({route,navigation})=>{
+const RDV =({route,navigation})=>{
     const{prenom,nom}= route.params;
     const[recherche,setRecherche]=useState('');
     return(
@@ -28,7 +28,7 @@ const Notes =({route,navigation})=>{
              nom: nom,
              })}>
             <Text style={styles.text2}>
-            Bloc Notes de {prenom} {nom}
+           Mes Rendez-Vous 
              </Text>
              <MaterialCommunityIcons style={styles.iconDossier}  name='home' color="#fff" size={30}/>
             </TouchableOpacity>
@@ -48,10 +48,10 @@ const Notes =({route,navigation})=>{
             
 
         
-        <Bouton styleButton={style.nouvelleNoteBtn} styleText={style.text} onPress={() =>  navigation.navigate('BlocNotes2', {
+        <Bouton styleButton={style.nouvelleNoteBtn} styleText={style.text} onPress={() =>  navigation.navigate('RDV2', {
             prenom: prenom,
             nom: nom,
-            })} text="Nouvelle notes" icone="plus" styleIcone ={styles.iconDossier}/>
+            })} text="Nouveau RDV" icone="plus" styleIcone ={styles.iconDossier}/>
 
         </View>
 
@@ -59,7 +59,7 @@ const Notes =({route,navigation})=>{
     )
 }
 
-export default Notes;
+export default RDV;
 
 const style = StyleSheet.create({
     headerBtn: {
@@ -69,7 +69,7 @@ const style = StyleSheet.create({
         flexDirection:"row",
         alignItems:"flex-end",
         paddingBottom:20,
-        backgroundColor: "#ffd700",
+        backgroundColor: "#9e0e40",
         marginBottom:30,
         
       },
@@ -90,7 +90,7 @@ const style = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         marginTop: 50,
-        backgroundColor: "#ffd700",
+        backgroundColor: "#9e0e40",
         marginBottom: 160,
       },
       text: {
