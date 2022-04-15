@@ -60,6 +60,8 @@ const styles = StyleSheet.create({
       fontSize: 42,
     },
     mensurations:{
+        borderBottomColor: 'grey',
+        borderBottomWidth: 2
     },
     profil:{
 
