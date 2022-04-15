@@ -22,7 +22,6 @@ export default function App() {
         <Stack.Screen name="Accueil" component={Home}   />
         <Stack.Screen name="BlocNotes" component={Notes}   />
         <Stack.Screen name="DossierMedical" component={DossierMedical}   />
-
       </Stack.Navigator>
 
     </NavigationContainer>
