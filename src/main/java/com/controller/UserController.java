@@ -2,6 +2,7 @@ package com.controller;
 
 import com.model.MedicalFile;
 import com.repository.MedicalFileRepository;
+import com.util.TokenGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,15 +36,15 @@ public class UserController {
     @PutMapping("/user/")
     @ResponseBody
     @Transactional
-    public ResponseEntity<String> createUser(@RequestBody User user){
-        String token = "ccc";
+    public ResponseEntity<User> createUser(@RequestBody User user){
+        String token = TokenGenerator.generateRandomPassword(12);
         user.setToken(token);
 
         MedicalFile medicalFile = new MedicalFile(user);
         medicalFileRepository.save(medicalFile);
         user.setMedicalFile(medicalFile);
         userRepository.save(user);
-        return new ResponseEntity<String>(token, HttpStatus.OK);
+        return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
 
