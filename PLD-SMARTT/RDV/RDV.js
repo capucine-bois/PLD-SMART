@@ -64,22 +64,20 @@ export default RDV;
 const style = StyleSheet.create({
     headerBtn: {
         width: "100%",
-        height: 100,
+        height: "11%",
         display:"flex",
         flexDirection:"row",
         alignItems:"flex-end",
         paddingBottom:20,
         backgroundColor: "#9e0e40",
-        marginBottom:30,
+        marginBottom:30
         
       },
       container: {
         display:"flex",
         flexDirection: 'column',
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        
+        alignItems: 'center'
       },
       nouvelleNoteBtn: {
         width: "80%",

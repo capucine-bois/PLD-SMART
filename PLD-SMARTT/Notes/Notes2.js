@@ -53,7 +53,7 @@ const Notes2 =({route,navigation})=>{
             <Text style={{textAlign:'left',marginTop:20}}>
                     Notes
                 </Text>
-            <ScrollView style={{marginTop:20,textAlign:'left',width: "80%",height:"40%",borderWidth: 5,borderColor:"#ffd700",borderRadius:"15"}}>
+            <ScrollView style={{marginTop:20,textAlign:'left',width: "80%",height:"40%",borderWidth: 5,borderColor:"#ffd700",borderRadius:15}}>
             <TextInput
                 style={style.TextInput}
             
@@ -96,7 +96,7 @@ export default Notes2;
 const style = StyleSheet.create({
     headerBtn: {
         width: "100%",
-        height: 100,
+        height: "11%",
         display:"flex",
         flexDirection:"row",
         alignItems:"flex-end",
@@ -110,8 +110,6 @@ const style = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
-        
       },
       nouvelleNoteBtn: {
         width: "80%",
@@ -172,8 +170,6 @@ const style = StyleSheet.create({
         
       },
       BtnView: {
-
-          
         height:"20%",
         width:"80%",
         flexDirection:"row",
@@ -181,7 +177,5 @@ const style = StyleSheet.create({
         marginLeft:"30%",
         
       },
-
-      
 
 });

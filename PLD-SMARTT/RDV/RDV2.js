@@ -78,7 +78,7 @@ const RDV2 =({route,navigation})=>{
             <Text style={{textAlign:'left',marginTop:20}}>
                    Commentaire
                 </Text>
-            <ScrollView style={{marginTop:20,textAlign:'left',width: "80%",height:"30%",borderWidth: 5,borderColor:"#9e0e40",borderRadius:"15"}}>
+            <ScrollView style={{marginTop:20,textAlign:'left',width: "80%",height:"30%",borderWidth: 5,borderColor:"#9e0e40",borderRadius:15}}>
             <TextInput
                 style={style.TextInput}
             
@@ -121,22 +121,19 @@ export default RDV2;
 const style = StyleSheet.create({
     headerBtn: {
         width: "100%",
-        height: 100,
+        height: "11%",
         display:"flex",
         flexDirection:"row",
         alignItems:"flex-end",
         paddingBottom:20,
         backgroundColor: "#9e0e40",
-        marginBottom:30,
-        
+        marginBottom:30
       },
       container: {
         display:"flex",
         flexDirection: 'column',
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        
+        alignItems: 'center'
       },
       nouvelleNoteBtn: {
         width: "80%",
