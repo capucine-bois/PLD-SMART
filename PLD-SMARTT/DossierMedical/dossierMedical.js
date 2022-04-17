@@ -25,15 +25,17 @@ function DossierMedical({navigation}) {
 	return (
 
     <View style={styles.container}>
-        <TouchableOpacity style={styles.headerBtn} onPress={() =>  navigation.navigate('Accueil', {
-            prenom: prenom,
-            nom: nom,
-        })}>
+        <View style={styles.headerBtn}>
             <Text style={styles.text2}>
                 Dossier Médical
             </Text>
-            <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30}/>
-        </TouchableOpacity>
+            <TouchableOpacity>
+                <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
+                    prenom: prenom,
+                    nom: nom,
+                })}/>
+            </TouchableOpacity>
+        </View>
         <ScrollView style={{height:"89%"}}>
             <StatusBar style="auto" />
             <View style={styles.profil}>
@@ -50,29 +52,23 @@ function DossierMedical({navigation}) {
             </View>
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
                     text="Allergies" />
-            <View style={styles.contenuEtiquette}>
-                    <Text style={styles.textContenuEtiquette}>Rhume des foins</Text>
-                    <Text style={styles.textContenuEtiquette}>Acariens</Text>
-                </View>
+            <Text style={styles.textContenuEtiquette}>Rhume des foins</Text>
+            <Text style={styles.textContenuEtiquette}>Acariens</Text>
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
                     text="Pathologies" />
-            <View style={styles.contenuEtiquette}>
-                    <Text style={styles.textContenuEtiquette}>Hypertension artérielle</Text>
-            </View>
+            <Text style={styles.textContenuEtiquette}>Hypertension artérielle</Text>
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
                     text="Vaccins" />
-            <View style={styles.contenuEtiquette}>
+            <View>
             </View>
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
                     text="Appareillages" />
-                <View style={styles.contenuEtiquette}>
+                <View>
                     <Text style={styles.textContenuEtiquette}>Prothèses auditives</Text>
                     <Text style={styles.textContenuEtiquette}>Lunettes</Text>
                 </View>
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
                     text="Indicateurs" />
-            <View style={styles.contenuEtiquette}>
-            </View>
         </ScrollView>
     </View>)
 }
