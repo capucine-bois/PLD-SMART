@@ -4,8 +4,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {StatusBar} from "expo-status-bar";
 
 function Bouton(props){
-    console.log(props.text)
-    console.log(props.icone)
     return (
         <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
             <Text style={props.styleText}>
@@ -17,7 +15,7 @@ function Bouton(props){
 }
 
 function DosMedAllergies({navigation}) {
-    const allergies =["Rhume des foins","Acariens","test","test2","test3","test4"]
+    const allergies =["Rhume des foins","Acariens","test","test2","test3","test4","test5","test6","test7","test8"]
     const prenom = "Gérard"
     const nom = "Dupont".toUpperCase()
     return(
@@ -38,15 +36,19 @@ function DosMedAllergies({navigation}) {
                     ALLERGIES
                 </Text>
             </View>
-            <ScrollView style={{height:"67%"}}>
+            <ScrollView style={{height:"63%"}}>
                 <StatusBar style="auto" />
                     {allergies.map((element,index) => (
-                        <Bouton key={`${element}-${index}`} styleButton={styles.allergie} styleText={styles.text3} onPress={() =>  navigation.navigate('BlocNotes2', {
-                        })} text={element} icone="plus" styleIcone ={styles.iconDossier}/>
+                        <TouchableOpacity key={`${element}-${index}`} style={styles.allergie} onPress={() =>  navigation.navigate('BlocNotes2', {
+                        })}>
+                            <Text style={styles.text3}>
+                                {element}
+                            </Text>
+                        </TouchableOpacity>
                     ))}
             </ScrollView>
 
-            <View style={{height:"11%"}}>
+            <View style={{height:"15%"}}>
                 <Bouton styleButton={styles.nouvelleAllergieBtn} styleText={styles.text} onPress={() =>  navigation.navigate('BlocNotes2', {
                 })} text="Ajouter une allergie" icone="plus" styleIcone ={styles.iconDossier}/>
             </View>
@@ -61,35 +63,36 @@ const styles = StyleSheet.create({
     allergie:{
         borderRadius: 10,
         backgroundColor: "#ffffff",
-        borderWidth : 5,
+        borderWidth : 3,
+        width:"80%",
+        alignSelf:"center",
         borderColor: "#1EA584",
-        margin:8,
-        flexDirection:"row",
-        justifyContent:"center"
+        margin:"2%",
         },
     titre:{
         backgroundColor: "#1EA584",
         borderRadius: 10,
-        paddingHorizontal : 50,
-        paddingVertical: 10,
+        paddingHorizontal : "25%",
+        paddingVertical: "3%",
         alignSelf:"center",
-        margin:25,
+        margin:"5%",
     },
     nouvelleAllergieBtn: {
         width: "80%",
+        flexDirection:"row",
         borderRadius: 25,
-        height: 50,
-        backgroundColor: "#1EA584",
-        flexDirection: "row",
-        justifyContent : "space-evenly",
+        height: "50%",
+        alignItems: "center",
         alignSelf:"center",
-        margin:20
+        justifyContent: "space-evenly",
+        backgroundColor: "#1EA584",
+        marginTop:"6%"
     },
     text: {
         fontSize: 25,
         fontWeight: 'bold',
         color: "#fff",
-        alignSelf:"center",
+        alignSelf:"center"
     },
     iconDossier: {
         marginRight:"5%"
@@ -118,11 +121,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         color: "#1EA584",
-        alignSelf:"center"
+        textAlign:"center"
     },
-
-
-
-
 })
 
