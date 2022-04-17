@@ -49,7 +49,7 @@ function DosMedAllergies({navigation}) {
             </ScrollView>
 
             <View style={{height:"15%"}}>
-                <Bouton styleButton={styles.nouvelleAllergieBtn} styleText={styles.text} onPress={() =>  navigation.navigate('BlocNotes2', {
+                <Bouton styleButton={styles.nouvelleAllergieBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedAllergiesAj', {
                 })} text="Ajouter une allergie" icone="plus" styleIcone ={styles.iconDossier}/>
             </View>
         </View>
@@ -123,5 +123,6 @@ const styles = StyleSheet.create({
         color: "#1EA584",
         textAlign:"center"
     },
+
 })
 
