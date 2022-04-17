@@ -37,7 +37,7 @@ function DossierMedical({navigation}) {
         <ScrollView style={{height:"89%"}}>
             <StatusBar style="auto" />
             <View style={styles.profil}>
-                <MaterialCommunityIcons style = {styles.iconDossier} name='account-circle-outline' color="#000" size={75}/>
+                <MaterialCommunityIcons style = {styles.iconDossier} name='account-circle-outline' color="#000" size={100}/>
                 <View>
                     <Text style={styles.textProfil}>{prenom} {nom}</Text>
                     <Text style={styles.textProfil}>Né(e) le : {dateNaissance}</Text>
@@ -113,9 +113,6 @@ const styles = StyleSheet.create({
         padding: 15,
         flexDirection:"row",
         justifyContent : "space-between"
-    },
-    contenuEtiquette:{
-
     },
     textEtiquette:{
         fontSize: 28,
