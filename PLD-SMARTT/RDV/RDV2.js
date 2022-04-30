@@ -1,6 +1,7 @@
-import React, { Component, useState } from 'react';
-import { Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity, ScrollView } from 'react-native';
+import React, { Component, useState ,useEffect} from 'react';
+import { Modal,Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity, ScrollView } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import styles from '../Style/styleHome'
 
@@ -8,11 +9,60 @@ import styles from '../Style/styleHome'
 
 const RDV2 =({route,navigation})=>{
     const{prenom,nom}= route.params;
-    const[date,setDate]=useState('');
+   
+  const [date, setDate] = useState(new Date());
+  const [hour,setHour]=useState(new Date());
+  const [open, setOpen] = useState(false);
     const[motif,setMotif]=useState('');
     const[praticien,setPraticien]=useState('');
     const[adress,setAdress]=useState('');
     const[commentaire,setCommentaire]=useState('');
+
+
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [isHourPickerVisible, setHourPickerVisibility] = useState(false);
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+  const showHourPicker = () => {
+    setHourPickerVisibility(true);
+  };
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+  const hideHourPicker = () => {
+    setHourPickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    setDate(date);
+    
+    hideDatePicker();
+  };
+  const getListRDV = () => {
+    const params = {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+          "name": prenom ,
+          "surname": nom,
+      })
+    }
+    fetch('http://localhost:8080/rendezvous/user/72',params)
+        .then(response => response.json())
+          
+        .then((json) => {
+          console.log(json)
+          return json.movies;
+          });
+  };
+
+  useEffect(() => {
+    console.log('testAPI RDV')
+    console.log(getListRDV());
+    
+  });
+
     return(
         <View style={style.container}>
         
@@ -28,14 +78,22 @@ const RDV2 =({route,navigation})=>{
 
             <View style={style.inputView}>
             
-                <TextInput
-                style={style.TextInput}
-            
-                placeholder="Date"
-                placeholderTextColor="#003f5c"
-                onChangeText={(date) => setDate(date)}
+            <TouchableOpacity style={style.DateInput} on onPress={showDatePicker} >
+                    <Text>
+                       {date.getDate()}/{date.getMonth()}/{date.getFullYear()} {date.getHours()} h {date.getMinutes()} min
+                    </Text>
+                    
+                </TouchableOpacity>
                 
-            />
+                
+                  <DateTimePickerModal
+                    isVisible={isDatePickerVisible}
+                    mode="datetime"
+                    locale="fr"
+                    onConfirm={handleConfirm}
+                    onCancel={hideDatePicker}
+                  />
+                
             </View>
 
             <View style={style.inputView}>
@@ -159,6 +217,14 @@ const style = StyleSheet.create({
       TextInput: {
         height: 40,
         flex: 1,
+        padding: 10,
+        marginLeft: 20,
+        color: "#000000",
+      },
+      DateInput: {
+        height: 40,
+        
+        flexDirection: 'row',
         padding: 10,
         marginLeft: 20,
         color: "#000000",

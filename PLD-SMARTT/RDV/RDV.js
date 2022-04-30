@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity } from 'react-native';
+import { FlatList,Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity, ScrollView } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import styles from '../Style/styleHome'
@@ -46,7 +46,23 @@ const RDV =({route,navigation})=>{
 
             </View>
             
-
+            <View style={{width:'100%',height:'50%',backgroundColor:"#9e0e40"}}>
+            <FlatList
+        data={[
+          {key: 'Devin'},
+          {key: 'Dan'},
+          {key: 'Dominic'},
+          {key: 'Jackson'},
+          {key: 'James'},
+          {key: 'Joel'},
+          {key: 'John'},
+          {key: 'Jillian'},
+          {key: 'Jimmy'},
+          {key: 'Julie'},
+        ]}
+        renderItem={({item}) => <Text style={style.item}>{item.key}</Text>}
+        />
+             </View>
         
         <Bouton styleButton={style.nouvelleNoteBtn} styleText={style.text} onPress={() =>  navigation.navigate('RDV2', {
             prenom: prenom,
@@ -113,9 +129,15 @@ const style = StyleSheet.create({
         borderRadius: 30,
         width: "80%",
         height: 70,
-        marginBottom: 150,
+        marginBottom: '10%',
         
         alignItems: "center",
+      },
+
+      item: {
+        padding: 10,
+        fontSize: 18,
+        height: 44,
       },
 
 });
