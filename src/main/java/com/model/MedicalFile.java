@@ -2,6 +2,8 @@ package com.model;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="medical_file")
@@ -22,16 +24,6 @@ public class MedicalFile {
     @JoinColumn(name = "id_user", referencedColumnName = "id_user")
     private User user;
 
-
-
-    /**
-    @OneToMany
-    @Column(name="id_allergy",nullable=false)
-    private Allergy allergy;
-
-    @OneToMany
-    @Column(name="id_disease",nullable=false)
-    private Disease disease;*/
 
     public MedicalFile() {
     }

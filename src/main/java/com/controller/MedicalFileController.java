@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.model.Allergy;
 import com.model.MedicalFile;
 import com.repository.MedicalFileRepository;
 import com.util.TokenGenerator;
@@ -14,6 +15,8 @@ import javax.transaction.Transactional;
 
 import com.model.User;
 import com.repository.UserRepository;
+
+import java.util.List;
 
 
 @RestController
@@ -32,14 +35,17 @@ public class MedicalFileController {
 
     @GetMapping("/medical/token/{token}")
     @ResponseBody
-    public ResponseEntity<User> getMedicalByToken(@PathVariable(value = "token") String token){
+    public ResponseEntity<MedicalFile> getMedicalByToken(@PathVariable(value = "token") String token){
 
         User user = userRepository.findByToken(token)
                 .orElseThrow(() -> new UserNotFoundException(token));
         MedicalFile medicalFile = medicalFileRepository.findByUser(user)
                 .orElseThrow(() -> new MedicalFileNotFoundException(user));
+        long id_med = medicalFile.getMedicalId();
+        List<Allergy> ListAllergies = medicalFileRepository.getAllergiesByIDMed(id_med);
+        System.out.println(ListAllergies);
 
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        return new ResponseEntity<MedicalFile>(medicalFile, HttpStatus.OK);
     }
 
 
