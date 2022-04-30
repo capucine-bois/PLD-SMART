@@ -2,6 +2,9 @@ package com.controller;
 
 import com.model.MedicalFile;
 import com.repository.MedicalFileRepository;
+import com.model.RendezVous;
+import com.repository.RendezVousRepository;
+
 import com.util.TokenGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,5 +69,16 @@ public class UserController {
 
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
+
+    @GetMapping("/user/userID/{userID}")
+    @ResponseBody
+    public ResponseEntity<User> getUserByID(@PathVariable(value = "userID") Long userID){
+
+        User user = userRepository.findById(userID)
+                .orElseThrow(() -> new UserNotFoundException(Long.toString(userID)));
+
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
 
 }

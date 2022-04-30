@@ -12,4 +12,7 @@ import com.model.User;
 public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findByToken(String token);
     Optional<User> findByName(String name);
+    Optional<User> findById(Long userid);
+
 }
+

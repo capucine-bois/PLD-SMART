@@ -6,17 +6,16 @@ import com.model.User;
 import javax.persistence.*;
 import java.util.Date;
 
-//@Entity
-//@Table(name="rendezVous")
+@Entity
+@Table(name="rendezVous")
 public class RendezVous {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="rendezVous_id")
-    private long medicationId;
+    @Column(name="id_rendez_vous")
+    private long id;
 
-    @Column(name="name",length = 50)
-    private String name;
+
 
     @Column(name="type_practitioner",length = 50)
     private String typePractitioner;
@@ -31,12 +30,15 @@ public class RendezVous {
     @Column(name="location",length = 50)
     private String location;
 
+    @Column(name="remark",length = 50)
+    private String remark;
+
     @ManyToOne
-    @Column(name="id_user",nullable=false)
+    @JoinColumn(name="id_user",nullable=false)
     private User user;
 
-    public RendezVous(String name, String typePractitioner, String namePractitioner, Date date, String location, User user){
-        this.name = name;
+    public RendezVous(String typePractitioner, String namePractitioner, Date date, String location, User user){
+
         this.typePractitioner = typePractitioner;
         this.namePractitioner = namePractitioner;
         this.date = date;
@@ -44,21 +46,31 @@ public class RendezVous {
         this.user = user;
     }
 
-    public long getMedicationId() {
-        return medicationId;
+    public RendezVous(String typePractitioner, String namePractitioner, Date date, String location, User user, String remark){
+
+        this.typePractitioner = typePractitioner;
+        this.namePractitioner = namePractitioner;
+        this.date = date;
+        this.location = location;
+        this.user = user;
+        this.remark = remark;
     }
 
-    public void setMedicationId(long medicationId) {
-        this.medicationId = medicationId;
+    public RendezVous() {
     }
 
-    public String getName() {
-        return name;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
+
+    public void setMedicationId(long id) {
+        this.id = id;
+    }
+
 
     public String getTypePractitioner() {
         return typePractitioner;
@@ -100,11 +112,18 @@ public class RendezVous {
         this.user = user;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     @Override
     public java.lang.String toString() {
         return "RendezVous{" +
-                "medicationId=" + medicationId +
-                ", name='" + name + '\'' +
+                "id=" + id +
                 ", typePractitioner='" + typePractitioner + '\'' +
                 ", namePractitioner='" + namePractitioner + '\'' +
                 ", date=" + date +

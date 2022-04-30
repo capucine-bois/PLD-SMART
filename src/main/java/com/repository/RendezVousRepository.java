@@ -11,13 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 import com.model.User;
+import com.model.RendezVous;
 
 @Repository
-public interface MedicalFileRepository extends JpaRepository<MedicalFile,Long> {
-    Optional<MedicalFile> findByUser(User user);
-/*
-    @Query(value="select * from ALLERGY a where a.id_medical_file= :medicalId",nativeQuery = true)
-    List<Allergy> getAllergiesByIDMed(long medicalId);
-    */
+public interface RendezVousRepository extends JpaRepository<RendezVous,Long> {
+    Optional<List<RendezVous>> findByUser(User user);
 
 }

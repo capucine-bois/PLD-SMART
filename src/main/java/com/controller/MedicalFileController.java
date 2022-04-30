@@ -42,9 +42,10 @@ public class MedicalFileController {
         MedicalFile medicalFile = medicalFileRepository.findByUser(user)
                 .orElseThrow(() -> new MedicalFileNotFoundException(user));
         long id_med = medicalFile.getMedicalId();
+        /*
         List<Allergy> ListAllergies = medicalFileRepository.getAllergiesByIDMed(id_med);
         System.out.println(ListAllergies);
-
+*/
         return new ResponseEntity<MedicalFile>(medicalFile, HttpStatus.OK);
     }
 
