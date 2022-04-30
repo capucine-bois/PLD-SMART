@@ -50,4 +50,12 @@ public class RendezVousController {
         return new ResponseEntity<List<RendezVous>>(listRendezVous, HttpStatus.OK);
     }
 
+    @PutMapping("/rendezvous/")
+    @ResponseBody
+    @Transactional
+    public ResponseEntity<RendezVous> createRendezVous(@RequestBody RendezVous rendezvous){
+        rendezVousRepository.save(rendezvous);
+        return new ResponseEntity<RendezVous>(rendezvous, HttpStatus.OK);
+    }
+
 }
