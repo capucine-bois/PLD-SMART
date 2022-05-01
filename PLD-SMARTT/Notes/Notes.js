@@ -1,10 +1,12 @@
-import React, { Component, useState } from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import { Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import NoteSummary from "./NoteSummary";
 import styles from '../Style/styleHome'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Bouton = (props) =>{
+
     return (
       <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
         <MaterialCommunityIcons style= {props.styleIcone} name={props.icone} color="#fff" size={45}/>
@@ -13,13 +15,37 @@ const Bouton = (props) =>{
         </Text>
       </TouchableOpacity>
     )
-  
-  }
+}
 
 
-const Notes =({route,navigation})=>{
+const Notes =({route,navigation}) => {
+
     const{prenom,nom}= route.params;
     const[recherche,setRecherche]=useState('');
+    const[notes,setNotes] = useState({});
+
+    //Get all the notes
+    useEffect(() => {
+
+        const params = {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+
+        }
+
+        AsyncStorage.getItem('token')
+            .then((token) => {
+                console.log("oui");
+                fetch('http://130.232.138.140:8080/notes/user/'+token,params)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        setNotes({...data});
+                    });
+            });
+
+    },[])
+
     return(
         <View style={style.container}>
         
@@ -34,18 +60,23 @@ const Notes =({route,navigation})=>{
             </TouchableOpacity>
 
             <View style={style.inputView}>
-            <TextInput
-            style={style.TextInput}
-           
-            placeholder="Rechercher"
-            placeholderTextColor="#003f5c"
-            onChangeText={(prenom) => setRecherche(recherche)}
-            onChange={console.log(recherche)}
-          />
-        <MaterialCommunityIcons style={styles.iconDossier}  name='magnify' color="#fff" size={45}/>
+                <TextInput
+                style={style.TextInput}
+
+                placeholder="Rechercher"
+                placeholderTextColor="#003f5c"
+                onChangeText={(prenom) => setRecherche(recherche)}
+                onChange={console.log(recherche)}
+                />
+                <MaterialCommunityIcons style={styles.iconDossier}  name='magnify' color="#fff" size={45}/>
 
             </View>
-            
+
+            {
+                notes.map(note => {
+                    <NoteSummary title={note.title} author={note.author} date={note.date}></NoteSummary>
+                })
+            }
 
         
         <Bouton styleButton={style.nouvelleNoteBtn} styleText={style.text} onPress={() =>  navigation.navigate('BlocNotes2', {
@@ -57,6 +88,8 @@ const Notes =({route,navigation})=>{
 
 
     )
+
+
 }
 
 export default Notes;

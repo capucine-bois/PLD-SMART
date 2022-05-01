@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import { Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -24,7 +25,7 @@ const Log2 = ({route,navigation}) => {
                 "surname": nom,
             })
         }
-        fetch('http://localhost:8080/user/',params)
+        fetch('http://130.232.138.140:8080/user/',params)
             .then(response => response.json())
             .then(data => {
                 AsyncStorage.setItem('token', data.token);
@@ -71,13 +72,14 @@ const Log2 = ({route,navigation}) => {
                 <Button
                     title="Suivant"
                     disabled={!bouton}
-                    onPress={() =>
-                        /* 1. Navigate to the Details route with params */
-                        //createUser()
-                        navigation.navigate('Accueil', {
-                            prenom: prenom,
+                    onPress={() => {
+                            /* 1. Navigate to the Details route with params */
+                            createUser();
+                            navigation.navigate('Accueil', {
+                                prenom: prenom,
 
-                        })
+                            });
+                        }
                     }
                 />
             </TouchableOpacity>

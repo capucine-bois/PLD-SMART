@@ -3,6 +3,7 @@ import { Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacit
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import styles from '../Style/styleHome'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
@@ -13,6 +14,28 @@ const Notes2 =({route,navigation})=>{
     const[note,setNote]=useState('');
     const[ajouterModifier,setAjouterModifier]=useState('Ajouter');
     const [bouton, setBouton] = useState(false);
+
+    const addOrChange = () => {
+
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "author": auteur,
+                "title": titre,
+                "note": note,
+            })
+        }
+
+        AsyncStorage.getItem('token')
+            .then((token) => {
+                fetch('http://130.232.138.140:8080/notes/user/'+token,params);
+            });
+
+
+
+    }
+
     return(
         <View style={style.container}>
         
@@ -68,16 +91,16 @@ const Notes2 =({route,navigation})=>{
              <View style={style.BtnView}>
 
              
-                <TouchableOpacity visible={!bouton} disabled={!bouton} style={style.AjouterBtn}  >
+                <TouchableOpacity visible={!bouton} style={style.AjouterBtn} onPress={addOrChange} >
                     <Text>
                         {ajouterModifier}
                     </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={style.AnnulerBtn} onPress={()=>navigation.navigate('BlocNotes', {
-             prenom: prenom,
-             nom: nom,
-             })}>
+                     prenom: prenom,
+                     nom: nom,
+                 })}>
                     <Text>
                         Annuler
                     </Text>
