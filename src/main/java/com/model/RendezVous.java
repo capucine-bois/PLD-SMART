@@ -12,7 +12,7 @@ import java.util.Date;
 public class RendezVous {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_rendez_vous")
     private long id;
 

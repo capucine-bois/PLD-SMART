@@ -50,10 +50,13 @@ public class RendezVousController {
         return new ResponseEntity<List<RendezVous>>(listRendezVous, HttpStatus.OK);
     }
 
-    @PutMapping("/rendezvous/")
+    @PutMapping("/rendezvous/{userid}")
     @ResponseBody
     @Transactional
-    public ResponseEntity<RendezVous> createRendezVous(@RequestBody RendezVous rendezvous){
+    public ResponseEntity<RendezVous> createRendezVous(@RequestBody RendezVous rendezvous,@PathVariable(value = "userid") Long userid){
+        User user = userRepository.findById(userid)
+                .orElseThrow(() -> new UserNotFoundException(Long.toString(userid)));
+        rendezvous.setUser(user);
         rendezVousRepository.save(rendezvous);
         return new ResponseEntity<RendezVous>(rendezvous, HttpStatus.OK);
     }
