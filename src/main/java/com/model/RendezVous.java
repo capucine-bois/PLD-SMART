@@ -1,6 +1,7 @@
 package com.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.model.User;
 
 import javax.persistence.*;
@@ -34,7 +35,8 @@ public class RendezVous {
     private String remark;
 
     @ManyToOne
-    @JoinColumn(name="id_user",nullable=false)
+    @JoinColumn(name="id_user",nullable=false, referencedColumnName = "id_user")
+    @JsonBackReference
     private User user;
 
     public RendezVous(String typePractitioner, String namePractitioner, Date date, String location, User user){

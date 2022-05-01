@@ -3,6 +3,7 @@ package com.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -35,9 +36,20 @@ public class User {
     @JsonManagedReference
     private MedicalFile medicalFile;
 
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<RendezVous> rendezVous;
+
     @Column(name="token", length = 50,unique = true)
     private String token;
 
+    public List<RendezVous> getRendezVous() {
+        return rendezVous;
+    }
+
+    public void setRendezVous(List<RendezVous> rendezVous) {
+        this.rendezVous = rendezVous;
+    }
 
     public long getId() {
         return id;
