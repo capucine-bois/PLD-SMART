@@ -50,6 +50,10 @@ public class User {
     public void setRendezVous(List<RendezVous> rendezVous) {
         this.rendezVous = rendezVous;
     }
+    
+    public User(){
+
+    }
 
     public long getId() {
         return id;

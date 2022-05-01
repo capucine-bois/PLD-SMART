@@ -1,3 +1,5 @@
 *.o
 *.class
 /.idea/
+/.gradle/
+/src/main/resources/
