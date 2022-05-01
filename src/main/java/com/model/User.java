@@ -38,6 +38,9 @@ public class User {
     @Column(name="token", length = 50,unique = true)
     private String token;
 
+    public User(){
+
+    }
 
     public long getId() {
         return id;

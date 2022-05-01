@@ -42,7 +42,8 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user){
         String token = TokenGenerator.generateRandomPassword(12);
         user.setToken(token);
-        MedicalFile medicalFile = new MedicalFile(user);
+        MedicalFile medicalFile = new MedicalFile();
+        medicalFile.setUser(user);
         userRepository.save(user);
         medicalFileRepository.save(medicalFile);
         user.setMedicalFile(medicalFile);
