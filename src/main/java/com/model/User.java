@@ -1,5 +1,7 @@
 package com.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.Date;
 
 import javax.persistence.*;
@@ -30,6 +32,7 @@ public class User {
 
     @OneToOne
     @JoinColumn(name = "id_medical_file", referencedColumnName = "id_medical_file")
+    @JsonManagedReference
     private MedicalFile medicalFile;
 
     @Column(name="token", length = 50,unique = true)

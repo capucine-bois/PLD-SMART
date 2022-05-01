@@ -1,6 +1,8 @@
 package com.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ public class MedicalFile {
 
     @OneToOne
     @JoinColumn(name = "id_user", referencedColumnName = "id_user")
+    @JsonBackReference
     private User user;
 
 
