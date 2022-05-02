@@ -10,61 +10,82 @@ import styles from '../Style/styleHome'
 const RDV2 =({route,navigation})=>{
     const{prenom,nom}= route.params;
     const [data, setData] = useState([]);
-  const [date, setDate] = useState(new Date());
-  const [hour,setHour]=useState(new Date());
-  const [open, setOpen] = useState(false);
+    const [date, setDate] = useState(new Date());
+    const [open, setOpen] = useState(false);
     const[motif,setMotif]=useState('');
     const[praticien,setPraticien]=useState('');
+    const[metierPraticien,setMetierPraticien]=useState('');
     const[adress,setAdress]=useState('');
     const[commentaire,setCommentaire]=useState('');
-
-
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isHourPickerVisible, setHourPickerVisibility] = useState(false);
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-  const showHourPicker = () => {
-    setHourPickerVisibility(true);
-  };
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-  const hideHourPicker = () => {
-    setHourPickerVisibility(false);
-  };
+    const showDatePicker = () => {
+     setDatePickerVisibility(true);
+    };
+    const showHourPicker = () => {
+      setHourPickerVisibility(true);
+    };
+    const hideDatePicker = () => {
+      setDatePickerVisibility(false);
+    };
+    const hideHourPicker = () => {
+      setHourPickerVisibility(false);
+    };
+    const handleConfirm = (date) => {
+      setDate(date);
+      hideDatePicker();
+    };
 
-  const handleConfirm = (date) => {
-    setDate(date);
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1; //January is 0!
+    var yyyy = date.getFullYear();
+    var hh=date.getHours();
+    var min=date.getMinutes();
     
-    hideDatePicker();
-  };
-  const createRDV= () => {
-    console.log('create RDV')
-    const params = {
-        method: 'PUT',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            "date": '2000-01-02' ,
-            "namePractitioner": praticien,
-            "typePractitioner": praticien,
-            "location": adress,
-            
-        })
+    if (dd < 10) {
+        dd = '0' + dd;
     }
-    fetch('http://172.20.10.2:8080/rendezvous/76',params)
-        .then(response => response.json())
-        
-        ;
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    if(hh<10){
+      hh='0'+hh;
+    }
+    if(min<10){
+      min='0'+min;
+    }
+    const dateFormate =  yyyy + "-" + mm + "-" + dd+'T'+hh+':'+min+':00';
+    const dateFormate2= dd+"/"+mm+"/"+yyyy+' à ' + hh+":"+min;
+    
+    const createRDV= () => {
+      console.log('create RDV')
+      const params = {
+          method: 'PUT',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+              "date": dateFormate ,
+              "namePractitioner": praticien,
+              "typePractitioner": metierPraticien,
+              "location": adress,
+              "remark":commentaire,
+          })
+      }
 
+      AsyncStorage.getItem('token')
+      .then((token) => {  
 
-};
+          fetch('http://172.20.10.2:8080/rendezvous/'+token,params)
+              .then(response => response.json());
+            });
+          
+            };
+    
 
   useEffect(() => {
-   
+    console.log(dateFormate)
    
     
-  }, []);
+  });
 
     return(
         <View style={style.container}>
@@ -83,7 +104,7 @@ const RDV2 =({route,navigation})=>{
             
             <TouchableOpacity style={style.DateInput} on onPress={showDatePicker} >
                     <Text>
-                       {date.getDate()}/{date.getMonth()}/{date.getFullYear()} {date.getHours()} h {date.getMinutes()} min
+                       {dateFormate2}
                     </Text>
                     
                 </TouchableOpacity>
@@ -99,27 +120,27 @@ const RDV2 =({route,navigation})=>{
                 
             </View>
 
-            <View style={style.inputView}>
-
-            <TextInput
-            style={style.TextInput}
-
-            placeholder="Motif"
-            placeholderTextColor="#003f5c"
-            onChangeText={(motif) => setMotif(motif)}
-
-            />
-
-            </View>
+            
 
             <View style={style.inputView}>
             
                 <TextInput
                 style={style.TextInput}
             
-                placeholder="Praticien"
+                placeholder="Nom Praticien"
                 placeholderTextColor="#003f5c"
-                onChangeText={(praticien) => setPraticien(date)}
+                onChangeText={(praticien) => setPraticien(praticien)}
+                
+            />
+            </View>
+            <View style={style.inputView}>
+            
+                <TextInput
+                style={style.TextInput}
+            
+                placeholder="Métier Praticien"
+                placeholderTextColor="#003f5c"
+                onChangeText={(metierPraticien) => setMetierPraticien(metierPraticien)}
                 
             />
             </View>
@@ -154,7 +175,10 @@ const RDV2 =({route,navigation})=>{
              <View style={style.BtnView}>
 
              
-                <TouchableOpacity style={style.AjouterBtn} onPress={() => { createRDV() }} >
+                <TouchableOpacity style={style.AjouterBtn} onPress={() => { createRDV(),navigation.navigate('Accueil', {
+             prenom: prenom,
+             nom: nom,
+             }) }} >
                     <Text>
                        Ajouter
                     </Text>
