@@ -25,7 +25,7 @@ import {createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
-const urlBack = "http://localhost:8080";
+const urlBack = "http://172.20.10.2:8080";
 export default function App() {
 
   const [token, setToken] = React.useState(null);

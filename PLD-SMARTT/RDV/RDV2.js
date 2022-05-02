@@ -70,9 +70,15 @@ const RDV2 =({route,navigation})=>{
               "remark":commentaire,
           })
       }
-    fetch('http://172.20.10.2:8080/rendezvous/76',params)
-        .then(response => response.json());
-    };
+
+      AsyncStorage.getItem('token')
+      .then((token) => {  
+
+          fetch('http://172.20.10.2:8080/rendezvous/'+token,params)
+              .then(response => response.json());
+            });
+          
+            };
     
 
   useEffect(() => {
