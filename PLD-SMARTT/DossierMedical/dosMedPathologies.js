@@ -1,5 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TouchableHighlight} from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    ScrollView,
+    View,
+    TouchableOpacity,
+    TouchableHighlight,
+    Modal,
+    Alert,
+    Pressable
+} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
 
@@ -14,7 +24,42 @@ function Bouton(props){
     )
 }
 function _onLongPressButton() {
-    alert('You long-pressed the button!')
+    return(
+        <View style={styles.centeredView}>
+            <Modal
+                animationType="slide"
+                transparent={false}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert("Modal has been closed.");
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Appeler le Samu ?</Text>
+                        <Pressable
+                            style={[styles.button, styles.buttonClose]}
+                            onPress={() => { onPressMobileNumberClick("0769837263") }}
+                        >
+
+                            <Text style={styles.textStyle}>Appeler</Text>
+                        </Pressable>
+                        <Pressable
+                            style={[styles.button, styles.buttonClose2]}
+                            onPress={() => setModalVisible(!modalVisible)}
+                        >
+
+                            <Text style={styles.textStyle}>Annuler</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </Modal>
+        </View>
+    )
+
+
+
 }
 
 function DosMedPathologies({navigation}) {
