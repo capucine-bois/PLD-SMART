@@ -114,7 +114,7 @@ const onPressMobileNumberClick = (number) => {
             nom: nom,
             })} text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
 
-        <BoutonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Bonjour', {
+        <BoutonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Traitements', {
             prenom: prenom,
             nom: nom,
             })} text="Traitements" icone="pill" styleIcone ={styles.iconTraitements}/>

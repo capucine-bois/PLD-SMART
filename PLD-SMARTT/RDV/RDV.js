@@ -20,6 +20,69 @@ const Bouton = (props) =>{
 const RDV =({route,navigation})=>{
     const{prenom,nom}= route.params;
     const[recherche,setRecherche]=useState('');
+    const [data, setData] = useState([]);
+
+    const getListRDV = async() => {
+      const params = {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+        
+      }
+      const response = await 
+       fetch('http://172.20.10.2:8080/rendezvous/user/76',params);
+       const json = await response.json();
+      
+        setData(json)
+    };
+
+    const deleteRDV= () => {
+      console.log('create RDV')
+      const params = {
+          method: 'PUT',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+              "date": dateFormate ,
+              "namePractitioner": praticien,
+              "typePractitioner": metierPraticien,
+              "location": adress,
+              "remark":commentaire,
+          })
+      }
+    fetch('http://172.20.10.2:8080/rendezvous/76',params)
+        .then(response => response.json());
+    };
+      
+    
+
+    useEffect(() => {
+      console.log('proute')
+      
+      getListRDV()
+      console.log('data')
+      console.log(data)
+      
+      }, []);
+
+      const renderItem = ({ item }) => {
+        const location = item.location + '\n';
+        const namePractitioner=item.namePractitioner;
+        const typePractitioner=item.typePractitioner;
+        const commentaire=item.remark;
+        return (
+
+          <TouchableOpacity style={style.renderItem} onLongPress={() =>  navigation.navigate('Accueil', {
+            prenom: prenom,
+            nom: nom,
+            })}>
+           <Text style={styles.text2}>
+           RDV le {item.date} à {location.trim()}  Médecin {namePractitioner.trim()} {typePractitioner.trim()} commentaire {commentaire.trim()}
+            </Text>
+            <MaterialCommunityIcons style={styles.iconDossier}  name='calendar' color="#fff" size={30}/>
+           </TouchableOpacity>
+        );
+      };
+
+
     return(
         <View style={style.container}>
         
@@ -33,34 +96,14 @@ const RDV =({route,navigation})=>{
              <MaterialCommunityIcons style={styles.iconDossier}  name='home' color="#fff" size={30}/>
             </TouchableOpacity>
 
-            <View style={style.inputView}>
-            <TextInput
-            style={style.TextInput}
-           
-            placeholder="Rechercher"
-            placeholderTextColor="#003f5c"
-            onChangeText={(prenom) => setRecherche(recherche)}
-            onChange={console.log(recherche)}
-          />
-        <MaterialCommunityIcons style={styles.iconDossier}  name='magnify' color="#fff" size={45}/>
-
-            </View>
             
-            <View style={{width:'100%',height:'50%',backgroundColor:"#9e0e40"}}>
+            
+            <View style={{width:'100%',height:'60%',backgroundColor:"#9e0e40",  flexDirection:"column"}}>
             <FlatList
-        data={[
-          {key: 'Devin'},
-          {key: 'Dan'},
-          {key: 'Dominic'},
-          {key: 'Jackson'},
-          {key: 'James'},
-          {key: 'Joel'},
-          {key: 'John'},
-          {key: 'Jillian'},
-          {key: 'Jimmy'},
-          {key: 'Julie'},
-        ]}
-        renderItem={({item}) => <Text style={style.item}>{item.key}</Text>}
+        data={data}
+        renderItem={renderItem}
+        style={{alignContent:'center'}}
+          keyExtractor={(item) => item.id.toString()}
         />
              </View>
         
@@ -139,5 +182,17 @@ const style = StyleSheet.create({
         fontSize: 18,
         height: 44,
       },
+
+      renderItem: {
+        flexDirection: 'row',
+      backgroundColor: "#9C9C9C",
+      borderRadius: 30,
+      width: "90%",
+      height: 100,
+      marginTop:'5%',
+      marginBottom: '5%',
+      marginLeft:"5%",
+      alignItems: "center",
+    },
 
 });
