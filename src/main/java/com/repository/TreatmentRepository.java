@@ -12,5 +12,6 @@ import java.util.Optional;
 @Repository
 public interface TreatmentRepository extends JpaRepository<Treatment,Long> {
     Optional<List<Treatment>> findByUser(User user);
+    void deleteTreatmentByTreatmentId(Long id);
 
 }

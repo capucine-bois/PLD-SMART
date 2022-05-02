@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.model.*;
 import com.repository.TreatmentRepository;
 import com.util.TokenGenerator;
@@ -53,5 +54,30 @@ public class TreatmentController {
         treatment.setUser(user);
         treatmentRepository.save(treatment);
         return new ResponseEntity<Treatment>(treatment, HttpStatus.OK);
+    }
+
+    @DeleteMapping( "/treatment/{treatmentid}")
+    @ResponseBody
+    @Transactional
+    public ResponseEntity<Long> deleteTreatmentById (@PathVariable(value = "treatmentid") Long treatmentid) {
+        treatmentRepository.deleteTreatmentByTreatmentId(treatmentid);
+        return new ResponseEntity<>(treatmentid, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/rendezvous/{treatmentid}")
+    @ResponseBody
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+    @Transactional
+    public ResponseEntity<Treatment> modifyTreatmentById (@RequestBody Treatment modifiedTreatment,@PathVariable(value = "treamentid") Long treatmentid) {
+        Treatment treatmentToModify = treatmentRepository.getById(treatmentid);
+        treatmentToModify.setName(modifiedTreatment.getName());
+        treatmentToModify.setStartDate(modifiedTreatment.getStartDate());
+        treatmentToModify.setEndDate(modifiedTreatment.getEndDate());
+        treatmentToModify.setNumFrequency(modifiedTreatment.getNumFrequency());
+        treatmentToModify.setQuantity(modifiedTreatment.getQuantity());
+        treatmentToModify.setRemark(modifiedTreatment.getRemark());
+        treatmentRepository.save(treatmentToModify);
+        return new ResponseEntity<Treatment>(treatmentToModify, HttpStatus.OK);
     }
 }
