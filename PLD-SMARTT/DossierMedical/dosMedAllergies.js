@@ -83,10 +83,15 @@ function DosMedAllergies({navigation}) {
             <ScrollView style={{height:"63%"}}>
                 <StatusBar style="auto" />
                     {allergies.map((element,index) => (
-                        <TouchableHighlight key={`${element}-${index}`} style={styles.allergie} onLongPress={() => setModalVisible(true)} underlayColor="white">
-                            <Text style={styles.text3}>
-                                {element}
-                            </Text>
+                        <TouchableHighlight key={`${element}-${index}`} style={styles.allergie} underlayColor="white">
+                            <View style={styles.containerPathologie}>
+                                <View style={styles.elementsView}>
+                                    <Text style={styles.text3}>
+                                        {element}
+                                    </Text>
+                                </View>
+                                <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
+                            </View>
                         </TouchableHighlight>
                     ))}
             </ScrollView>
@@ -104,12 +109,9 @@ export default DosMedAllergies
 
 const styles = StyleSheet.create({
     allergie:{
-        borderRadius: 10,
         backgroundColor: "#ffffff",
-        borderWidth : 3,
         width:"80%",
         alignSelf:"center",
-        borderColor: "#1EA584",
         margin:"2%",
         },
     titre:{
@@ -159,6 +161,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: "#fff",
         flex: 1
+    },
+    containerPathologie:{
+        flexDirection:"row",
+        justifyContent:"space-between",
+    },
+    elementsView:{
+        borderRadius: 10,
+        borderWidth : 3,
+        width:"80%",
+        borderColor: "#1EA584",
+        alignItems:"center"
     },
     text3: {
         fontSize: 25,

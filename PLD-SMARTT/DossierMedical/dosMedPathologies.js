@@ -105,7 +105,7 @@ function DosMedPathologies({navigation}) {
 
             <View style={{height:"15%"}}>
                 <Bouton styleButton={styles.nouvellePathologieBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedPathologiesAj', {
-                })} text="Ajouter une pathologie" icone="plus" styleIcone ={styles.iconDossier}/>
+                })} text="Ajouter une pathologie" icone="plus"/>
             </View>
         </View>
     )
@@ -208,9 +208,6 @@ const styles = StyleSheet.create({
     boutonsModalView:{
         flexDirection:"row",
         justifyContent:"space-between"
-    },
-    iconChevron: {
-        alignSelf:"center",
     },
     btnOui: {
         width: "45%",
