@@ -69,13 +69,18 @@ const Traitements =({route,navigation})=>{
                     </View>
                     <View style = {styles.titre}>
                         <Text style={styles.text}>
-                            
+                            Liste
+                        </Text>
+                    </View>
+                    <View style = {styles.titre}>
+                        <Text style={styles.text}>
+                            Liste
                         </Text>
                     </View>
                     <ScrollView style={{height:"63%"}}>
                         <StatusBar style="auto" />
                             {Traitements.map((element,index) => (
-                                <TouchableOpacity key={`${element}-${index}`} style={styles.allergie} onPress={() =>  navigation.navigate('Traitements', {
+                                <TouchableOpacity key={`${element}-${index}`} style={styles.Traitement} onPress={() =>  navigation.navigate('Traitements', {
                                 })}>
                                     <Text style={styles.text3}>
                                         {element}
@@ -85,7 +90,7 @@ const Traitements =({route,navigation})=>{
                     </ScrollView>
 
                     <View style={{height:"15%"}}>
-                        <Bouton styleButton={styles.nouvelleAllergieBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Traitements', {
+                        <Bouton styleButton={styles.nouveauTraitementBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Traitements', {
                         })} text="Ajouter un Traitement" icone="plus" styleIcone ={styles.iconDossier}/>
                     </View>
                 </View>
@@ -98,7 +103,7 @@ export default Traitements;
 
 
 const styles = StyleSheet.create({
-    allergie:{
+    Traitement:{
         borderRadius: 10,
         backgroundColor: "#ffffff",
         borderWidth : 3,
@@ -112,10 +117,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingHorizontal : "25%",
         paddingVertical: "3%",
-        alignSelf:"center",
         margin:"5%",
     },
-    nouvelleAllergieBtn: {
+    nouveauTraitementBtn: {
         width: "80%",
         flexDirection:"row",
         borderRadius: 25,
