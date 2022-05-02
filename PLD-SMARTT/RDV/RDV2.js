@@ -11,6 +11,7 @@ const RDV2 =({route,navigation})=>{
     const{prenom,nom}= route.params;
     const [data, setData] = useState([]);
     const [date, setDate] = useState(new Date());
+    const [dateFormate2,setDateFormate2]=useState( route.params.date)
     const [open, setOpen] = useState(false);
     const[praticien,setPraticien]=useState(route.params.namePractitioner);
     const[metierPraticien,setMetierPraticien]=useState(route.params.typePractitioner);
@@ -32,30 +33,32 @@ const RDV2 =({route,navigation})=>{
     };
     const handleConfirm = (date) => {
       setDate(date);
+      var dd = date.getDate();
+      var mm = date.getMonth() + 1; //January is 0!
+      var yyyy = date.getFullYear();
+      var hh=date.getHours();
+      var min=date.getMinutes();
+    
+      if (dd < 10) {
+          dd = '0' + dd;
+      }
+      if (mm < 10) {
+          mm = '0' + mm;
+      }
+      if(hh<10){
+        hh='0'+hh;
+      }
+      if(min<10){
+        min='0'+min;
+      }
+      const dateFormate =  yyyy + "-" + mm + "-" + dd+'T'+hh+':'+min+':00';
+      setDateFormate2( dd+"/"+mm+"/"+yyyy+' à ' + hh+":"+min);
       hideDatePicker();
     };
 
-    var dd = date.getDate();
-    var mm = date.getMonth() + 1; //January is 0!
-    var yyyy = date.getFullYear();
-    var hh=date.getHours();
-    var min=date.getMinutes();
     
-    if (dd < 10) {
-        dd = '0' + dd;
-    }
-    if (mm < 10) {
-        mm = '0' + mm;
-    }
-    if(hh<10){
-      hh='0'+hh;
-    }
-    if(min<10){
-      min='0'+min;
-    }
-    const dateFormate =  yyyy + "-" + mm + "-" + dd+'T'+hh+':'+min+':00';
-    const dateFormate2= dd+"/"+mm+"/"+yyyy+' à ' + hh+":"+min;
-    
+
+
     const createRDV= () => {
       console.log('create RDV')
       const params = {
@@ -81,7 +84,7 @@ const RDV2 =({route,navigation})=>{
     
 
   useEffect(() => {
-    console.log(dateFormate)
+    
    
     
   });
@@ -101,7 +104,7 @@ const RDV2 =({route,navigation})=>{
 
             <View style={style.inputView}>
             
-            <TouchableOpacity style={style.DateInput} on onPress={showDatePicker} >
+            <TouchableOpacity style={style.DateInput}  onPress={showDatePicker}  >
                     <Text>
                        {dateFormate2}
                     </Text>

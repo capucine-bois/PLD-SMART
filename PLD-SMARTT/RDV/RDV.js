@@ -66,10 +66,10 @@ const RDV =({route,navigation})=>{
     
 
     useEffect(() => {
-      console.log('proute')
+      
       
       getListRDV()
-      console.log('data')
+      
       console.log(data)
       
       }, []);
@@ -79,12 +79,21 @@ const RDV =({route,navigation})=>{
         const namePractitioner=item.namePractitioner;
         const typePractitioner=item.typePractitioner;
         const commentaire=item.remark;
+        const date = item.date;
+        const année =date.slice(0,4)
+        const mois = date.slice(5,7)
+        const jour = date.slice(8,10)
+        const heure = date.slice(11,13)
+        const min = date.slice(14,16)
+       
+        const dateFormate = jour +'/'+ mois+'/' + année +' à '+heure+':'+min ;
+        
         return (
 
-          <TouchableOpacity style={style.renderItem} onLongPress={() =>  navigation.navigate('RDV2', {
+          <TouchableOpacity style={style.renderItem} onPress={() =>  navigation.navigate('RDV2', {
             prenom: prenom,
             nom: nom,
-            date: item.date,
+            date: dateFormate,
             location: location,
             namePractitioner: namePractitioner,
             typePractitioner: typePractitioner,
@@ -127,6 +136,7 @@ const RDV =({route,navigation})=>{
         <Bouton styleButton={style.nouvelleNoteBtn} styleText={style.text} onPress={() =>  navigation.navigate('RDV2', {
             prenom: prenom,
             nom: nom,
+            date: "Entrer la date et l'heure",
             })} text="Nouveau RDV" icone="plus" styleIcone ={styles.iconDossier}/>
 
         </View>
