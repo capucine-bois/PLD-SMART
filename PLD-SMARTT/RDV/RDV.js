@@ -1,7 +1,7 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState,useEffect } from 'react';
 import { FlatList,Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity, ScrollView } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from '../Style/styleHome'
 
 const Bouton = (props) =>{
@@ -22,17 +22,28 @@ const RDV =({route,navigation})=>{
     const[recherche,setRecherche]=useState('');
     const [data, setData] = useState([]);
 
-    const getListRDV = async() => {
+    
+
+
+    const getListRDV = () => {
       const params = {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
         
       }
-      const response = await 
-       fetch('http://172.20.10.2:8080/rendezvous/user/76',params);
-       const json = await response.json();
       
-        setData(json)
+      AsyncStorage.getItem('token')
+      .then((token) => {
+        
+       
+       fetch('http://172.20.10.2:8080/rendezvous/user/'+token,params)
+       .then(response => response.json())
+            .then(data => {
+                console.log(data);
+      
+                setData(data)
+              });
+     });
     };
 
     const deleteRDV= () => {

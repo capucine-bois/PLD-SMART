@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import { Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity, ScrollView } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -9,9 +9,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Notes2 =({route,navigation})=>{
     const{prenom,nom}= route.params;
-    const[auteur,setAuteur]=useState('');
-    const[titre,setTitre]=useState('');
-    const[note,setNote]=useState('');
+    const[auteur,setAuteur]=useState(route.params.author);
+    const[titre,setTitre]=useState(route.params.title);
+    const[note,setNote]=useState(route.params.note);
     const[ajouterModifier,setAjouterModifier]=useState('Ajouter');
     const [bouton, setBouton] = useState(false);
 
@@ -29,11 +29,8 @@ const Notes2 =({route,navigation})=>{
 
         AsyncStorage.getItem('token')
             .then((token) => {
-                fetch(props.url+'notes/user/'+token,params);
+                fetch(route.params.url+'/notes/user/'+token,params);
             });
-
-
-
     }
 
     return(
@@ -53,24 +50,24 @@ const Notes2 =({route,navigation})=>{
             
                 <TextInput
                 style={style.TextInput}
-            
                 placeholder="Auteur"
                 placeholderTextColor="#003f5c"
                 onChangeText={(auteur) => setAuteur(auteur)}
-                
-            />
+                >
+                    {auteur}
+                </TextInput>
             </View>
 
             <View style={style.inputView}>
 
                 <TextInput
                 style={style.TextInput}
-            
                 placeholder="Titre"
                 placeholderTextColor="#003f5c"
                 onChangeText={(titre) => setTitre(titre)}
-                
-            />
+                >
+                    {titre}
+                </TextInput>
             
             </View>
             <Text style={{textAlign:'left',marginTop:20}}>
@@ -83,8 +80,9 @@ const Notes2 =({route,navigation})=>{
                 placeholder="Écrire ma nouvelle note"
                 placeholderTextColor="#003f5c"
                 onChangeText={(note) => setNote(note)}
-                
-            />
+            >
+                {note}
+            </TextInput>
 
             </ScrollView>
 

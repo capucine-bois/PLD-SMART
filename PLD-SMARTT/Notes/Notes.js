@@ -35,12 +35,11 @@ const Notes =({route,navigation}) => {
 
         AsyncStorage.getItem('token')
             .then((token) => {
-                console.log(route.params.url);
                 fetch(route.params.url+'/notes/user/'+token,params)
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
-                        setNotes({...data});
+                        setNotes(data);
                     });
             });
 
@@ -71,10 +70,10 @@ const Notes =({route,navigation}) => {
                 <MaterialCommunityIcons style={styles.iconDossier}  name='magnify' color="#fff" size={45}/>
 
             </View>
-            <FlatList
+            <FlatList style={style.flatSummary}
                 data={notes}
                 renderItem={({item}) =>
-                    <NoteSummary title={item.title} author={item.author} date={item.date}></NoteSummary>
+                    <NoteSummary navigation={navigation} note={item.note} id={item.id} title={item.title} author={item.author} date={item.date}></NoteSummary>
                 }
             />
 
@@ -83,6 +82,10 @@ const Notes =({route,navigation}) => {
         <Bouton styleButton={style.nouvelleNoteBtn} styleText={style.text} onPress={() =>  navigation.navigate('BlocNotes2', {
             prenom: prenom,
             nom: nom,
+            "id":"-1",
+            "author":"",
+            "title":"",
+            "note":"",
             })} text="Nouvelle notes" icone="plus" styleIcone ={styles.iconDossier}/>
 
         </View>
@@ -107,6 +110,10 @@ const style = StyleSheet.create({
         marginBottom:30,
 
       },
+    flatSummary:{
+        width:"100%",
+
+    },
       container: {
         display:"flex",
         flexDirection: 'column',
