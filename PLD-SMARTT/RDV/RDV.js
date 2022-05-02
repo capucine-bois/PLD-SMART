@@ -1,4 +1,4 @@
-import React, { Component, useState,useEffect } from 'react';
+import React, { Component, useState } from 'react';
 import { FlatList,Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity, ScrollView } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 

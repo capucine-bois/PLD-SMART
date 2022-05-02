@@ -79,7 +79,7 @@ const RDV2 =({route,navigation})=>{
     console.log(dateFormate)
    
     
-  }, []);
+  });
 
     return(
         <View style={style.container}>
