@@ -1,5 +1,5 @@
-import React from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TouchableHighlight, Modal} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
 
@@ -14,16 +14,57 @@ function Bouton(props){
     )
 }
 
+function PopUp(props) {
+    return (
+        <View style={styles.centeredView}>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={props.modalVisibility}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.textModal}>Supprimer ?</Text>
+                        <View style={styles.boutonsModalView}>
+                            <TouchableOpacity
+                                style={styles.btnOui}
+                                onPress={() => {
+                                }}
+                            >
+                                <Text style={styles.text}>Oui</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.btnNon]}
+                                onPress={() => {
+                                    props.setter();
+                                }}
+                            >
+                                <Text style={styles.text}>Non</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+        </View>
+    )
+}
+
 function DosMedIndicateurs({navigation}) {
     const indicateurs =["Indice glycémique","Poids","test","test2","test3","test4","test5","test6","test7","test8"]
     const prenom = "Gérard"
     const nom = "Dupont".toUpperCase()
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const toggleModalVisible = () => {
+        setModalVisible(false);
+    }
     return(
         <View style={styles.container}>
             <View style={styles.headerBtn}>
                 <Text style={styles.text2}>
                     Dossier Médical
                 </Text>
+                <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
                 <TouchableOpacity>
                     <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
                         prenom: prenom,
@@ -39,12 +80,16 @@ function DosMedIndicateurs({navigation}) {
             <ScrollView style={{height:"63%"}}>
                 <StatusBar style="auto" />
                 {indicateurs.map((element,index) => (
-                    <TouchableOpacity key={`${element}-${index}`} style={styles.indicateur} onPress={() =>  navigation.navigate('BlocNotes2', {
-                    })}>
-                        <Text style={styles.text3}>
-                            {element}
-                        </Text>
-                    </TouchableOpacity>
+                    <TouchableHighlight key={`${element}-${index}`} style={styles.indicateur} underlayColor="white">
+                        <View style={styles.containerIndicateur}>
+                            <View style={styles.elementsView}>
+                                <Text style={styles.text3}>
+                                    {element}
+                                </Text>
+                            </View>
+                            <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
+                        </View>
+                    </TouchableHighlight>
                 ))}
             </ScrollView>
 
@@ -61,13 +106,21 @@ export default DosMedIndicateurs
 
 const styles = StyleSheet.create({
     indicateur:{
-        borderRadius: 10,
         backgroundColor: "#ffffff",
-        borderWidth : 3,
         width:"80%",
         alignSelf:"center",
-        borderColor: "#1EA584",
         margin:"2%",
+    },
+    containerIndicateur:{
+        flexDirection:"row",
+        justifyContent:"space-between",
+    },
+    elementsView:{
+        borderRadius: 10,
+        borderWidth : 3,
+        width:"80%",
+        borderColor: "#1EA584",
+        alignItems:"center"
     },
     titre:{
         backgroundColor: "#1EA584",
@@ -122,6 +175,49 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: "#1EA584",
         textAlign:"center"
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    modalView: {
+        height: "25%",
+        width: "90%",
+        backgroundColor: "#C4C4C4",
+        borderRadius: 20,
+        padding: "5%",
+    },
+    boutonsModalView:{
+        flexDirection:"row",
+        justifyContent:"space-between"
+    },
+    btnOui: {
+        width: "45%",
+        flexDirection:"row",
+        borderRadius: 10,
+        height: "70%",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        backgroundColor: "red",
+        marginTop:"10%"
+    },
+    btnNon: {
+        width: "45%",
+        flexDirection:"row",
+        borderRadius: 10,
+        height: "70%",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        backgroundColor: "#695353",
+        marginTop:"10%"
+    },
+    textModal: {
+        marginTop:"5%",
+        fontSize: 23,
+        fontWeight: 'bold',
+        color: "#000",
+        alignSelf:"center"
     },
 
 })

@@ -84,7 +84,7 @@ function DosMedAllergies({navigation}) {
                 <StatusBar style="auto" />
                     {allergies.map((element,index) => (
                         <TouchableHighlight key={`${element}-${index}`} style={styles.allergie} underlayColor="white">
-                            <View style={styles.containerPathologie}>
+                            <View style={styles.containerAllergie}>
                                 <View style={styles.elementsView}>
                                     <Text style={styles.text3}>
                                         {element}
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
         color: "#fff",
         flex: 1
     },
-    containerPathologie:{
+    containerAllergie:{
         flexDirection:"row",
         justifyContent:"space-between",
     },
