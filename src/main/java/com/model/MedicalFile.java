@@ -2,6 +2,7 @@ package com.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,6 +27,10 @@ public class MedicalFile {
     @JoinColumn(name = "id_user", referencedColumnName = "id_user")
     @JsonBackReference
     private User user;
+
+    @OneToMany(mappedBy = "medicalFile")
+    @JsonManagedReference
+    private List<Allergy> allergies;
 
 
     public MedicalFile() {
@@ -63,6 +68,14 @@ public class MedicalFile {
 
     public void setWeight(float weight) {
         this.weight = weight;
+    }
+
+    public List<Allergy> getAllergies() {
+        return allergies;
+    }
+
+    public void setAllergies(List<Allergy> allergies) {
+        this.allergies = allergies;
     }
 
     public User getUser() {
