@@ -8,13 +8,12 @@ import {
     TouchableHighlight,
     Modal,
     Alert,
-    Pressable
+    Pressable, TouchableOpacityComponent
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
 
 function PopUp(props) {
-
     return (
         <View style={styles.centeredView}>
             <Modal
@@ -22,27 +21,25 @@ function PopUp(props) {
                 transparent={true}
                 visible={props.modalVisibility}
                 >
-
-
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={styles.textModal}>Supprimer ?</Text>
                         <View style={styles.boutonsModalView}>
-                            <Pressable
+                            <TouchableOpacity
                                 style={styles.btnOui}
                                 onPress={() => {
                                 }}
                             >
                                 <Text style={styles.text}>Oui</Text>
-                            </Pressable>
-                            <Pressable
+                            </TouchableOpacity>
+                            <TouchableOpacity
                                 style={[styles.btnNon]}
                                 onPress={() => {
                                     props.setter();
                                 }}
                             >
                                 <Text style={styles.text}>Non</Text>
-                            </Pressable>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
@@ -142,7 +139,7 @@ const styles = StyleSheet.create({
         marginTop:"6%"
     },
     text: {
-        fontSize: 23,
+        fontSize: 22,
         fontWeight: 'bold',
         color: "#fff",
         alignSelf:"center"
@@ -203,7 +200,7 @@ const styles = StyleSheet.create({
         width: "45%",
         flexDirection:"row",
         borderRadius: 10,
-        height: "60%",
+        height: "70%",
         alignItems: "center",
         justifyContent: "space-evenly",
         backgroundColor: "red",
@@ -213,7 +210,7 @@ const styles = StyleSheet.create({
         width: "45%",
         flexDirection:"row",
         borderRadius: 10,
-        height: "60%",
+        height: "70%",
         alignItems: "center",
         justifyContent: "space-evenly",
         backgroundColor: "#695353",
