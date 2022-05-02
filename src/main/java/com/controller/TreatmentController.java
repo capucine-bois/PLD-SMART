@@ -42,11 +42,9 @@ public class TreatmentController {
         User user = userRepository.findByToken(usertoken)
                 .orElseThrow(() -> new UserNotFoundException(usertoken));
 
-        MedicalFile medicalFile = medicalFileRepository.findByUser(user)
-                .orElseThrow(() -> new MedicalFileNotFoundException(user));
 
-        List<Treatment> listTreatment = treatmentRepository.findByMedicalFile(medicalFile)
-                .orElseThrow(() -> new TreatmentNotFoundException(medicalFile));
+        List<Treatment> listTreatment = treatmentRepository.findByUser(user)
+                .orElseThrow(() -> new TreatmentNotFoundException(user));
 
         return new ResponseEntity<List<Treatment>>(listTreatment, HttpStatus.OK);
     }
@@ -57,11 +55,7 @@ public class TreatmentController {
     public ResponseEntity<Treatment> createTreatment(@RequestBody Treatment treatment,@PathVariable(value = "usertoken") String usertoken){
         User user = userRepository.findByToken(usertoken)
                 .orElseThrow(() -> new UserNotFoundException(usertoken));
-
-        MedicalFile medicalFile = medicalFileRepository.findByUser(user)
-                .orElseThrow(() -> new MedicalFileNotFoundException(user));
-
-        treatment.setMedicalFile(medicalFile);
+        treatment.setUser(user);
         treatmentRepository.save(treatment);
         return new ResponseEntity<Treatment>(treatment, HttpStatus.OK);
     }

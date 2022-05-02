@@ -40,6 +40,10 @@ public class User {
     @JsonManagedReference
     private List<RendezVous> rendezVous;
 
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<Treatment> treatments;
+
     @Column(name="token", length = 50,unique = true)
     private String token;
 
@@ -109,5 +113,28 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public List<Treatment> getTreatments() {
+        return treatments;
+    }
+
+    public void setTreatments(List<Treatment> treatments) {
+        this.treatments = treatments;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", birthDate=" + birthDate +
+                ", sexe=" + sexe +
+                ", medicalFile=" + medicalFile +
+                ", rendezVous=" + rendezVous +
+                ", treatments=" + treatments +
+                ", token='" + token + '\'' +
+                '}';
     }
 }

@@ -41,11 +41,11 @@ public class Treatment {
     private String remark;
 
     @ManyToOne
-    @JoinColumn(name="id_medical_file",nullable=false, referencedColumnName = "id_medical_file")
+    @JoinColumn(name="id_user",nullable=false, referencedColumnName = "id_user")
     @JsonBackReference
-    private MedicalFile medicalFile;
+    private User user;
 
-    public Treatment(String name, Date start_date, Date end_date, int numFrequency, String unitFrequency, int quantity, String remark, MedicalFile medicalFile){
+    public Treatment(String name, Date start_date, Date end_date, int numFrequency, String unitFrequency, int quantity, String remark, User user){
         this.name = name;
         this.startDate = start_date;
         this.endDate = end_date;
@@ -53,7 +53,7 @@ public class Treatment {
         this.unitFrequency = unitFrequency;
         this.quantity = quantity;
         this.remark = remark;
-        this.medicalFile = medicalFile;
+        this.user = user;
     }
 
     public Treatment() {
@@ -66,9 +66,7 @@ public class Treatment {
         this.id=id;
     }
 
-    public void setMedicalFile(MedicalFile medicalFile) {
-        this.medicalFile = medicalFile;
-    }
+
 
     public String getName() {
         return name;
@@ -114,24 +112,26 @@ public class Treatment {
         return id;
     }
 
-    public MedicalFile getMedicalFile() {
-        return medicalFile;
+    public User getUser() {
+        return user;
     }
 
-
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @Override
     public String toString() {
         return "Treatment{" +
-                "treatmentId=" + id +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", numFrequency=" + numFrequency +
                 ", unitFrequency='" + unitFrequency + '\'' +
-                ", quantity='" + quantity + '\'' +
-                ", commentary='" + remark + '\'' +
-                ", medicalFile=" + medicalFile +
+                ", quantity=" + quantity +
+                ", remark='" + remark + '\'' +
+                ", user=" + user +
                 '}';
     }
 }

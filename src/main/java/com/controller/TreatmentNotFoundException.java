@@ -1,12 +1,12 @@
 package com.controller;
 
 import com.model.Treatment;
-import com.model.MedicalFile;
+import com.model.User;
 
 
 public class TreatmentNotFoundException extends RuntimeException {
 
-    TreatmentNotFoundException(MedicalFile medicalFile){
-        super("Could not find treatments on medical file " + medicalFile);
+    TreatmentNotFoundException(User user){
+        super("Could not find treatments on user " + user);
     }
 }

@@ -41,11 +41,17 @@ public class MedicalFileController {
                 .orElseThrow(() -> new UserNotFoundException(token));
         MedicalFile medicalFile = medicalFileRepository.findByUser(user)
                 .orElseThrow(() -> new MedicalFileNotFoundException(user));
-        long id_med = medicalFile.getMedicalId();
-        /*
-        List<Allergy> ListAllergies = medicalFileRepository.getAllergiesByIDMed(id_med);
-        System.out.println(ListAllergies);
-*/
+
+        return new ResponseEntity<MedicalFile>(medicalFile, HttpStatus.OK);
+    }
+
+    @PutMapping("/medical/")
+    @ResponseBody
+    @Transactional
+    public ResponseEntity<MedicalFile> modifyMedicalFile(@RequestBody MedicalFile medicalFile){
+
+        medicalFileRepository.save(medicalFile);
+
         return new ResponseEntity<MedicalFile>(medicalFile, HttpStatus.OK);
     }
 

@@ -17,11 +17,15 @@ public class MedicalFile {
     @Column(name="id_medical_file")
     private long medicalId;
 
-    @Column(name="height",precision=3, scale=2, nullable=true)
+
+    @Column(name="weight")
+    private float weight;
+
+
+    @Column(name="height")
     private float height;
 
-    @Column(name="weight", precision=4,scale=1, nullable=true)
-    private float weight;
+
 
     @OneToOne
     @JoinColumn(name = "id_user", referencedColumnName = "id_user")
@@ -32,35 +36,19 @@ public class MedicalFile {
     @JsonManagedReference
     private List<Allergy> allergies;
 
-    @OneToMany(mappedBy = "medicalFile")
-    @JsonManagedReference
-    private List<Treatment> treatments;
+
 
     @OneToMany(mappedBy = "medicalFile")
     @JsonManagedReference
     private List<Pathology> pathologies;
 
 
-
     public MedicalFile() {
     }
 
-    public MedicalFile(float height, float weight, User user) {
-        this.height = height;
+    public MedicalFile(float weight, float height) {
         this.weight = weight;
-        this.user = user;
-    }
-
-    public List<Treatment> getTreatments() {
-        return treatments;
-    }
-
-    public void setTreatments(List<Treatment> treatments) {
-        this.treatments = treatments;
-    }
-
-    public MedicalFile(User user) {
-        this.user = user;
+        this.height = height;
     }
 
     public long getMedicalId() {
@@ -71,14 +59,6 @@ public class MedicalFile {
         this.medicalId = medicalId;
     }
 
-    public float getHeight() {
-        return height;
-    }
-
-    public void setHeight(float height) {
-        this.height = height;
-    }
-
     public float getWeight() {
         return weight;
     }
@@ -87,12 +67,12 @@ public class MedicalFile {
         this.weight = weight;
     }
 
-    public List<Allergy> getAllergies() {
-        return allergies;
+    public float getHeight() {
+        return height;
     }
 
-    public void setAllergies(List<Allergy> allergies) {
-        this.allergies = allergies;
+    public void setHeight(float height) {
+        this.height = height;
     }
 
     public User getUser() {
@@ -103,13 +83,31 @@ public class MedicalFile {
         this.user = user;
     }
 
+    public List<Allergy> getAllergies() {
+        return allergies;
+    }
+
+    public void setAllergies(List<Allergy> allergies) {
+        this.allergies = allergies;
+    }
+
+    public List<Pathology> getPathologies() {
+        return pathologies;
+    }
+
+    public void setPathologies(List<Pathology> pathologies) {
+        this.pathologies = pathologies;
+    }
+
     @Override
-    public java.lang.String toString() {
+    public String toString() {
         return "MedicalFile{" +
                 "medicalId=" + medicalId +
-                ", height=" + height +
                 ", weight=" + weight +
+                ", height=" + height +
                 ", user=" + user +
+                ", allergies=" + allergies +
+                ", pathologies=" + pathologies +
                 '}';
     }
 }
