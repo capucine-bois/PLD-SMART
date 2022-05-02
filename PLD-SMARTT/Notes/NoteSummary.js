@@ -1,11 +1,9 @@
 import {StyleSheet, Text, View, Pressable} from "react-native";
 
 const NoteSummary = (props) => {
-    const changeNote = () =>{
 
-    }
     return(
-        <Pressable style={noteSummaryStyle.container} onPress={() =>  props.navigation.navigate('BlocNotes2', {"title":props.title, "author":props.author, "note":props.note,"id":props.id})}>
+        <Pressable style={noteSummaryStyle.container} onPress={() =>  props.navigation.navigate('BlocNotes2', {"title":props.title,"date":props.date, "author":props.author, "note":props.note,"id":props.id})}>
             <Text style={noteSummaryStyle.title}>
                 {props.title}
             </Text>

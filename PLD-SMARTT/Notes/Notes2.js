@@ -8,12 +8,19 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const Notes2 =({route,navigation})=>{
-    const{prenom,nom}= route.params;
     const[auteur,setAuteur]=useState(route.params.author);
     const[titre,setTitre]=useState(route.params.title);
     const[note,setNote]=useState(route.params.note);
     const[ajouterModifier,setAjouterModifier]=useState('Ajouter');
     const [bouton, setBouton] = useState(false);
+
+    const deleteNote = () => {
+        const params = {
+            method:"DELETE",
+        }
+
+        fetch(route.params.url+"/notes/id/"+route.params.id,params);
+    }
 
     const addOrChange = () => {
 
@@ -24,6 +31,8 @@ const Notes2 =({route,navigation})=>{
                 "author": auteur,
                 "title": titre,
                 "note": note,
+                "id": route.params.id,
+                "date":route.params.date,
             })
         }
 
@@ -36,12 +45,9 @@ const Notes2 =({route,navigation})=>{
     return(
         <View style={style.container}>
         
-            <TouchableOpacity style={style.headerBtn} onPress={() =>  navigation.navigate('Accueil', {
-             prenom: prenom,
-             nom: nom,
-             })}>
+            <TouchableOpacity style={style.headerBtn} onPress={() =>  navigation.navigate('Accueil')}>
             <Text style={styles.text2}>
-            Bloc Notes de {prenom} {nom}
+             Mon Bloc Notes
              </Text>
              <MaterialCommunityIcons style={styles.iconDossier}  name='home' color="#fff" size={30}/>
             </TouchableOpacity>
@@ -86,25 +92,47 @@ const Notes2 =({route,navigation})=>{
 
             </ScrollView>
 
-             <View style={style.BtnView}>
+             {
+                 route.params.id == -1 ?
+                     <View style={style.BtnView}>
+                         <TouchableOpacity  style={[style.btn, style.AjouterBtn]} onPress={addOrChange} >
+                             <Text>
+                                 Ajouter
+                             </Text>
+                         </TouchableOpacity>
 
-             
-                <TouchableOpacity visible={!bouton} style={style.AjouterBtn} onPress={addOrChange} >
-                    <Text>
-                        {ajouterModifier}
-                    </Text>
-                </TouchableOpacity>
+                         <TouchableOpacity style={[style.btn, style.AnnulerBtn]} onPress={()=>navigation.navigate('BlocNotes')}>
+                             <Text>
+                                 Annuler
+                             </Text>
+                         </TouchableOpacity>
+                     </View>
+                 :
+                     <View style={style.BtnView}>
+                         <TouchableOpacity  style={[style.btn, style.AjouterBtn]} onPress={addOrChange} >
+                             <Text>
+                                 Modifier
+                             </Text>
+                         </TouchableOpacity>
 
-                <TouchableOpacity style={style.AnnulerBtn} onPress={()=>navigation.navigate('BlocNotes', {
-                     prenom: prenom,
-                     nom: nom,
-                 })}>
-                    <Text>
-                        Annuler
-                    </Text>
-                </TouchableOpacity>
+                         <TouchableOpacity style={[style.btn, style.deleteBtn]} onPress={deleteNote}>
+                             <Text>
+                                 Supprimer
+                             </Text>
+                         </TouchableOpacity>
 
-            </View>
+                         <TouchableOpacity style={[style.btn, style.AnnulerBtn]} onPress={()=>navigation.navigate('BlocNotes')}>
+                             <Text>
+                                 Annuler
+                             </Text>
+                         </TouchableOpacity>
+
+
+                     </View>
+             }
+
+
+
         
         </View>
 
@@ -135,7 +163,7 @@ const style = StyleSheet.create({
       nouvelleNoteBtn: {
         width: "80%",
         display:"flex",
-      flexDirection:"row",
+        flexDirection:"row",
         borderRadius: 25,
         height: 50,
         alignItems: "center",
@@ -160,43 +188,43 @@ const style = StyleSheet.create({
         marginLeft: 20,
         color: "#000000",
       },
-      inputView: {
-          marginTop: 10,
-          flexDirection: 'row',
+
+    inputView: {
+        marginTop: 10,
+        flexDirection: 'row',
         backgroundColor: "#9C9C9C",
         borderRadius: 30,
         width: "80%",
         height: 50,
         alignItems: "center",
-      },
-        AjouterBtn: {
+    },
+
+    btn:{
         width: "30%",
         borderRadius: 25,
         height: 50,
         alignItems: "center",
         justifyContent: "center",
         marginTop: 50,
+    },
+
+    AjouterBtn: {
         backgroundColor: "#ffd700",
-        
-      },
-      AnnulerBtn: {
-        width: "30%",
-        borderRadius: 25,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 50,
+    },
+    AnnulerBtn: {
         backgroundColor: "#9C9C9C",
-        marginLeft:"2%"
-        
-      },
-      BtnView: {
+    },
+
+    deleteBtn:{
+        backgroundColor: "red",
+    },
+
+    BtnView: {
         height:"20%",
         width:"80%",
+        display:"flex",
         flexDirection:"row",
-        alignItems:"flex-start",
-        marginLeft:"30%",
-        
-      },
+        justifyContent:"center",
+    },
 
 });
