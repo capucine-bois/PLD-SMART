@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     StyleSheet,
     Text,
@@ -23,56 +23,54 @@ function Bouton(props){
         </TouchableOpacity>
     )
 }
-function _onLongPressButton() {
-    return(
-        <View style={styles.centeredView}>
-            <Modal
-                animationType="slide"
-                transparent={false}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    Alert.alert("Modal has been closed.");
-                    setModalVisible(!modalVisible);
-                }}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Appeler le Samu ?</Text>
-                        <Pressable
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => { onPressMobileNumberClick("0769837263") }}
-                        >
-
-                            <Text style={styles.textStyle}>Appeler</Text>
-                        </Pressable>
-                        <Pressable
-                            style={[styles.button, styles.buttonClose2]}
-                            onPress={() => setModalVisible(!modalVisible)}
-                        >
-
-                            <Text style={styles.textStyle}>Annuler</Text>
-                        </Pressable>
-                    </View>
-                </View>
-            </Modal>
-        </View>
-    )
-
-
-
-}
 
 function DosMedPathologies({navigation}) {
     const pathologies =["Bipolarité","Sida","test","test2","test3","test4","test5","test6","test7","test8"]
     const prenom = "Gérard"
     const nom = "Dupont".toUpperCase()
-
+    const [modalVisible, setModalVisible] = useState(false);
+    function PopUp() {
+        return (
+            <View style={styles.centeredView}>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        setModalVisible(!modalVisible);
+                    }}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text style={styles.textModal}>Supprimer ?</Text>
+                            <View style={styles.boutonsModalView}>
+                                <Pressable
+                                    style={styles.btnOui}
+                                    onPress={() => {
+                                    }}
+                                >
+                                    <Text style={styles.text}>Oui</Text>
+                                </Pressable>
+                                <Pressable
+                                    style={[styles.btnNon]}
+                                    onPress={() => setModalVisible(!modalVisible)}
+                                >
+                                    <Text style={styles.text}>Non</Text>
+                                </Pressable>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+            </View>
+        )
+    }
     return(
         <View style={styles.container}>
             <View style={styles.headerBtn}>
                 <Text style={styles.text2}>
                     Dossier Médical
                 </Text>
+                <PopUp/>
                 <TouchableOpacity>
                     <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
                         prenom: prenom,
@@ -88,7 +86,7 @@ function DosMedPathologies({navigation}) {
             <ScrollView style={{height:"63%"}}>
                 <StatusBar style="auto" />
                 {pathologies.map((element,index) => (
-                    <TouchableHighlight key={`${element}-${index}`} style={styles.pathologie} onLongPress={_onLongPressButton} underlayColor="white">
+                    <TouchableHighlight key={`${element}-${index}`} style={styles.pathologie} onLongPress={() => setModalVisible(true)} underlayColor="white">
                         <Text style={styles.text3}>
                             {element}
                         </Text>
@@ -142,6 +140,13 @@ const styles = StyleSheet.create({
         color: "#fff",
         alignSelf:"center"
     },
+    textModal: {
+        marginTop:"5%",
+        fontSize: 23,
+        fontWeight: 'bold',
+        color: "#000",
+        alignSelf:"center"
+    },
     iconDossier: {
         marginRight:"5%"
     },
@@ -171,5 +176,40 @@ const styles = StyleSheet.create({
         color: "#1EA584",
         textAlign:"center"
     },
-
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    modalView: {
+        height: "25%",
+        width: "90%",
+        backgroundColor: "#C4C4C4",
+        borderRadius: 20,
+        padding: "5%",
+    },
+    boutonsModalView:{
+        flexDirection:"row",
+        justifyContent:"space-between"
+    },
+    btnOui: {
+        width: "45%",
+        flexDirection:"row",
+        borderRadius: 10,
+        height: "60%",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        backgroundColor: "red",
+        marginTop:"10%"
+    },
+    btnNon: {
+        width: "45%",
+        flexDirection:"row",
+        borderRadius: 10,
+        height: "60%",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        backgroundColor: "#695353",
+        marginTop:"10%"
+    },
 })
