@@ -13,6 +13,43 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
 
+function PopUp(props) {
+    console.log((props.modalVisibility))
+    return (
+        <View style={styles.centeredView}>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={props.modalVisibility}
+                onRequestClose={() => {
+                    props.setter();
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.textModal}>Supprimer ?</Text>
+                        <View style={styles.boutonsModalView}>
+                            <Pressable
+                                style={styles.btnOui}
+                                onPress={() => {
+                                }}
+                            >
+                                <Text style={styles.text}>Oui</Text>
+                            </Pressable>
+                            <Pressable
+                                style={[styles.btnNon]}
+                                onPress={() => props.setter()}
+                            >
+                                <Text style={styles.text}>Non</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+        </View>
+    )
+}
+
 function Bouton(props){
     return (
         <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
@@ -29,41 +66,7 @@ function DosMedPathologies({navigation}) {
     const prenom = "Gérard"
     const nom = "Dupont".toUpperCase()
     const [modalVisible, setModalVisible] = useState(false);
-    function PopUp() {
-        return (
-            <View style={styles.centeredView}>
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                        setModalVisible(!modalVisible);
-                    }}
-                >
-                    <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.textModal}>Supprimer ?</Text>
-                            <View style={styles.boutonsModalView}>
-                                <Pressable
-                                    style={styles.btnOui}
-                                    onPress={() => {
-                                    }}
-                                >
-                                    <Text style={styles.text}>Oui</Text>
-                                </Pressable>
-                                <Pressable
-                                    style={[styles.btnNon]}
-                                    onPress={() => setModalVisible(!modalVisible)}
-                                >
-                                    <Text style={styles.text}>Non</Text>
-                                </Pressable>
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
-            </View>
-        )
-    }
+
     return(
         <View style={styles.container}>
             <View style={styles.headerBtn}>
@@ -86,7 +89,7 @@ function DosMedPathologies({navigation}) {
             <ScrollView style={{height:"63%"}}>
                 <StatusBar style="auto" />
                 {pathologies.map((element,index) => (
-                    <TouchableHighlight key={`${element}-${index}`} style={styles.pathologie} onLongPress={() => setModalVisible(true)} underlayColor="white">
+                    <TouchableHighlight key={`${element}-${index}`} style={styles.pathologie} onLongPress={() => setModalVisible(true)} setter={setModalVisible(!modalVisible)} modalVisibility = {modalVisible} underlayColor="white">
                         <Text style={styles.text3}>
                             {element}
                         </Text>
