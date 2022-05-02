@@ -8,10 +8,45 @@ import {
     TouchableHighlight,
     Modal,
     Alert,
-    Pressable
+    Pressable, TouchableOpacityComponent
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
+
+function PopUp(props) {
+    return (
+        <View style={styles.centeredView}>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={props.modalVisibility}
+                >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.textModal}>Supprimer ?</Text>
+                        <View style={styles.boutonsModalView}>
+                            <TouchableOpacity
+                                style={styles.btnOui}
+                                onPress={() => {
+                                }}
+                            >
+                                <Text style={styles.text}>Oui</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.btnNon]}
+                                onPress={() => {
+                                    props.setter();
+                                }}
+                            >
+                                <Text style={styles.text}>Non</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+        </View>
+    )
+}
 
 function Bouton(props){
     return (
@@ -29,40 +64,9 @@ function DosMedPathologies({navigation}) {
     const prenom = "Gérard"
     const nom = "Dupont".toUpperCase()
     const [modalVisible, setModalVisible] = useState(false);
-    function PopUp() {
-        return (
-            <View style={styles.centeredView}>
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                        setModalVisible(!modalVisible);
-                    }}
-                >
-                    <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.textModal}>Supprimer ?</Text>
-                            <View style={styles.boutonsModalView}>
-                                <Pressable
-                                    style={styles.btnOui}
-                                    onPress={() => {
-                                    }}
-                                >
-                                    <Text style={styles.text}>Oui</Text>
-                                </Pressable>
-                                <Pressable
-                                    style={[styles.btnNon]}
-                                    onPress={() => setModalVisible(!modalVisible)}
-                                >
-                                    <Text style={styles.text}>Non</Text>
-                                </Pressable>
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
-            </View>
-        )
+
+    const toggleModalVisible = () => {
+        setModalVisible(false);
     }
     return(
         <View style={styles.container}>
@@ -70,7 +74,7 @@ function DosMedPathologies({navigation}) {
                 <Text style={styles.text2}>
                     Dossier Médical
                 </Text>
-                <PopUp/>
+                <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
                 <TouchableOpacity>
                     <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
                         prenom: prenom,
@@ -135,7 +139,7 @@ const styles = StyleSheet.create({
         marginTop:"6%"
     },
     text: {
-        fontSize: 23,
+        fontSize: 22,
         fontWeight: 'bold',
         color: "#fff",
         alignSelf:"center"
@@ -196,7 +200,7 @@ const styles = StyleSheet.create({
         width: "45%",
         flexDirection:"row",
         borderRadius: 10,
-        height: "60%",
+        height: "70%",
         alignItems: "center",
         justifyContent: "space-evenly",
         backgroundColor: "red",
@@ -206,7 +210,7 @@ const styles = StyleSheet.create({
         width: "45%",
         flexDirection:"row",
         borderRadius: 10,
-        height: "60%",
+        height: "70%",
         alignItems: "center",
         justifyContent: "space-evenly",
         backgroundColor: "#695353",
