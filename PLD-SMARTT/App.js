@@ -11,6 +11,11 @@ import RDV from './RDV/RDV'
 import RDV2 from './RDV/RDV2'
 import DosMedAllergies from './DossierMedical/dosMedAllergies'
 import DosMedAllergiesAj from './DossierMedical/dosMedAllergiesAj'
+import DosMedIndicateurs from './DossierMedical/dosMedIndicateurs'
+import DosMedIndicateursAj from './DossierMedical/dosMedIndicateursAj'
+import DosMedPathologies from './DossierMedical/dosMedPathologies'
+
+
 import React, {useEffect} from "react"
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -52,6 +57,11 @@ export default function App() {
         <Stack.Screen name="RDV2" component={RDV2}   />
         <Stack.Screen name="DosMedAllergies" component={DosMedAllergies}   />
         <Stack.Screen name="DosMedAllergiesAj" component={DosMedAllergiesAj}   />
+        <Stack.Screen name="DosMedIndicateurs" component={DosMedIndicateurs}   />
+        <Stack.Screen name="DosMedIndicateursAj" component={DosMedIndicateursAj}   />
+        <Stack.Screen name="DosMedPathologies" component={DosMedPathologies}   />
+
+
 
       </Stack.Navigator>
 
