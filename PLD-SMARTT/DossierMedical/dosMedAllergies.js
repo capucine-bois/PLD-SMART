@@ -1,5 +1,6 @@
-import React from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+
+import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TouchableHighlight, Modal} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
 
@@ -14,16 +15,59 @@ function Bouton(props){
     )
 }
 
+function PopUp(props) {
+    return (
+        <View style={styles.centeredView}>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={props.modalVisibility}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.textModal}>Supprimer ?</Text>
+                        <View style={styles.boutonsModalView}>
+                            <TouchableOpacity
+                                style={styles.btnOui}
+                                onPress={() => {
+                                }}
+                            >
+                                <Text style={styles.text}>Oui</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.btnNon]}
+                                onPress={() => {
+                                    props.setter();
+                                }}
+                            >
+                                <Text style={styles.text}>Non</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+        </View>
+    )
+}
+
+
 function DosMedAllergies({navigation}) {
     const allergies =["Rhume des foins","Acariens","test","test2","test3","test4","test5","test6","test7","test8"]
     const prenom = "Gérard"
     const nom = "Dupont".toUpperCase()
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const toggleModalVisible = () => {
+        setModalVisible(false);
+    }
+
     return(
         <View style={styles.container}>
             <View style={styles.headerBtn}>
                 <Text style={styles.text2}>
                         Dossier Médical
                 </Text>
+                <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
                 <TouchableOpacity>
                     <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
                         prenom: prenom,
@@ -39,12 +83,11 @@ function DosMedAllergies({navigation}) {
             <ScrollView style={{height:"63%"}}>
                 <StatusBar style="auto" />
                     {allergies.map((element,index) => (
-                        <TouchableOpacity key={`${element}-${index}`} style={styles.allergie} onPress={() =>  navigation.navigate('BlocNotes2', {
-                        })}>
+                        <TouchableHighlight key={`${element}-${index}`} style={styles.allergie} onLongPress={() => setModalVisible(true)} underlayColor="white">
                             <Text style={styles.text3}>
                                 {element}
                             </Text>
-                        </TouchableOpacity>
+                        </TouchableHighlight>
                     ))}
             </ScrollView>
 
@@ -122,6 +165,49 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: "#1EA584",
         textAlign:"center"
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    modalView: {
+        height: "25%",
+        width: "90%",
+        backgroundColor: "#C4C4C4",
+        borderRadius: 20,
+        padding: "5%",
+    },
+    boutonsModalView:{
+        flexDirection:"row",
+        justifyContent:"space-between"
+    },
+    btnOui: {
+        width: "45%",
+        flexDirection:"row",
+        borderRadius: 10,
+        height: "70%",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        backgroundColor: "red",
+        marginTop:"10%"
+    },
+    btnNon: {
+        width: "45%",
+        flexDirection:"row",
+        borderRadius: 10,
+        height: "70%",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        backgroundColor: "#695353",
+        marginTop:"10%"
+    },
+    textModal: {
+        marginTop:"5%",
+        fontSize: 23,
+        fontWeight: 'bold',
+        color: "#000",
+        alignSelf:"center"
     },
 
 })

@@ -2,7 +2,7 @@ import React, { Component, useState ,useEffect} from 'react';
 import { Modal,Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity, ScrollView } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from '../Style/styleHome'
 
 
@@ -11,12 +11,12 @@ const RDV2 =({route,navigation})=>{
     const{prenom,nom}= route.params;
     const [data, setData] = useState([]);
     const [date, setDate] = useState(new Date());
+    const [dateFormate2,setDateFormate2]=useState( route.params.date)
     const [open, setOpen] = useState(false);
-    const[motif,setMotif]=useState('');
-    const[praticien,setPraticien]=useState('');
-    const[metierPraticien,setMetierPraticien]=useState('');
-    const[adress,setAdress]=useState('');
-    const[commentaire,setCommentaire]=useState('');
+    const[praticien,setPraticien]=useState(route.params.namePractitioner);
+    const[metierPraticien,setMetierPraticien]=useState(route.params.typePractitioner);
+    const[adress,setAdress]=useState(route.params.location);
+    const[commentaire,setCommentaire]=useState(route.params.commentaire);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isHourPickerVisible, setHourPickerVisibility] = useState(false);
     const showDatePicker = () => {
@@ -33,30 +33,32 @@ const RDV2 =({route,navigation})=>{
     };
     const handleConfirm = (date) => {
       setDate(date);
+      var dd = date.getDate();
+      var mm = date.getMonth() + 1; //January is 0!
+      var yyyy = date.getFullYear();
+      var hh=date.getHours();
+      var min=date.getMinutes();
+    
+      if (dd < 10) {
+          dd = '0' + dd;
+      }
+      if (mm < 10) {
+          mm = '0' + mm;
+      }
+      if(hh<10){
+        hh='0'+hh;
+      }
+      if(min<10){
+        min='0'+min;
+      }
+      const dateFormate =  yyyy + "-" + mm + "-" + dd+'T'+hh+':'+min+':00';
+      setDateFormate2( dd+"/"+mm+"/"+yyyy+' à ' + hh+":"+min);
       hideDatePicker();
     };
 
-    var dd = date.getDate();
-    var mm = date.getMonth() + 1; //January is 0!
-    var yyyy = date.getFullYear();
-    var hh=date.getHours();
-    var min=date.getMinutes();
     
-    if (dd < 10) {
-        dd = '0' + dd;
-    }
-    if (mm < 10) {
-        mm = '0' + mm;
-    }
-    if(hh<10){
-      hh='0'+hh;
-    }
-    if(min<10){
-      min='0'+min;
-    }
-    const dateFormate =  yyyy + "-" + mm + "-" + dd+'T'+hh+':'+min+':00';
-    const dateFormate2= dd+"/"+mm+"/"+yyyy+' à ' + hh+":"+min;
-    
+
+
     const createRDV= () => {
       console.log('create RDV')
       const params = {
@@ -82,7 +84,7 @@ const RDV2 =({route,navigation})=>{
     
 
   useEffect(() => {
-    console.log(dateFormate)
+    
    
     
   });
@@ -102,7 +104,7 @@ const RDV2 =({route,navigation})=>{
 
             <View style={style.inputView}>
             
-            <TouchableOpacity style={style.DateInput} on onPress={showDatePicker} >
+            <TouchableOpacity style={style.DateInput}  onPress={showDatePicker}  >
                     <Text>
                        {dateFormate2}
                     </Text>
@@ -131,7 +133,9 @@ const RDV2 =({route,navigation})=>{
                 placeholderTextColor="#003f5c"
                 onChangeText={(praticien) => setPraticien(praticien)}
                 
-            />
+            >
+              {praticien}
+              </TextInput>
             </View>
             <View style={style.inputView}>
             
@@ -142,7 +146,9 @@ const RDV2 =({route,navigation})=>{
                 placeholderTextColor="#003f5c"
                 onChangeText={(metierPraticien) => setMetierPraticien(metierPraticien)}
                 
-            />
+            >
+            {metierPraticien}
+              </TextInput>
             </View>
             <View style={style.inputView}>
             
@@ -153,7 +159,9 @@ const RDV2 =({route,navigation})=>{
                 placeholderTextColor="#003f5c"
                 onChangeText={(adress) => setAdress(adress)}
                 
-            />
+            >
+              {adress}
+              </TextInput>
             </View>
 
             
@@ -168,7 +176,9 @@ const RDV2 =({route,navigation})=>{
                 placeholderTextColor="#003f5c"
                 onChangeText={(commentaire) => setCommentaire(commentaire)}
                 
-            />
+            >
+            {commentaire}
+              </TextInput>
 
             </ScrollView>
 
