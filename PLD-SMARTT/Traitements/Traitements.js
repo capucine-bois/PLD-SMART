@@ -2,8 +2,6 @@ import React, { Component, useState,useEffect } from 'react';
 import { FlatList,Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity, ScrollView } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import styles from '../Style/styleHome'
-
 const Bouton = (props) =>{
     return (
       <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
@@ -71,7 +69,7 @@ const Traitements =({route,navigation})=>{
                     </View>
                     <View style = {styles.titre}>
                         <Text style={styles.text}>
-                            Traitements
+                            
                         </Text>
                     </View>
                     <ScrollView style={{height:"63%"}}>
@@ -98,7 +96,45 @@ const Traitements =({route,navigation})=>{
 
 export default Traitements;
 
-const style = StyleSheet.create({
+
+const styles = StyleSheet.create({
+    allergie:{
+        borderRadius: 10,
+        backgroundColor: "#ffffff",
+        borderWidth : 3,
+        width:"80%",
+        alignSelf:"center",
+        borderColor: "#2DB142",
+        margin:"2%",
+        },
+    titre:{
+        backgroundColor: "#2DB142",
+        borderRadius: 10,
+        paddingHorizontal : "25%",
+        paddingVertical: "3%",
+        alignSelf:"center",
+        margin:"5%",
+    },
+    nouvelleAllergieBtn: {
+        width: "80%",
+        flexDirection:"row",
+        borderRadius: 25,
+        height: "50%",
+        alignItems: "center",
+        alignSelf:"center",
+        justifyContent: "space-evenly",
+        backgroundColor: "#2DB142",
+        marginTop:"6%"
+    },
+    text: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: "#fff",
+        alignSelf:"center"
+    },
+    iconDossier: {
+        marginRight:"5%"
+    },
     headerBtn: {
         width: "100%",
         height: "11%",
@@ -106,59 +142,24 @@ const style = StyleSheet.create({
         flexDirection:"row",
         alignItems:"flex-end",
         paddingBottom:20,
-        backgroundColor: "#2db142",
-        marginBottom:30
+        backgroundColor: "#2DB142"
 
-      },
-      container: {
-        display:"flex",
-        flexDirection: 'column',
-        backgroundColor: '#fff',
-        alignItems: 'center'
-      },
-      nouvelleNoteBtn: {
-        width: "80%",
-        display:"flex",
-      flexDirection:"row",
-        borderRadius: 25,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 50,
-        backgroundColor: "#2db142",
-        marginBottom: 160,
-      },
-      text: {
-        fontSize: 30,
-        flex: 1,
-        textAlign: 'center',
+    },
+    container: {
+        backgroundColor: '#ffffff'
+    },
+    text2: {
+        fontSize: 20,
+        textAlign:"center",
         fontWeight: 'bold',
         color: "#fff",
+        flex: 1
+    },
+    text3: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: "#2DB142",
+        textAlign:"center"
+    },
 
-
-      },
-      TextInput: {
-        height: 50,
-        flex: 1,
-        padding: 10,
-        marginLeft: 20,
-        color: "#000000",
-      },
-      inputView: {
-        flexDirection: 'row',
-        backgroundColor: "#9C9C9C",
-        borderRadius: 30,
-        width: "80%",
-        height: 70,
-        marginBottom: '10%',
-
-        alignItems: "center",
-      },
-
-      item: {
-        padding: 10,
-        fontSize: 18,
-        height: 44,
-      },
-
-});
+})
