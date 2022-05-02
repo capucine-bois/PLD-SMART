@@ -12,6 +12,11 @@ import RDV2 from './RDV/RDV2'
 import Traitements from './Traitements/Traitements'
 import DosMedAllergies from './DossierMedical/dosMedAllergies'
 import DosMedAllergiesAj from './DossierMedical/dosMedAllergiesAj'
+import DosMedIndicateurs from './DossierMedical/dosMedIndicateurs'
+import DosMedIndicateursAj from './DossierMedical/dosMedIndicateursAj'
+import DosMedPathologies from './DossierMedical/dosMedPathologies'
+
+
 import React, {useEffect} from "react"
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -44,7 +49,6 @@ export default function App() {
           )
         }
 
-
         <Stack.Screen initialParams={{'url':urlBack}} name="Accueil" component={Home}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="BlocNotes" component={Notes}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="BlocNotes2" component={Notes2}   />
@@ -54,6 +58,9 @@ export default function App() {
         <Stack.Screen initialParams={{'url':urlBack}} name="Traitements" component={Traitements}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAllergies" component={DosMedAllergies}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAllergiesAj" component={DosMedAllergiesAj}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="DosMedIndicateurs" component={DosMedIndicateurs}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="DosMedIndicateursAj" component={DosMedIndicateursAj}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="DosMedPathologies" component={DosMedPathologies}   />
 
       </Stack.Navigator>
 

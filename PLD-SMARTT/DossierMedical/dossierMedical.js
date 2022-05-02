@@ -54,7 +54,7 @@ function DossierMedical({navigation}) {
                     text="Allergies" />
             <Text style={styles.textContenuEtiquette}>Rhume des foins</Text>
             <Text style={styles.textContenuEtiquette}>Acariens</Text>
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedPathologies')}
                     text="Pathologies" />
             <Text style={styles.textContenuEtiquette}>Hypertension artérielle</Text>
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
@@ -67,7 +67,7 @@ function DossierMedical({navigation}) {
                     <Text style={styles.textContenuEtiquette}>Prothèses auditives</Text>
                     <Text style={styles.textContenuEtiquette}>Lunettes</Text>
                 </View>
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedIndicateurs')}
                     text="Indicateurs" />
         </ScrollView>
     </View>)
