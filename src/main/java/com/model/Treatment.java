@@ -49,6 +49,8 @@ public class Treatment {
         this.treatmentId=id;
     }
 
+    public void setUser(User user) {this.user = user;}
+
     public String getName() {
         return name;
     }
