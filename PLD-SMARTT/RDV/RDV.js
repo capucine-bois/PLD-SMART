@@ -23,7 +23,7 @@ const RDV =({route,navigation})=>{
     const [data, setData] = useState([]);
 
     
-
+    
 
     const getListRDV = () => {
       const params = {
@@ -46,32 +46,21 @@ const RDV =({route,navigation})=>{
      });
     };
 
-    const deleteRDV= () => {
-      console.log('create RDV')
+    const deleteRDV= (idRDV) => {
+      getListRDV();
       const params = {
-          method: 'PUT',
+          method: 'DELETE',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-              "date": dateFormate ,
-              "namePractitioner": praticien,
-              "typePractitioner": metierPraticien,
-              "location": adress,
-              "remark":commentaire,
-          })
+          
       }
-    fetch('http://172.20.10.2:8080/rendezvous/76',params)
+    fetch('http://172.20.10.2:8080/rendezvous/'+idRDV,params)
         .then(response => response.json());
     };
       
     
 
     useEffect(() => {
-      
-      
       getListRDV()
-      
-      console.log(data)
-      
       }, []);
 
       const renderItem = ({ item }) => {
@@ -85,6 +74,7 @@ const RDV =({route,navigation})=>{
         const jour = date.slice(8,10)
         const heure = date.slice(11,13)
         const min = date.slice(14,16)
+        const idRDV = item.id;
        
         const dateFormate = jour +'/'+ mois+'/' + année +' à '+heure+':'+min ;
         
@@ -98,10 +88,11 @@ const RDV =({route,navigation})=>{
             namePractitioner: namePractitioner,
             typePractitioner: typePractitioner,
             commentaire: commentaire,
+            idRDV:idRDV,
 
-            })}>
+            })} onLongPress={() => deleteRDV(idRDV)}>
            <Text style={styles.text2}>
-           RDV le {item.date} à {location.trim()}  Médecin {namePractitioner.trim()} {typePractitioner.trim()} commentaire {commentaire.trim()}
+           RDV le {dateFormate} à {location.trim()}  Médecin {namePractitioner.trim()} {typePractitioner.trim()} commentaire {commentaire.trim()}
             </Text>
             <MaterialCommunityIcons style={styles.iconDossier}  name='calendar' color="#fff" size={30}/>
            </TouchableOpacity>
@@ -137,6 +128,7 @@ const RDV =({route,navigation})=>{
             prenom: prenom,
             nom: nom,
             date: "Entrer la date et l'heure",
+            idRDV:-1,
             })} text="Nouveau RDV" icone="plus" styleIcone ={styles.iconDossier}/>
 
         </View>

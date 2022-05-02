@@ -9,8 +9,10 @@ import styles from '../Style/styleHome'
 
 const RDV2 =({route,navigation})=>{
     const{prenom,nom}= route.params;
+    const idRDV = route.params.idRDV;
     const [data, setData] = useState([]);
     const [date, setDate] = useState(new Date());
+    const [dateFormate,setDateFormate]=useState('')
     const [dateFormate2,setDateFormate2]=useState( route.params.date)
     const [open, setOpen] = useState(false);
     const[praticien,setPraticien]=useState(route.params.namePractitioner);
@@ -51,20 +53,45 @@ const RDV2 =({route,navigation})=>{
       if(min<10){
         min='0'+min;
       }
-      const dateFormate =  yyyy + "-" + mm + "-" + dd+'T'+hh+':'+min+':00';
+      setDateFormate(  yyyy + "-" + mm + "-" + dd+'T'+hh+':'+min+':00');
       setDateFormate2( dd+"/"+mm+"/"+yyyy+' à ' + hh+":"+min);
       hideDatePicker();
     };
 
     
-
-
-    const createRDV= () => {
-      console.log('create RDV')
+    const modifyRDV= () => {
+      console.log('modify RDV')
+      console.log(idRDV)
       const params = {
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
+             "id":idRDV,
+              "date": dateFormate ,
+              "namePractitioner": praticien,
+              "typePractitioner": metierPraticien,
+              "location": adress,
+              "remark":commentaire,
+          })
+      }
+
+      AsyncStorage.getItem('token')
+      .then((token) => {  
+
+          fetch('http://172.20.10.2:8080/rendezvous/'+token,params)
+              .then(response => response.json());
+            });
+          
+            };
+
+    const createRDV= () => {
+      console.log('create RDV')
+      console.log(idRDV)
+      const params = {
+          method: 'PUT',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            "id":idRDV,
               "date": dateFormate ,
               "namePractitioner": praticien,
               "typePractitioner": metierPraticien,
@@ -185,7 +212,7 @@ const RDV2 =({route,navigation})=>{
              <View style={style.BtnView}>
 
              
-                <TouchableOpacity style={style.AjouterBtn} onPress={() => { createRDV(),navigation.navigate('Accueil', {
+                <TouchableOpacity style={style.AjouterBtn} onPress={() => { createRDV(),navigation.navigate('RDV', {
              prenom: prenom,
              nom: nom,
              }) }} >
