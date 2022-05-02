@@ -47,15 +47,16 @@ const Notes =({route,navigation}) => {
 
     return(
         <View style={style.container}>
-        
+
             <TouchableOpacity style={style.headerBtn} onPress={() =>  navigation.navigate('Accueil', {
              prenom: prenom,
              nom: nom,
              })}>
-            <Text style={styles.text2}>
-            Bloc Notes de {prenom} {nom}
-             </Text>
-             <MaterialCommunityIcons style={styles.iconDossier}  name='home' color="#fff" size={30}/>
+                <Text style={styles.text2}>
+                    Bloc Notes de {prenom} {nom}
+                </Text>
+
+                <MaterialCommunityIcons style={styles.iconDossier}  name='home' color="#fff" size={30}/>
             </TouchableOpacity>
 
             <View style={style.inputView}>
@@ -68,25 +69,31 @@ const Notes =({route,navigation}) => {
                 onChange={console.log(recherche)}
                 />
                 <MaterialCommunityIcons style={styles.iconDossier}  name='magnify' color="#fff" size={45}/>
+            </View>
+
+
+            <View style={{width:'100%',height:'90%'}}>
+                <FlatList style={style.flatSummary}
+                          data={notes}
+                          renderItem={({item}) =>
+                              <NoteSummary navigation={navigation} note={item.note} id={item.id} title={item.title} author={item.author} date={item.date}></NoteSummary>
+                          }
+                />
+
+                <Bouton styleButton={style.nouvelleNoteBtn} styleText={style.text} onPress={() =>  navigation.navigate('BlocNotes2', {
+                    prenom: prenom,
+                    nom: nom,
+                    "id":"-1",
+                    "author":"",
+                    "title":"",
+                    "note":"",
+                })} text="Nouvelle notes" icone="plus" styleIcone ={styles.iconDossier}/>
+
 
             </View>
-            <FlatList style={style.flatSummary}
-                data={notes}
-                renderItem={({item}) =>
-                    <NoteSummary navigation={navigation} note={item.note} id={item.id} title={item.title} author={item.author} date={item.date}></NoteSummary>
-                }
-            />
 
 
-        
-        <Bouton styleButton={style.nouvelleNoteBtn} styleText={style.text} onPress={() =>  navigation.navigate('BlocNotes2', {
-            prenom: prenom,
-            nom: nom,
-            "id":"-1",
-            "author":"",
-            "title":"",
-            "note":"",
-            })} text="Nouvelle notes" icone="plus" styleIcone ={styles.iconDossier}/>
+
 
         </View>
 
@@ -101,7 +108,7 @@ export default Notes;
 const style = StyleSheet.create({
     headerBtn: {
         width: "100%",
-        height: "11%",
+        height: 75,
         display:"flex",
         flexDirection:"row",
         alignItems:"flex-end",
@@ -110,10 +117,11 @@ const style = StyleSheet.create({
         marginBottom:30,
 
       },
-    flatSummary:{
-        width:"100%",
+        flatSummary:{
+            width:"100%",
+            height:"80%",
 
-    },
+        },
       container: {
         display:"flex",
         flexDirection: 'column',
@@ -123,7 +131,7 @@ const style = StyleSheet.create({
       nouvelleNoteBtn: {
         width: "80%",
         display:"flex",
-      flexDirection:"row",
+        flexDirection:"row",
         borderRadius: 25,
         height: 50,
         alignItems: "center",
@@ -149,13 +157,12 @@ const style = StyleSheet.create({
         color: "#000000",
       },
       inputView: {
-          flexDirection: 'row',
+        flexDirection: 'row',
         backgroundColor: "#9C9C9C",
         borderRadius: 30,
         width: "80%",
         height: 70,
-        marginBottom: 150,
-        
+        marginBottom: 20,
         alignItems: "center",
       },
 

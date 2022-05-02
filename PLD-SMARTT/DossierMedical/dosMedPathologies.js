@@ -14,17 +14,16 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {StatusBar} from "expo-status-bar";
 
 function PopUp(props) {
-    console.log((props.modalVisibility))
+
     return (
         <View style={styles.centeredView}>
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={props.modalVisibility}
-                onRequestClose={() => {
-                    props.setter();
-                }}
-            >
+                >
+
+
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={styles.textModal}>Supprimer ?</Text>
@@ -38,7 +37,9 @@ function PopUp(props) {
                             </Pressable>
                             <Pressable
                                 style={[styles.btnNon]}
-                                onPress={() => props.setter()}
+                                onPress={() => {
+                                    props.setter();
+                                }}
                             >
                                 <Text style={styles.text}>Non</Text>
                             </Pressable>
@@ -67,13 +68,16 @@ function DosMedPathologies({navigation}) {
     const nom = "Dupont".toUpperCase()
     const [modalVisible, setModalVisible] = useState(false);
 
+    const toggleModalVisible = () => {
+        setModalVisible(false);
+    }
     return(
         <View style={styles.container}>
             <View style={styles.headerBtn}>
                 <Text style={styles.text2}>
                     Dossier Médical
                 </Text>
-                <PopUp/>
+                <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
                 <TouchableOpacity>
                     <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
                         prenom: prenom,
@@ -89,7 +93,7 @@ function DosMedPathologies({navigation}) {
             <ScrollView style={{height:"63%"}}>
                 <StatusBar style="auto" />
                 {pathologies.map((element,index) => (
-                    <TouchableHighlight key={`${element}-${index}`} style={styles.pathologie} onLongPress={() => setModalVisible(true)} setter={setModalVisible(!modalVisible)} modalVisibility = {modalVisible} underlayColor="white">
+                    <TouchableHighlight key={`${element}-${index}`} style={styles.pathologie} onLongPress={() => setModalVisible(true)} underlayColor="white">
                         <Text style={styles.text3}>
                             {element}
                         </Text>
