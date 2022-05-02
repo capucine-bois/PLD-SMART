@@ -4,7 +4,6 @@ import com.model.Note;
 import com.model.User;
 import com.repository.NoteRepository;
 import com.repository.UserRepository;
-import com.util.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,7 @@ import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class NoteController {
@@ -37,7 +37,10 @@ public class NoteController {
         User user = userRepository.findByToken(token)
                 .orElseThrow(() -> new UserNotFoundException(token));
 
-        note.setDate(new Date());
+        if(note.getId() == -1) {
+            note.setDate(new Date());
+        }
+
         note.setUser(user);
         noteRepository.save(note);
 
@@ -45,14 +48,10 @@ public class NoteController {
 
     }
 
-
-    @GetMapping("/notes/id/{id}")
-    @ResponseBody
-    public ResponseEntity<Note> getNote(@PathVariable(value = "id") Long idNote){
-
-        Note note = noteRepository.findById(idNote)
-                .orElseThrow(() -> new NoteNotFoundException(idNote));
-        return new ResponseEntity<Note>(note, HttpStatus.OK);
+    @DeleteMapping("/notes/id/{id}")
+    @Transactional
+    public void deleteNote(@PathVariable(value="id") Long idNote){
+        noteRepository.deleteById(idNote);
     }
 
     @GetMapping("/notes/user/{token}")
