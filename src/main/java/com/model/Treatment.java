@@ -6,8 +6,8 @@ import com.model.User;
 import javax.persistence.*;
 import java.util.Date;
 
-//@Entity
-//@Table(name="treatment")
+@Entity
+@Table(name="treatment")
 public class Treatment {
 
     @Id
@@ -30,7 +30,7 @@ public class Treatment {
     private String category;
 
     @ManyToOne
-    @Column(name="id_user",nullable=false)
+    //@Column(name="id_user",nullable=false)
     private User user;
 
     public Treatment(String name, Date start_date, Date end_date, String category, User user){
@@ -41,6 +41,10 @@ public class Treatment {
         this.user = user;
     }
 
+    public Treatment() {
+
+    }
+
     public long getID() {
         return treatmentId;
     }
@@ -48,6 +52,8 @@ public class Treatment {
     public void setId(long id){
         this.treatmentId=id;
     }
+
+    public void setUser(User user) {this.user = user;}
 
     public String getName() {
         return name;
