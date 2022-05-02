@@ -26,7 +26,6 @@ public class AllergyController {
 
     private UserRepository userRepository;
     private MedicalFileRepository medicalFileRepository;
-
     private AllergyRepository allergyRepository;
 
     @Autowired
@@ -38,7 +37,7 @@ public class AllergyController {
 
     @GetMapping("/allergy/user/{usertoken}")
     @ResponseBody
-    public ResponseEntity<List<Allergy>> getAllergiesByMFID(@PathVariable(value = "usertoken") String usertoken){
+    public ResponseEntity<List<Allergy>> getAllergiesByUser(@PathVariable(value = "usertoken") String usertoken){
 
         User user = userRepository.findByToken(usertoken)
                 .orElseThrow(() -> new UserNotFoundException(usertoken));
@@ -85,6 +84,7 @@ public class AllergyController {
         allergyToModify.setDescription(modifiedAllergy.getDescription());
         allergyToModify.setType(modifiedAllergy.getType());
         allergyToModify.setName(modifiedAllergy.getName());
+        allergyRepository.save(allergyToModify);
         return new ResponseEntity<Allergy>(allergyToModify, HttpStatus.OK);
     }
 }

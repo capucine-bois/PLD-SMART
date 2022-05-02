@@ -32,6 +32,10 @@ public class MedicalFile {
     @JsonManagedReference
     private List<Allergy> allergies;
 
+    @OneToMany(mappedBy = "medicalFile")
+    @JsonManagedReference
+    private List<Treatment> treatments;
+
 
     public MedicalFile() {
     }
@@ -40,6 +44,14 @@ public class MedicalFile {
         this.height = height;
         this.weight = weight;
         this.user = user;
+    }
+
+    public List<Treatment> getTreatments() {
+        return treatments;
+    }
+
+    public void setTreatments(List<Treatment> treatments) {
+        this.treatments = treatments;
     }
 
     public MedicalFile(User user) {

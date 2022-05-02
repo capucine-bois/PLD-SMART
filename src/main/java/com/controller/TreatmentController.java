@@ -2,6 +2,7 @@ package com.controller;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.model.*;
+import com.repository.MedicalFileRepository;
 import com.repository.TreatmentRepository;
 import com.util.TokenGenerator;
 import org.slf4j.Logger;
@@ -25,33 +26,42 @@ public class TreatmentController {
 
     private TreatmentRepository treatmentRepository;
     private UserRepository userRepository;
+    private MedicalFileRepository medicalFileRepository;
 
     @Autowired
-    TreatmentController(final TreatmentRepository treatmentRepository, final UserRepository userRepository) {
+    TreatmentController(final TreatmentRepository treatmentRepository, final MedicalFileRepository medicalFileRepository, final UserRepository userRepository) {
         this.treatmentRepository = treatmentRepository;
         this.userRepository = userRepository;
+        this.medicalFileRepository = medicalFileRepository;
     }
 
-    @GetMapping("/treatment/user/{userid}")
+    @GetMapping("/treatment/user/{usertoken}")
     @ResponseBody
-    public ResponseEntity<List<Treatment>> getTreatmentByUser(@PathVariable(value = "userid") Long userid){
+    public ResponseEntity<List<Treatment>> getTreatmentByUser(@PathVariable(value = "usertoken") String usertoken){
 
-        User user = userRepository.findById(userid)
-                .orElseThrow(() -> new UserNotFoundException(Long.toString(userid)));
+        User user = userRepository.findByToken(usertoken)
+                .orElseThrow(() -> new UserNotFoundException(usertoken));
 
-        List<Treatment> listTreatment = treatmentRepository.findByUser(user)
-                .orElseThrow(() -> new TreatmentNotFoundException(user));
+        MedicalFile medicalFile = medicalFileRepository.findByUser(user)
+                .orElseThrow(() -> new MedicalFileNotFoundException(user));
+
+        List<Treatment> listTreatment = treatmentRepository.findByMedicalFile(medicalFile)
+                .orElseThrow(() -> new TreatmentNotFoundException(medicalFile));
 
         return new ResponseEntity<List<Treatment>>(listTreatment, HttpStatus.OK);
     }
 
-    @PutMapping("/treatment/{userid}")
+    @PutMapping("/treatment/{usertoken}")
     @ResponseBody
     @Transactional
-    public ResponseEntity<Treatment> createTreatment(@RequestBody Treatment treatment,@PathVariable(value = "userid") Long userid){
-        User user = userRepository.findById(userid)
-                .orElseThrow(() -> new UserNotFoundException(Long.toString(userid)));
-        treatment.setUser(user);
+    public ResponseEntity<Treatment> createTreatment(@RequestBody Treatment treatment,@PathVariable(value = "usertoken") String usertoken){
+        User user = userRepository.findByToken(usertoken)
+                .orElseThrow(() -> new UserNotFoundException(usertoken));
+
+        MedicalFile medicalFile = medicalFileRepository.findByUser(user)
+                .orElseThrow(() -> new MedicalFileNotFoundException(user));
+
+        treatment.setMedicalFile(medicalFile);
         treatmentRepository.save(treatment);
         return new ResponseEntity<Treatment>(treatment, HttpStatus.OK);
     }
@@ -60,7 +70,7 @@ public class TreatmentController {
     @ResponseBody
     @Transactional
     public ResponseEntity<Long> deleteTreatmentById (@PathVariable(value = "treatmentid") Long treatmentid) {
-        treatmentRepository.deleteTreatmentByTreatmentId(treatmentid);
+        treatmentRepository.deleteTreatmentById(treatmentid);
         return new ResponseEntity<>(treatmentid, HttpStatus.OK);
     }
 
