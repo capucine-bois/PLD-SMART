@@ -1,4 +1,4 @@
-import React, { Component, useState,useEffect } from 'react';
+import React, { Component, useState } from 'react';
 import { FlatList,Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity, ScrollView } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -20,40 +20,6 @@ const Bouton = (props) =>{
 const RDV =({route,navigation})=>{
     const{prenom,nom}= route.params;
     const[recherche,setRecherche]=useState('');
-    const [data, setData] = useState([]);
-
-    const getListRDV = async() => {
-      const params = {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json'},
-        
-      }
-      const response = await 
-       fetch('http://172.20.10.2:8080/rendezvous/user/76',params);
-       const json = await response.json();
-      
-        setData(json)
-    };
-      
-
-    useEffect(() => {
-      console.log('proute')
-      
-      getListRDV()
-      console.log('data')
-      console.log(data)
-      
-      }, []);
-
-      const renderItem = ({ item }) => {
-        return (
-          <Text >
-            RDV le {item.date} à {item.location} médecin {item.namePractitioner} {item.typePractitioner}
-          </Text>
-        );
-      };
-
-
     return(
         <View style={style.container}>
         
@@ -82,9 +48,19 @@ const RDV =({route,navigation})=>{
             
             <View style={{width:'100%',height:'50%',backgroundColor:"#9e0e40"}}>
             <FlatList
-        data={data}
-        renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
+        data={[
+          {key: 'Devin'},
+          {key: 'Dan'},
+          {key: 'Dominic'},
+          {key: 'Jackson'},
+          {key: 'James'},
+          {key: 'Joel'},
+          {key: 'John'},
+          {key: 'Jillian'},
+          {key: 'Jimmy'},
+          {key: 'Julie'},
+        ]}
+        renderItem={({item}) => <Text style={style.item}>{item.key}</Text>}
         />
              </View>
         
