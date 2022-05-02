@@ -10,6 +10,7 @@ import com.repository.UserRepository;
 
 import com.model.RendezVous;
 import com.repository.RendezVousRepository;
+import java.io.Serializable;
 
 import com.util.TokenGenerator;
 import org.slf4j.Logger;
@@ -19,8 +20,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @RestController
@@ -61,4 +67,27 @@ public class RendezVousController {
         return new ResponseEntity<RendezVous>(rendezvous, HttpStatus.OK);
     }
 
+    @DeleteMapping( "/rendezvous/{rendezvousid}")
+    @ResponseBody
+    @Transactional
+    public ResponseEntity<Long> deleteRendezVousById (@PathVariable(value = "rendezvousid") Long rendezvousid) {
+        rendezVousRepository.deleteRendezVousById(rendezvousid);
+        return new ResponseEntity<>(rendezvousid, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/rendezvous/{rendezvousid}")
+    @ResponseBody
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+    @Transactional
+    public ResponseEntity<RendezVous> modifyRendezVousById (@RequestBody RendezVous modifiedRendezVous,@PathVariable(value = "rendezvousid") Long rendezvousid) {
+        RendezVous rendezVousToModify = rendezVousRepository.getById(rendezvousid);
+        rendezVousToModify.setDate(modifiedRendezVous.getDate());
+        rendezVousToModify.setLocation(modifiedRendezVous.getLocation());
+        rendezVousToModify.setNamePractitioner(modifiedRendezVous.getNamePractitioner());
+        rendezVousToModify.setTypePractitioner(modifiedRendezVous.getTypePractitioner());
+        rendezVousToModify.setRemark(modifiedRendezVous.getRemark());
+        rendezVousRepository.save(rendezVousToModify);
+        return new ResponseEntity<RendezVous>(rendezVousToModify, HttpStatus.OK);
+    }
 }

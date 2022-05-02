@@ -17,4 +17,7 @@ import com.model.RendezVous;
 public interface RendezVousRepository extends JpaRepository<RendezVous,Long> {
     Optional<List<RendezVous>> findByUser(User user);
 
+    Optional<RendezVous> findById(Long id);
+    void deleteRendezVousById(Long id);
+
 }

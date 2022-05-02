@@ -24,7 +24,7 @@ public class RendezVous {
     @Column(name="name_practitioner",length = 50)
     private String namePractitioner;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="date")
     private Date date;
 
