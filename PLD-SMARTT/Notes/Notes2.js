@@ -29,7 +29,7 @@ const Notes2 =({route,navigation})=>{
 
         AsyncStorage.getItem('token')
             .then((token) => {
-                fetch('http://130.232.138.140:8080/notes/user/'+token,params);
+                fetch(props.url+'notes/user/'+token,params);
             });
 
 

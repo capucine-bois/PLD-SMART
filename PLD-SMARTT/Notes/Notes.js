@@ -1,5 +1,5 @@
 import React, {Component, useEffect, useState} from 'react';
-import { Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity } from 'react-native';
+import {Button, StyleSheet, Text, View, TextInput, Image, StatusBar, TouchableOpacity, FlatList} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import NoteSummary from "./NoteSummary";
 import styles from '../Style/styleHome'
@@ -22,7 +22,7 @@ const Notes =({route,navigation}) => {
 
     const{prenom,nom}= route.params;
     const[recherche,setRecherche]=useState('');
-    const[notes,setNotes] = useState({});
+    const[notes,setNotes] = useState([]);
 
     //Get all the notes
     useEffect(() => {
@@ -35,8 +35,8 @@ const Notes =({route,navigation}) => {
 
         AsyncStorage.getItem('token')
             .then((token) => {
-                console.log("oui");
-                fetch('http://130.232.138.140:8080/notes/user/'+token,params)
+                console.log(route.params.url);
+                fetch(route.params.url+'/notes/user/'+token,params)
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
@@ -71,12 +71,13 @@ const Notes =({route,navigation}) => {
                 <MaterialCommunityIcons style={styles.iconDossier}  name='magnify' color="#fff" size={45}/>
 
             </View>
+            <FlatList
+                data={notes}
+                renderItem={({item}) =>
+                    <NoteSummary title={item.title} author={item.author} date={item.date}></NoteSummary>
+                }
+            />
 
-            {
-                notes.map(note => {
-                    <NoteSummary title={note.title} author={note.author} date={note.date}></NoteSummary>
-                })
-            }
 
         
         <Bouton styleButton={style.nouvelleNoteBtn} styleText={style.text} onPress={() =>  navigation.navigate('BlocNotes2', {
