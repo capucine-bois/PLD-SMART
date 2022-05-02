@@ -25,7 +25,7 @@ const Log2 = ({route,navigation}) => {
                 "surname": nom,
             })
         }
-        fetch('http://130.232.138.140:8080/user/',params)
+        fetch(props.url+"/user/",params)
             .then(response => response.json())
             .then(data => {
                 AsyncStorage.setItem('token', data.token);

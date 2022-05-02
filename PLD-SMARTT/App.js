@@ -18,6 +18,7 @@ import {createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
+const urlBack = "http://";
 
 export default function App() {
 
@@ -35,8 +36,8 @@ export default function App() {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {token == null ? (
           <>
-            <Stack.Screen name="Bonjour" component={Log}  />
-            <Stack.Screen name="Bonjour2" component={Log2}   />
+            <Stack.Screen url={urlBack} name="Bonjour" component={Log}  />
+            <Stack.Screen url={urlBack} name="Bonjour2" component={Log2}   />
           </>
           ):(
               null
@@ -44,14 +45,14 @@ export default function App() {
         }
 
 
-        <Stack.Screen name="Accueil" component={Home}   />
-        <Stack.Screen name="BlocNotes" component={Notes}   />
-        <Stack.Screen name="BlocNotes2" component={Notes2}   />
-        <Stack.Screen name="DossierMedical" component={DossierMedical}   />
-        <Stack.Screen name="RDV" component={RDV}   />
-        <Stack.Screen name="RDV2" component={RDV2}   />
-        <Stack.Screen name="DosMedAllergies" component={DosMedAllergies}   />
-        <Stack.Screen name="DosMedAllergiesAj" component={DosMedAllergiesAj}   />
+        <Stack.Screen url={urlBack} name="Accueil" component={Home}   />
+        <Stack.Screen url={urlBack} name="BlocNotes" component={Notes}   />
+        <Stack.Screen url={urlBack} name="BlocNotes2" component={Notes2}   />
+        <Stack.Screen url={urlBack} name="DossierMedical" component={DossierMedical}   />
+        <Stack.Screen url={urlBack} name="RDV" component={RDV}   />
+        <Stack.Screen url={urlBack} name="RDV2" component={RDV2}   />
+        <Stack.Screen url={urlBack} name="DosMedAllergies" component={DosMedAllergies}   />
+        <Stack.Screen url={urlBack} name="DosMedAllergiesAj" component={DosMedAllergiesAj}   />
 
       </Stack.Navigator>
 
