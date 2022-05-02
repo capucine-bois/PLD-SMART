@@ -2,11 +2,13 @@ package com.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.model.User;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
 @Table(name="rendezVous")
 public class RendezVous {
@@ -113,6 +115,7 @@ public class RendezVous {
     public void setUser(User user) {
         this.user = user;
     }
+
 
     public long getId() {
         return id;

@@ -43,12 +43,12 @@ public class RendezVousController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/rendezvous/user/{userid}")
+    @GetMapping("/rendezvous/user/{usertoken}")
     @ResponseBody
-    public ResponseEntity<List<RendezVous>> getRendezVousByUser(@PathVariable(value = "userid") Long userid){
+    public ResponseEntity<List<RendezVous>> getRendezVousByUser(@PathVariable(value = "usertoken") String usertoken){
 
-        User user = userRepository.findById(userid)
-                .orElseThrow(() -> new UserNotFoundException(Long.toString(userid)));
+        User user = userRepository.findByToken(usertoken)
+                .orElseThrow(() -> new UserNotFoundException(usertoken));
 
         List<RendezVous> listRendezVous = rendezVousRepository.findByUser(user)
                 .orElseThrow(() -> new RendezVousNotFoundException(user));
@@ -56,12 +56,12 @@ public class RendezVousController {
         return new ResponseEntity<List<RendezVous>>(listRendezVous, HttpStatus.OK);
     }
 
-    @PutMapping("/rendezvous/{userid}")
+    @PutMapping("/rendezvous/{usertoken}")
     @ResponseBody
     @Transactional
-    public ResponseEntity<RendezVous> createRendezVous(@RequestBody RendezVous rendezvous,@PathVariable(value = "userid") Long userid){
-        User user = userRepository.findById(userid)
-                .orElseThrow(() -> new UserNotFoundException(Long.toString(userid)));
+    public ResponseEntity<RendezVous> createRendezVous(@RequestBody RendezVous rendezvous,@PathVariable(value = "usertoken") String usertoken){
+        User user = userRepository.findByToken(usertoken)
+                .orElseThrow(() -> new UserNotFoundException(usertoken));
         rendezvous.setUser(user);
         rendezVousRepository.save(rendezvous);
         return new ResponseEntity<RendezVous>(rendezvous, HttpStatus.OK);
@@ -78,7 +78,6 @@ public class RendezVousController {
 
     @PostMapping("/rendezvous/{rendezvousid}")
     @ResponseBody
-    @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @Transactional
     public ResponseEntity<RendezVous> modifyRendezVousById (@RequestBody RendezVous modifiedRendezVous,@PathVariable(value = "rendezvousid") Long rendezvousid) {
         RendezVous rendezVousToModify = rendezVousRepository.getById(rendezvousid);
