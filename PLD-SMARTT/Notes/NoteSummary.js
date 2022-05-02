@@ -1,8 +1,11 @@
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, View, Pressable} from "react-native";
 
 const NoteSummary = (props) => {
+    const changeNote = () =>{
+
+    }
     return(
-        <View style={noteSummaryStyle.container}>
+        <Pressable style={noteSummaryStyle.container} onPress={() =>  props.navigation.navigate('BlocNotes2', {"title":props.title, "author":props.author, "note":props.note,"id":props.id})}>
             <Text style={noteSummaryStyle.title}>
                 {props.title}
             </Text>
@@ -13,7 +16,7 @@ const NoteSummary = (props) => {
                 <Text style={noteSummaryStyle.text}> {props.date}</Text>
             </View>
 
-        </View>
+        </Pressable>
     );
 
 
@@ -24,8 +27,10 @@ export default NoteSummary;
 const noteSummaryStyle = StyleSheet.create({
     container: {
         backgroundColor:"#F4A126",
-        width:"80%",
         height:90,
+        width:"80%",
+        marginLeft:"auto",
+        marginRight:"auto",
         marginBottom:25,
         borderRadius:10,
     },
@@ -45,8 +50,6 @@ const noteSummaryStyle = StyleSheet.create({
         marginTop:"auto",
         marginBottom:10,
         width:"70%",
-        marginLeft:"auto",
-        marginRight:"auto",
         display:"flex",
         flexDirection:"row",
         justifyContent:"space-between",
@@ -55,9 +58,9 @@ const noteSummaryStyle = StyleSheet.create({
     line:{
         width:"90%",
         backgroundColor:"white",
-        height:5,
         marginLeft:"auto",
         marginRight:"auto",
+        height:5,
         borderRadius:5
     }
 });
