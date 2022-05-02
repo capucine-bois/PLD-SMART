@@ -20,7 +20,6 @@ const Bouton = (props) =>{
 
 const Notes =({route,navigation}) => {
 
-    const{prenom,nom}= route.params;
     const[recherche,setRecherche]=useState('');
     const[notes,setNotes] = useState([]);
 
@@ -38,7 +37,11 @@ const Notes =({route,navigation}) => {
                 fetch(route.params.url+'/notes/user/'+token,params)
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data);
+                        for(let i in data){
+                            data[i].author = data[i].author.trim();
+                            data[i].title = data[i].title.trim();
+                            data[i].note = data[i].note.trim();
+                        }
                         setNotes(data);
                     });
             });
@@ -48,12 +51,9 @@ const Notes =({route,navigation}) => {
     return(
         <View style={style.container}>
 
-            <TouchableOpacity style={style.headerBtn} onPress={() =>  navigation.navigate('Accueil', {
-             prenom: prenom,
-             nom: nom,
-             })}>
+            <TouchableOpacity style={style.headerBtn} onPress={() =>  navigation.navigate('Accueil')}>
                 <Text style={styles.text2}>
-                    Bloc Notes de {prenom} {nom}
+                    Mon Bloc Notes
                 </Text>
 
                 <MaterialCommunityIcons style={styles.iconDossier}  name='home' color="#fff" size={30}/>
@@ -71,28 +71,27 @@ const Notes =({route,navigation}) => {
                 <MaterialCommunityIcons style={styles.iconDossier}  name='magnify' color="#fff" size={45}/>
             </View>
 
-
-            <View style={{width:'100%',height:'90%'}}>
-                <FlatList style={style.flatSummary}
-                          data={notes}
-                          renderItem={({item}) =>
-                              <NoteSummary navigation={navigation} note={item.note} id={item.id} title={item.title} author={item.author} date={item.date}></NoteSummary>
-                          }
+            <View style={{height:"60%",width:"100%"}}>
+                <FlatList
+                    style={style.flatSummary}
+                    data={notes}
+                    renderItem={({item}) =>
+                        <NoteSummary navigation={navigation} note={item.note} date = {item.date} id={item.id} title={item.title} author={item.author} date={item.date}></NoteSummary>
+                    }
                 />
+            </View>
 
-                <Bouton styleButton={style.nouvelleNoteBtn} styleText={style.text} onPress={() =>  navigation.navigate('BlocNotes2', {
-                    prenom: prenom,
-                    nom: nom,
+
+
+            <View style={style.containerButton}>
+                <Bouton styleButton={style.nouvelleNoteBtn} styleText={style.text} onPress={() =>  navigation.navigate('BlocNotes2',{
                     "id":"-1",
                     "author":"",
                     "title":"",
                     "note":"",
+                    "date":"",
                 })} text="Nouvelle notes" icone="plus" styleIcone ={styles.iconDossier}/>
-
-
             </View>
-
-
 
 
         </View>
@@ -117,28 +116,29 @@ const style = StyleSheet.create({
         marginBottom:30,
 
       },
-        flatSummary:{
-            width:"100%",
-            height:"80%",
-
-        },
+      flatSummary:{
+        width:"100%",
+      },
       container: {
         display:"flex",
         flexDirection: 'column',
         backgroundColor: '#fff',
         alignItems: 'center',
       },
+    containerButton:  {
+        height:100,
+    },
       nouvelleNoteBtn: {
         width: "80%",
         display:"flex",
         flexDirection:"row",
         borderRadius: 25,
-        height: 50,
+          marginBottom:"auto",
+          marginTop:"auto",
+        height:"50%",
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 50,
         backgroundColor: "#ffd700",
-        marginBottom: 160,
       },
       text: {
         fontSize: 30,
