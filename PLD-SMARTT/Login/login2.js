@@ -25,7 +25,7 @@ const Log2 = ({route,navigation}) => {
                 "surname": nom,
             })
         }
-        fetch(props.url+"/user/",params)
+        fetch(route.params.url +"/user/",params)
             .then(response => response.json())
             .then(data => {
                 AsyncStorage.setItem('token', data.token);
