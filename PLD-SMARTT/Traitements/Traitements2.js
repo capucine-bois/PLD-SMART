@@ -67,16 +67,16 @@ const Traitements =({route,navigation})=>{
                             })}/>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style = {styles.titre}>
+                    <View style = {styles.titre}>
                         <Text style={styles.text}>
                             Liste
                         </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style = {styles.titre}>
+                    </View>
+                    <View style = {styles.titre}>
                         <Text style={styles.text}>
-                            Planning
+                            Liste
                         </Text>
-                    </TouchableOpacity>
+                    </View>
                     <ScrollView style={{height:"63%"}}>
                         <StatusBar style="auto" />
                             {Traitements.map((element,index) => (
