@@ -1,132 +1,164 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState,useEffect } from 'react';
+import { FlatList,Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity, ScrollView } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity } from 'react-native';
+import styles from '../Style/styleHome'
+
+const Bouton = (props) =>{
+    return (
+      <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
+        <MaterialCommunityIcons style= {props.styleIcone} name={props.icone} color="#fff" size={45}/>
+        <Text style={props.styleText}>
+          {props.text}
+        </Text>
+      </TouchableOpacity>
+    )
+
+  }
 
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+const Traitements =({route,navigation})=>{
+    const{prenom,nom}= route.params;
+    const[recherche,setRecherche]=useState('');
+    const [data, setData] = useState([]);
+
+    const getListRDV = async() => {
+      const params = {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+
+      }
+      const response = await
+       fetch('http://172.20.10.2:8080/rendezvous/user/76',params);
+       const json = await response.json();
+
+        setData(json)
+    };
 
 
+    useEffect(() => {
+      console.log('proute')
 
+      getListRDV()
+      console.log('data')
+      console.log(data)
 
-const Log = ({navigation}) =>{
-    const [prenom, setPrenom] = React.useState('');
-    const [bouton, setBouton] = useState(false);
+      }, []);
+
+      const renderItem = ({ item }) => {
+        return (
+          <Text >
+            RDV le {item.date} à {item.location} médecin {item.namePractitioner} {item.typePractitioner}
+          </Text>
+        );
+      };
+
+    const Traitements =["PrEP","Insuline","Canabis thérapeutique"]
+
 
     return(
-        <View style={styles.container}>
+                <View style={styles.container}>
+                    <View style={styles.headerBtn}>
+                        <Text style={styles.text2}>
+                                Mes Traitements
+                        </Text>
+                        <TouchableOpacity>
+                            <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
+                                prenom: prenom,
+                                nom: nom,
+                            })}/>
+                        </TouchableOpacity>
+                    </View>
+                    <View style = {styles.titre}>
+                        <Text style={styles.text}>
+                            Traitements
+                        </Text>
+                    </View>
+                    <ScrollView style={{height:"63%"}}>
+                        <StatusBar style="auto" />
+                            {Traitements.map((element,index) => (
+                                <TouchableOpacity key={`${element}-${index}`} style={styles.allergie} onPress={() =>  navigation.navigate('Traitements', {
+                                })}>
+                                    <Text style={styles.text3}>
+                                        {element}
+                                    </Text>
+                                </TouchableOpacity>
+                            ))}
+                    </ScrollView>
 
-            <StatusBar style="auto" />
-            <Text style={styles.text}>
-                Bienvenue,
-
-            </Text>
-            <Text style={styles.text2}>
-                Entrez Votre Prénom
-            </Text>
-
-            <View style={styles.inputView}>
-                <TextInput
-                    style={styles.TextInput}
-
-                    placeholder="Saisissez votre Prénom"
-                    placeholderTextColor="#003f5c"
-                    onChangeText={(prenom) => setPrenom(prenom)}
-                    onChange={()=>setBouton(true)}
-                />
-            </View>
-
-
-
-
-
-            <TouchableOpacity style={styles.loginBtn}>
-
-                <Button
-                    title="Suivant"
-                    disabled={!bouton}
-                    onPress={() =>
-                        /* 1. Navigate to the Details route with params */
-                        navigation.navigate('Bonjour2', {
-                            prenom: prenom,
-
-                        })
-                    }
-                />
-            </TouchableOpacity>
+                    <View style={{height:"15%"}}>
+                        <Bouton styleButton={styles.nouvelleAllergieBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Traitements', {
+                        })} text="Ajouter un Traitement" icone="plus" styleIcone ={styles.iconDossier}/>
+                    </View>
+                </View>
 
 
-        </View>
     )
 }
 
+export default Traitements;
 
+const style = StyleSheet.create({
+    headerBtn: {
+        width: "100%",
+        height: "11%",
+        display:"flex",
+        flexDirection:"row",
+        alignItems:"flex-end",
+        paddingBottom:20,
+        backgroundColor: "#2db142",
+        marginBottom:30
 
-export default Log;
-
-
-
-
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#0080ff",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: 'column'
-    },
-
-    image: {
-        marginBottom: 40,
-    },
-
-    inputView: {
-        backgroundColor: "#FFFF",
-        borderRadius: 30,
+      },
+      container: {
+        display:"flex",
+        flexDirection: 'column',
+        backgroundColor: '#fff',
+        alignItems: 'center'
+      },
+      nouvelleNoteBtn: {
         width: "80%",
-        height: 70,
-        marginBottom: 150,
-
-        alignItems: "center",
-    },
-
-    TextInput: {
-        height: 50,
-        flex: 1,
-        padding: 10,
-        marginLeft: 20,
-        color: "#000000",
-    },
-
-
-    loginBtn: {
-        width: "80%",
+        display:"flex",
+      flexDirection:"row",
         borderRadius: 25,
         height: 50,
         alignItems: "center",
         justifyContent: "center",
         marginTop: 50,
-        backgroundColor: "#FFFF",
+        backgroundColor: "#2db142",
         marginBottom: 160,
-    },
-    text: {
-        fontSize: 40,
-        flex: 1,
-        textAlign: 'center',
-        fontWeight: 'bold',
-        color: "#fff",
-        marginTop: 100,
-    },
-    text2: {
-        fontSize: 40,
+      },
+      text: {
+        fontSize: 30,
         flex: 1,
         textAlign: 'center',
         fontWeight: 'bold',
         color: "#fff",
 
 
-    },
+      },
+      TextInput: {
+        height: 50,
+        flex: 1,
+        padding: 10,
+        marginLeft: 20,
+        color: "#000000",
+      },
+      inputView: {
+        flexDirection: 'row',
+        backgroundColor: "#9C9C9C",
+        borderRadius: 30,
+        width: "80%",
+        height: 70,
+        marginBottom: '10%',
+
+        alignItems: "center",
+      },
+
+      item: {
+        padding: 10,
+        fontSize: 18,
+        height: 44,
+      },
 
 });
