@@ -90,7 +90,7 @@ const Traitements =({route,navigation})=>{
                     </ScrollView>
 
                     <View style={{height:"15%"}}>
-                        <Bouton styleButton={styles.nouveauTraitementBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Traitements', {
+                        <Bouton styleButton={styles.nouveauTraitementBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Traitements2', {
                         })} text="Ajouter un Traitement" icone="plus" styleIcone ={styles.iconDossier}/>
                     </View>
                 </View>
