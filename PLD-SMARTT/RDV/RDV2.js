@@ -9,7 +9,7 @@ import styles from '../Style/styleHome'
 
 const RDV2 =({route,navigation})=>{
     const{prenom,nom}= route.params;
-   
+    const [data, setData] = useState([]);
   const [date, setDate] = useState(new Date());
   const [hour,setHour]=useState(new Date());
   const [open, setOpen] = useState(false);
@@ -39,29 +39,32 @@ const RDV2 =({route,navigation})=>{
     
     hideDatePicker();
   };
-  const getListRDV = () => {
+  const createRDV= () => {
+    console.log('create RDV')
     const params = {
-      method: 'GET',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          "name": prenom ,
-          "surname": nom,
-      })
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            "date": '2000-01-02' ,
+            "namePractitioner": praticien,
+            "typePractitioner": praticien,
+            "location": adress,
+            
+        })
     }
-    fetch('http://localhost:8080/rendezvous/user/72',params)
+    fetch('http://172.20.10.2:8080/rendezvous/76',params)
         .then(response => response.json())
-          
-        .then((json) => {
-          console.log(json)
-          return json.movies;
-          });
-  };
+        
+        ;
+
+
+};
 
   useEffect(() => {
-    console.log('testAPI RDV')
-    console.log(getListRDV());
+   
+   
     
-  });
+  }, []);
 
     return(
         <View style={style.container}>
@@ -151,7 +154,7 @@ const RDV2 =({route,navigation})=>{
              <View style={style.BtnView}>
 
              
-                <TouchableOpacity style={style.AjouterBtn}  >
+                <TouchableOpacity style={style.AjouterBtn} onPress={() => { createRDV() }} >
                     <Text>
                        Ajouter
                     </Text>
