@@ -9,6 +9,7 @@ import Notes2 from './Notes/Notes2'
 import DossierMedical from './DossierMedical/dossierMedical';
 import RDV from './RDV/RDV'
 import RDV2 from './RDV/RDV2'
+import Traitements from './Traitements/Traitements'
 import DosMedAllergies from './DossierMedical/dosMedAllergies'
 import DosMedAllergiesAj from './DossierMedical/dosMedAllergiesAj'
 import React, {useEffect} from "react"
@@ -18,7 +19,7 @@ import {createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
-const urlBack = "http://10.43.6.30:8080";
+const urlBack = "http://localhost:8080";
 export default function App() {
 
   const [token, setToken] = React.useState(null);
@@ -50,6 +51,7 @@ export default function App() {
         <Stack.Screen initialParams={{'url':urlBack}} name="DossierMedical" component={DossierMedical}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="RDV" component={RDV}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="RDV2" component={RDV2}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="Traitements" component={Traitements}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAllergies" component={DosMedAllergies}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAllergiesAj" component={DosMedAllergiesAj}   />
 
