@@ -2,7 +2,7 @@ import React, { Component, useState ,useEffect} from 'react';
 import { Modal,Button,StyleSheet, Text, View,TextInput,Image,StatusBar,TouchableOpacity, ScrollView } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from '../Style/styleHome'
 
 
@@ -12,11 +12,10 @@ const RDV2 =({route,navigation})=>{
     const [data, setData] = useState([]);
     const [date, setDate] = useState(new Date());
     const [open, setOpen] = useState(false);
-    const[motif,setMotif]=useState('');
-    const[praticien,setPraticien]=useState('');
-    const[metierPraticien,setMetierPraticien]=useState('');
-    const[adress,setAdress]=useState('');
-    const[commentaire,setCommentaire]=useState('');
+    const[praticien,setPraticien]=useState(route.params.namePractitioner);
+    const[metierPraticien,setMetierPraticien]=useState(route.params.typePractitioner);
+    const[adress,setAdress]=useState(route.params.location);
+    const[commentaire,setCommentaire]=useState(route.params.commentaire);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isHourPickerVisible, setHourPickerVisibility] = useState(false);
     const showDatePicker = () => {
@@ -131,7 +130,9 @@ const RDV2 =({route,navigation})=>{
                 placeholderTextColor="#003f5c"
                 onChangeText={(praticien) => setPraticien(praticien)}
                 
-            />
+            >
+              {praticien}
+              </TextInput>
             </View>
             <View style={style.inputView}>
             
@@ -142,7 +143,9 @@ const RDV2 =({route,navigation})=>{
                 placeholderTextColor="#003f5c"
                 onChangeText={(metierPraticien) => setMetierPraticien(metierPraticien)}
                 
-            />
+            >
+            {metierPraticien}
+              </TextInput>
             </View>
             <View style={style.inputView}>
             
@@ -153,7 +156,9 @@ const RDV2 =({route,navigation})=>{
                 placeholderTextColor="#003f5c"
                 onChangeText={(adress) => setAdress(adress)}
                 
-            />
+            >
+              {adress}
+              </TextInput>
             </View>
 
             
@@ -168,7 +173,9 @@ const RDV2 =({route,navigation})=>{
                 placeholderTextColor="#003f5c"
                 onChangeText={(commentaire) => setCommentaire(commentaire)}
                 
-            />
+            >
+            {commentaire}
+              </TextInput>
 
             </ScrollView>
 

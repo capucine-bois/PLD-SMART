@@ -81,9 +81,15 @@ const RDV =({route,navigation})=>{
         const commentaire=item.remark;
         return (
 
-          <TouchableOpacity style={style.renderItem} onLongPress={() =>  navigation.navigate('Accueil', {
+          <TouchableOpacity style={style.renderItem} onLongPress={() =>  navigation.navigate('RDV2', {
             prenom: prenom,
             nom: nom,
+            date: item.date,
+            location: location,
+            namePractitioner: namePractitioner,
+            typePractitioner: typePractitioner,
+            commentaire: commentaire,
+
             })}>
            <Text style={styles.text2}>
            RDV le {item.date} à {location.trim()}  Médecin {namePractitioner.trim()} {typePractitioner.trim()} commentaire {commentaire.trim()}
