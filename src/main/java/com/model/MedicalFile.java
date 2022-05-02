@@ -36,6 +36,11 @@ public class MedicalFile {
     @JsonManagedReference
     private List<Treatment> treatments;
 
+    @OneToMany(mappedBy = "medicalFile")
+    @JsonManagedReference
+    private List<Pathology> pathologies;
+
+
 
     public MedicalFile() {
     }

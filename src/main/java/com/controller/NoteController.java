@@ -46,15 +46,6 @@ public class NoteController {
     }
 
 
-    @GetMapping("/notes/id/{id}")
-    @ResponseBody
-    public ResponseEntity<Note> getNote(@PathVariable(value = "id") Long idNote){
-
-        Note note = noteRepository.findById(idNote)
-                .orElseThrow(() -> new NoteNotFoundException(idNote));
-        return new ResponseEntity<Note>(note, HttpStatus.OK);
-    }
-
     @GetMapping("/notes/user/{token}")
     @ResponseBody
     public ResponseEntity<List<Note>> getAllNotes(@PathVariable(value = "token") String token){
