@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TouchableHighlight, Modal} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
+import Header from "../Util/Header";
 
 function Bouton(props){
     return (
@@ -60,23 +61,13 @@ function DosMedVaccins({navigation}) {
     }
     return(
         <View style={styles.container}>
-            <View style={styles.headerBtn}>
-                <Text style={styles.text2}>
-                    Dossier Médical
-                </Text>
-                <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
-                <TouchableOpacity>
-                    <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
-                        prenom: prenom,
-                        nom: nom,
-                    })}/>
-                </TouchableOpacity>
-            </View>
+            <Header navigation={navigation} title = {"Dossier Médical"} color={"#1EA584"}/>
             <View style = {styles.titre}>
                 <Text style={styles.text}>
                     VACCINS
                 </Text>
             </View>
+            <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
             <ScrollView style={{height:"63%"}}>
                 <StatusBar style="auto" />
                 {vaccins.map((element,index) => (
