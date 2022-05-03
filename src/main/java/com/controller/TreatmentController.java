@@ -68,7 +68,7 @@ public class TreatmentController {
         return new ResponseEntity<>(treatmentid, HttpStatus.OK);
     }
 
-
+/*
     @PostMapping("/rendezvous/{treatmentid}")
     @ResponseBody
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
@@ -84,4 +84,7 @@ public class TreatmentController {
         treatmentRepository.save(treatmentToModify);
         return new ResponseEntity<Treatment>(treatmentToModify, HttpStatus.OK);
     }
+
+ */
+
 }

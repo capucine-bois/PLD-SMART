@@ -44,7 +44,7 @@ public class MetricController {
                 .orElseThrow(() -> new MedicalFileNotFoundException(user));
 
         List<Metric> listMetric = metricRepository.findByMedicalFile(medicalFile)
-                .orElseThrow(() -> new AllergyNotFoundException(medicalFile));
+                .orElseThrow(() -> new MetricNotFoundException(medicalFile));
 
         return new ResponseEntity<List<Metric>>(listMetric, HttpStatus.OK);
     }

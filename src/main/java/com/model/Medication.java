@@ -1,92 +1,115 @@
 package com.model;
 
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.model.User;
 
-//@Entity
-//@Table(name="medication")
+import javax.persistence.*;
+import java.util.Date;
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
+@Entity
+@Table(name="medication")
 public class Medication {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="medication_id")
-    private long medicationId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id_medication")
+    private long id;
 
     @Column(name="name",length = 50)
     private String name;
 
-    @Column(name="count_shot", nullable=true)
-    private short countShot;
+    @Temporal(TemporalType.DATE)
+    @Column(name="start_date")
+    private Date startDate;
 
-    @Column(name="interval", nullable=true)
-    private int interval;
+    @Temporal(TemporalType.DATE)
+    @Column(name="end_date")
+    private Date endDate;
 
-    @Column(name="description",length = 50)
-    private String description;
+    @Column(name="num_frequency")
+    private int numFrequency;
 
-    @Column(name="unity_medication",length = 50)
-    private String unityMedication;
+    @Column(name="unit_frequency")
+    private String unitFrequency;
+
+    @Column(name="quantity")
+    private float quantity;
+
+    @Column(name="remark")
+    private String remark;
 
     @ManyToOne
-    @Column(name="id_treatment",nullable=false)
+    @JoinColumn(name="id_treatment",nullable=false, referencedColumnName = "id_treatment")
+    @JsonBackReference
     private Treatment treatment;
 
-    public Medication(long medicationId, String name, short countShot, int interval, String description, String unityMedication, Treatment treatment) {
-        this.medicationId = medicationId;
+    public Medication(String name, Date start_date, Date end_date, int numFrequency, String unitFrequency, int quantity, String remark, Treatment treatment){
         this.name = name;
-        this.countShot = countShot;
-        this.interval = interval;
-        this.description = description;
-        this.unityMedication = unityMedication;
+        this.startDate = start_date;
+        this.endDate = end_date;
+        this.numFrequency = numFrequency;
+        this.unitFrequency = unitFrequency;
+        this.quantity = quantity;
+        this.remark = remark;
         this.treatment = treatment;
     }
 
-    public long getMedicationId() {
-        return medicationId;
+    public Medication() {
+
     }
 
-    public void setMedicationId(long medicationId) {
-        this.medicationId = medicationId;
+
+
+    public void setId(long id){
+        this.id=id;
     }
+
+
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String name){
+        this.name=name;
     }
 
-    public short getCountShot() {
-        return countShot;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setCountShot(short countShot) {
-        this.countShot = countShot;
+    public void setStartDate(Date startDate){
+        this.startDate=startDate;
     }
 
-    public int getInterval() {
-        return interval;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setInterval(int interval) {
-        this.interval = interval;
+    public void setEndDate(Date endDate){
+        this.endDate=endDate;
     }
 
-    public String getDescription() {
-        return description;
-    }
+    public int getNumFrequency() {return numFrequency;    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public void setNumFrequency(int numFrequency) {this.numFrequency = numFrequency;}
 
-    public String getUnityMedication() {
-        return unityMedication;
-    }
+    public String getUnitFrequency() {return unitFrequency;}
 
-    public void setUnityMedication(String unityMedication) {
-        this.unityMedication = unityMedication;
+    public void setUnitFrequency(String unitFrequency) {this.unitFrequency = unitFrequency;}
+
+    public float getQuantity() {return quantity;}
+
+    public void setQuantity(float quantity) {this.quantity = quantity;}
+
+    public String getRemark() {return remark;}
+
+    public void setRemark(String remark) {this.remark = remark;}
+
+    public long getId() {
+        return id;
     }
 
     public Treatment getTreatment() {
@@ -98,14 +121,16 @@ public class Medication {
     }
 
     @Override
-    public java.lang.String toString() {
-        return "Medication{" +
-                "medicationId=" + medicationId +
+    public String toString() {
+        return "Treatment{" +
+                "id=" + id +
                 ", name='" + name + '\'' +
-                ", countShot=" + countShot +
-                ", interval=" + interval +
-                ", description='" + description + '\'' +
-                ", unityMedication='" + unityMedication + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", numFrequency=" + numFrequency +
+                ", unitFrequency='" + unitFrequency + '\'' +
+                ", quantity=" + quantity +
+                ", remark='" + remark + '\'' +
                 ", treatment=" + treatment +
                 '}';
     }

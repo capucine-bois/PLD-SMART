@@ -3,10 +3,13 @@ package com.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.model.User;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
 @Table(name="treatment")
@@ -20,96 +23,58 @@ public class Treatment {
     @Column(name="name",length = 50)
     private String name;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name="start_date")
-    private Date startDate;
-
-    @Temporal(TemporalType.DATE)
-    @Column(name="end_date")
-    private Date endDate;
-
-    @Column(name="num_frequency")
-    private int numFrequency;
-
-    @Column(name="unit_frequency")
-    private String unitFrequency;
-
-    @Column(name="quantity")
-    private float quantity;
-
     @Column(name="remark")
     private String remark;
 
+    @OneToMany(mappedBy = "treatment")
+    @JsonManagedReference
+    private List<Medication> medications;
     @ManyToOne
     @JoinColumn(name="id_user",nullable=false, referencedColumnName = "id_user")
     @JsonBackReference
     private User user;
 
-    public Treatment(String name, Date start_date, Date end_date, int numFrequency, String unitFrequency, int quantity, String remark, User user){
-        this.name = name;
-        this.startDate = start_date;
-        this.endDate = end_date;
-        this.numFrequency = numFrequency;
-        this.unitFrequency = unitFrequency;
-        this.quantity = quantity;
-        this.remark = remark;
-        this.user = user;
-    }
-
     public Treatment() {
 
     }
 
-
-
-    public void setId(long id){
-        this.id=id;
+    public Treatment(String name, String remark, List<Medication> medications, User user) {
+        this.name = name;
+        this.remark = remark;
+        this.medications = medications;
+        this.user = user;
     }
 
+    public long getId() {
+        return id;
+    }
 
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name){
-        this.name=name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setStartDate(Date startDate){
-        this.startDate=startDate;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public List<Medication> getMedications() {
+        return medications;
     }
 
-    public void setEndDate(Date endDate){
-        this.endDate=endDate;
-    }
-
-    public int getNumFrequency() {return numFrequency;    }
-
-    public void setNumFrequency(int numFrequency) {this.numFrequency = numFrequency;}
-
-    public String getUnitFrequency() {return unitFrequency;}
-
-    public void setUnitFrequency(String unitFrequency) {this.unitFrequency = unitFrequency;}
-
-    public float getQuantity() {return quantity;}
-
-    public void setQuantity(float quantity) {this.quantity = quantity;}
-
-    public String getRemark() {return remark;}
-
-    public void setRemark(String remark) {this.remark = remark;}
-
-    public long getId() {
-        return id;
+    public void setMedications(List<Medication> medications) {
+        this.medications = medications;
     }
 
     public User getUser() {
@@ -125,12 +90,8 @@ public class Treatment {
         return "Treatment{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", numFrequency=" + numFrequency +
-                ", unitFrequency='" + unitFrequency + '\'' +
-                ", quantity=" + quantity +
                 ", remark='" + remark + '\'' +
+                ", medications=" + medications +
                 ", user=" + user +
                 '}';
     }

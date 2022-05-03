@@ -22,13 +22,13 @@ public class MeasureController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MeasureController.class);
 
-    private UserRepository userRepository;
+
     private MetricRepository metricRepository;
     private MeasureRepository measureRepository;
 
     @Autowired
-    MeasureController(final UserRepository userRepository, final MetricRepository metricRepository, final MeasureRepository measureRepository) {
-        this.userRepository = userRepository;
+    MeasureController(final MetricRepository metricRepository, final MeasureRepository measureRepository) {
+
         this.metricRepository = metricRepository;
         this.measureRepository = measureRepository;
     }
