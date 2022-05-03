@@ -17,6 +17,9 @@ import InscrDosMed5 from './DossierMedical/inscriptionDossierMedicale5';
 import InscrDosMed6 from './DossierMedical/inscriptionDossierMedicale6';
 import RDV from './RDV/RDV'
 import RDV2 from './RDV/RDV2'
+import Parameters from './Parameters/Parameters'
+import ParametersNotification from './Parameters/Notifications'
+import ParametersUrgencyCall from './Parameters/UrgencyCall'
 import DosMedAllergies from './DossierMedical/dosMedAllergies'
 import DosMedAllergiesAj from './DossierMedical/dosMedAllergiesAj'
 import DosMedIndicateurs from './DossierMedical/dosMedIndicateurs'
@@ -33,7 +36,11 @@ import {createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
+<<<<<<< Updated upstream
 const urlBack = "http://172.20.10.2:8080";
+=======
+const urlBack = "http://172.21.32.1:8080";
+>>>>>>> Stashed changes
 export default function App() {
 
 
@@ -72,6 +79,9 @@ export default function App() {
         <Stack.Screen initialParams={{'url':urlBack}} name="inscrDossierMedical6" component={InscrDosMed6}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="RDV" component={RDV}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="RDV2" component={RDV2}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="Parameters" component={Parameters}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="ParametersUrgencyCall" component={ParametersUrgencyCall}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="ParametersNotification" component={ParametersNotification}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="Traitements" component={Traitements}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="Traitements2" component={AddTreatmentForm}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAllergies" component={DosMedAllergies}   />
