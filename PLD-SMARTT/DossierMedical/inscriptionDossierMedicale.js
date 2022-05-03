@@ -33,6 +33,7 @@ const InscrDosMed =({route,navigation})=>{
                     console.log(data)
                     setIdMetriqueTaille(data.id)
                     submitTaille()
+                    
                 })
         });
             
