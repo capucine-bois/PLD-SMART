@@ -17,6 +17,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {useIsFocused} from "@react-navigation/native";
 import React, { useEffect,Component, useState } from 'react';
 import styles from '../Style/styleHome'
+import ButtonMenu from "../Util/ButtonMenu";
   
 const onPressMobileNumberClick = (number) => {
 
@@ -124,18 +125,6 @@ const onPressMobileNumberClick = (number) => {
       );
     };
 
-    const BoutonMenu = (props) =>{
-      return (
-        <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
-          <MaterialCommunityIcons style= {props.styleIcone} name={props.icone} color="#fff" size={45}/>
-          <Text style={props.styleText}>
-            {props.text}
-          </Text>
-        </TouchableOpacity>
-      )
-    
-    }
-
 
     return(
       <View style={styles.container}>
@@ -146,7 +135,9 @@ const onPressMobileNumberClick = (number) => {
           </Text>
         </TouchableOpacity>
         <PopUp/>
-        <BoutonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={() => setModalVisible(true)} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
+        <ButtonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={() => setModalVisible(true)} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
+
+        
 
         <BoutonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  navigation.navigate(medicaleFile, {
             prenom: prenom,
@@ -159,25 +150,29 @@ const onPressMobileNumberClick = (number) => {
             appareillages:appareillages,
             })} text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
 
-        <BoutonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Traitements', {
+        <ButtonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Traitements', {
             prenom: prenom,
             nom: nom,
             })} text="Traitements" icone="pill" styleIcone ={styles.iconTraitements}/>
 
-        <BoutonMenu styleButton={styles.cahierBtn} styleText={styles.text} onPress={() =>  navigation.navigate('BlocNotes', {
+        <ButtonMenu styleButton={styles.cahierBtn} styleText={styles.text} onPress={() =>  navigation.navigate('BlocNotes', {
             prenom: prenom,
             nom: nom,
             })} text="Bloc Notes" icone="pen" styleIcone ={styles.iconBlocNotes}/>
 
-        <BoutonMenu styleButton={styles.consultationBtn} styleText={styles.text} onPress={() =>  navigation.navigate('RDV', {
+        <ButtonMenu styleButton={styles.consultationBtn} styleText={styles.text} onPress={() =>  navigation.navigate('RDV', {
             prenom: prenom,
             nom: nom,
             })} text="Mes rendez-vous" icone="calendar" styleIcone ={styles.iconRDV}/>
 
-        <BoutonMenu styleButton={styles.ParametreBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Bonjour', {
+        <ButtonMenu styleButton={styles.FicheBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Bonjour', {
             prenom: prenom,
             nom: nom,
-            })} text="Générer ma Fiche" icone="file" styleIcone ={styles.iconParametre}/>
+            })} text="Générer ma Fiche" icone="file" styleIcone ={styles.iconFiche}/>
+        <ButtonMenu styleButton={styles.ParametreBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Parameters', {
+            prenom: prenom,
+            nom: nom,
+            })} text="Parametres" icone="cog" styleIcone ={styles.iconParametre}/>
 
       </View>
      

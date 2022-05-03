@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TouchableHighlight, Modal} from 'react-native';
+import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TouchableHighlight, Modal, Keyboard} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
 import Header from "../Util/Header";
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 
 function Bouton(props){
     return (
@@ -64,32 +65,34 @@ function DosMedAllergies({navigation}) {
 
     return(
         <View style={styles.container}>
-            <Header navigation={navigation} title = {"Dosser Médical"} color={"#1EA584"}/>
-            <View style = {styles.titre}>
-                <Text style={styles.text}>
-                    ALLERGIES
-                </Text>
-            </View>
-            <ScrollView style={{height:"63%"}}>
-                <StatusBar style="auto" />
-                    {allergies.map((element,index) => (
-                        <TouchableHighlight key={`${element}-${index}`} style={styles.allergie} underlayColor="white">
-                            <View style={styles.containerAllergie}>
-                                <View style={styles.elementsView}>
-                                    <Text style={styles.text3}>
-                                        {element}
-                                    </Text>
+            <Pressable onPress={()=>Keyboard.dismiss()}>
+                <Header navigation={navigation} title = {"Dosser Médical"} color={"#1EA584"}/>
+                <View style = {styles.titre}>
+                    <Text style={styles.text}>
+                        ALLERGIES
+                    </Text>
+                </View>
+                <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
+                <ScrollView style={{height:"63%"}}>
+                    <StatusBar style="auto" />
+                        {allergies.map((element,index) => (
+                            <TouchableHighlight key={`${element}-${index}`} style={styles.allergie} underlayColor="white">
+                                <View style={styles.containerAllergie}>
+                                    <View style={styles.elementsView}>
+                                        <Text style={styles.text3}>
+                                            {element}
+                                        </Text>
+                                    </View>
+                                    <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
                                 </View>
-                                <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
-                            </View>
-                        </TouchableHighlight>
-                    ))}
-            </ScrollView>
-
-            <View style={{height:"15%"}}>
-                <Bouton styleButton={styles.nouvelleAllergieBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedAllergiesAj', {
-                })} text="Ajouter une allergie" icone="plus" styleIcone ={styles.iconDossier}/>
-            </View>
+                            </TouchableHighlight>
+                        ))}
+                </ScrollView>
+                <View style={{height:"15%"}}>
+                    <Bouton styleButton={styles.nouvelleAllergieBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedAllergiesAj', {
+                    })} text="Ajouter une allergie" icone="plus" styleIcone ={styles.iconDossier}/>
+                </View>
+            </Pressable>
         </View>
     )
 

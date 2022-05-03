@@ -5,6 +5,8 @@ import NoteSummary from "./NoteSummary";
 import Header from "../Util/Header";
 import styles from '../Style/styleHome'
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { RadioButton } from 'react-native-paper';
+import Radio from "./Radio";
 
 const Bouton = (props) =>{
 
@@ -23,7 +25,8 @@ const Notes =({route,navigation}) => {
 
     const[recherche,setRecherche]=useState('');
     const[notes,setNotes] = useState([]);
-
+    const[state, setState] = useState("all")
+    const[date, setDate] = useState("all")
     //Get all the notes
     useEffect(() => {
 
@@ -65,7 +68,22 @@ const Notes =({route,navigation}) => {
                 <MaterialCommunityIcons style={styles.iconDossier}  name='magnify' color="#fff" size={45}/>
             </View>
 
-            <View style={{height:"60%",width:"100%"}}>
+            <View style={style.stateFilters}>
+                <Radio label={"Tous"} value={"all"} radioAttr={state} setRadioAttr={setState}/>
+                <Radio label={"Alarmant"} value={"alarmant"} radioAttr={state} setRadioAttr={setState}/>
+                <Radio label={"Mauvais"} value={"mauvais"} radioAttr={state} setRadioAttr={setState}/>
+                <Radio label={"Bon"} value={"bon"} radioAttr={state} setRadioAttr={setState}/>
+            </View>
+
+            <View style={[style.stateFilters,{marginBottom:20}]}>
+                <Radio label={"Tous"} value={"all"} radioAttr={date} setRadioAttr={setDate}/>
+                <Radio label={"Semaine"} value={"semaine"} radioAttr={date} setRadioAttr={setDate}/>
+                <Radio label={"Jour"} value={"jour"} radioAttr={date} setRadioAttr={setDate}/>
+            </View>
+
+
+
+            <View style={{height:"50%",width:"100%"}}>
                 <FlatList
                     style={style.flatSummary}
                     data={notes}
@@ -101,6 +119,11 @@ export default Notes;
 const style = StyleSheet.create({
       flatSummary:{
         width:"100%",
+      },
+
+      stateFilters:{
+          display:"flex",
+          flexDirection:"row",
       },
       container: {
         display:"flex",
@@ -144,7 +167,7 @@ const style = StyleSheet.create({
         backgroundColor: "#9C9C9C",
         borderRadius: 30,
         width: "80%",
-        height: 70,
+        height: 40,
         marginBottom: 20,
         alignItems: "center",
       },
