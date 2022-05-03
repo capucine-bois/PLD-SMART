@@ -10,11 +10,11 @@ import Header from "../Util/Header";
 
 const RDV2 =({route,navigation})=>{
     const{prenom,nom}= route.params;
-    const idRDV = route.params.idRDV;
+    const id = route.params.id;
     const [data, setData] = useState([]);
     const [date, setDate] = useState(new Date());
-    const [dateFormate,setDateFormate]=useState('')
-    const [dateFormate2,setDateFormate2]=useState( route.params.date)
+    const [dateFormate,setDateFormate]=useState(route.params.date)
+    const [dateFormate2,setDateFormate2]=useState( route.params.dateFormat)
     const [open, setOpen] = useState(false);
     const[praticien,setPraticien]=useState(route.params.namePractitioner);
     const[metierPraticien,setMetierPraticien]=useState(route.params.typePractitioner);
@@ -60,12 +60,12 @@ const RDV2 =({route,navigation})=>{
       hideDatePicker();
     };
 
-    const createRDV= () => {
+    const submitRDV= () => {
       const params = {
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
-              "id":idRDV,
+              "id":id,
               "date": dateFormate ,
               "namePractitioner": praticien,
               "typePractitioner": metierPraticien,
@@ -77,11 +77,21 @@ const RDV2 =({route,navigation})=>{
       .then((token) => {
           fetch(route.params.url+'/rendezvous/'+token,params)
               .then(response => {
-                  if(response.status.ok)
+                  if(response.ok) {
                       navigation.navigate('RDV')
+                  }
               });
       });
           
+    };
+
+    const deleteRDV= () => {
+        const params = {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'},
+        }
+        fetch(route.params.url+'/rendezvous/'+id,params)
+            .then(navigation.navigate("RDV"))
     };
 
     return(
@@ -162,20 +172,44 @@ const RDV2 =({route,navigation})=>{
 
             </ScrollView>
 
-             <View style={style.BtnView}>
-                <TouchableOpacity style={style.AjouterBtn} onPress={()=>createRDV()}>
-                    <Text>
-                       Ajouter
-                    </Text>
-                </TouchableOpacity>
+            {
+                route.params.id == -1 ?
+                    <View style={style.BtnView}>
+                        <TouchableOpacity  style={[style.btn, style.AjouterBtn]} onPress={submitRDV} >
+                            <Text>
+                                Ajouter
+                            </Text>
+                        </TouchableOpacity>
 
-                <TouchableOpacity style={style.AnnulerBtn} onPress={()=>navigation.navigate('RDV')}>
-                    <Text>
-                        Annuler
-                    </Text>
-                </TouchableOpacity>
+                        <TouchableOpacity style={[style.btn, style.AnnulerBtn]} onPress={()=>navigation.navigate('RDV')}>
+                            <Text>
+                                Annuler
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    :
+                    <View style={style.BtnView}>
+                        <TouchableOpacity  style={[style.btn, style.AjouterBtn]} onPress={submitRDV} >
+                            <Text>
+                                Modifier
+                            </Text>
+                        </TouchableOpacity>
 
-            </View>
+                        <TouchableOpacity style={[style.btn, style.deleteBtn]} onPress={deleteRDV}>
+                            <Text>
+                                Supprimer
+                            </Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={[style.btn, style.AnnulerBtn]} onPress={()=>navigation.navigate('RDV')}>
+                            <Text>
+                                Annuler
+                            </Text>
+                        </TouchableOpacity>
+
+
+                    </View>
+            }
         
         </View>
 
@@ -202,6 +236,7 @@ const style = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center'
       },
+
       nouvelleNoteBtn: {
         width: "80%",
         display:"flex",
@@ -244,35 +279,34 @@ const style = StyleSheet.create({
         height: 50,
         alignItems: "center",
       },
-        AjouterBtn: {
-        width: "30%",
-        borderRadius: 25,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 50,
-        backgroundColor: "#9e0e40",
-        
-      },
-      AnnulerBtn: {
-        width: "30%",
-        borderRadius: 25,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 50,
-        backgroundColor: "#9C9C9C",
-        marginLeft:"2%"
-        
-      },
-      BtnView: {
 
-          
-        height:"20%",
-        width:"80%",
-        flexDirection:"row",
-        alignItems:"flex-start",
-        marginLeft:"30%",
+    btn:{
+        width: "30%",
+        borderRadius: 25,
+        height: 50,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 50,
+    },
+
+    AjouterBtn: {
+        backgroundColor: "#ffd700",
+    },
+    AnnulerBtn: {
+        backgroundColor: "#9C9C9C",
+    },
+
+    deleteBtn:{
+        backgroundColor: "red",
+    },
+
+
+      BtnView: {
+          height:"20%",
+          width:"80%",
+          display:"flex",
+          flexDirection:"row",
+          justifyContent:"center",
         
       },
 
