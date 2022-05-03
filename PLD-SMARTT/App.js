@@ -7,7 +7,7 @@ import Log2 from './Login/login2'
 import Notes from './Notes/Notes'
 import Notes2 from './Notes/Notes2'
 import Traitements from './Traitements/Traitements'
-import Traitements2 from './Traitements/Traitements2'
+import AddTreatmentForm from './Traitements/AddTreatmentForm'
 import DossierMedical from './DossierMedical/dossierMedical';
 import InscrDosMed from './DossierMedical/inscriptionDossierMedicale';
 import InscrDosMed2 from './DossierMedical/inscriptionDossierMedicale2';
@@ -27,8 +27,9 @@ import {createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
-const urlBack = "http://10.43.0.118:8080";
+const urlBack = "http://10.43.0.118::8080";
 export default function App() {
+
 
   const [token, setToken] = React.useState(null);
 
@@ -62,7 +63,7 @@ export default function App() {
         <Stack.Screen initialParams={{'url':urlBack}} name="RDV" component={RDV}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="RDV2" component={RDV2}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="Traitements" component={Traitements}   />
-        <Stack.Screen initialParams={{'url':urlBack}} name="Traitements2" component={Traitements2}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="Traitements2" component={AddTreatmentForm}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAllergies" component={DosMedAllergies}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAllergiesAj" component={DosMedAllergiesAj}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedIndicateurs" component={DosMedIndicateurs}   />

@@ -169,15 +169,7 @@ const style = StyleSheet.create({
         backgroundColor: "#9e0e40",
         marginBottom: 160,
       },
-      text: {
-        fontSize: 30,
-        flex: 1,
-        textAlign: 'center',
-        fontWeight: 'bold',
-        color: "#fff",
-        
-      
-      },
+
       TextInput: {
         height: 50,
         flex: 1,

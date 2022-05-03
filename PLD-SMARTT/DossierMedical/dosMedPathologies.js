@@ -90,17 +90,22 @@ function DosMedPathologies({navigation}) {
             <ScrollView style={{height:"63%"}}>
                 <StatusBar style="auto" />
                 {pathologies.map((element,index) => (
-                    <TouchableHighlight key={`${element}-${index}`} style={styles.pathologie} onLongPress={() => setModalVisible(true)} underlayColor="white">
-                        <Text style={styles.text3}>
-                            {element}
-                        </Text>
+                    <TouchableHighlight key={`${element}-${index}`} style={styles.pathologie} underlayColor="white">
+                    <View style={styles.containerPathologie}>
+                        <View style={styles.elementsView}>
+                                <Text style={styles.text3}>
+                                    {element}
+                                </Text>
+                        </View>
+                        <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
+                    </View>
                     </TouchableHighlight>
                 ))}
             </ScrollView>
 
             <View style={{height:"15%"}}>
                 <Bouton styleButton={styles.nouvellePathologieBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedPathologiesAj', {
-                })} text="Ajouter une pathologie" icone="plus" styleIcone ={styles.iconDossier}/>
+                })} text="Ajouter une pathologie" icone="plus"/>
             </View>
         </View>
     )
@@ -111,13 +116,22 @@ export default DosMedPathologies
 
 const styles = StyleSheet.create({
     pathologie:{
-        borderRadius: 10,
         backgroundColor: "#ffffff",
-        borderWidth : 3,
         width:"80%",
         alignSelf:"center",
-        borderColor: "#1EA584",
         margin:"2%",
+
+    },
+    containerPathologie:{
+        flexDirection:"row",
+        justifyContent:"space-between",
+    },
+    elementsView:{
+        borderRadius: 10,
+        borderWidth : 3,
+        width:"80%",
+        borderColor: "#1EA584",
+        alignItems:"center"
     },
     titre:{
         backgroundColor: "#1EA584",
@@ -152,7 +166,7 @@ const styles = StyleSheet.create({
         alignSelf:"center"
     },
     iconDossier: {
-        marginRight:"5%"
+        marginRight:"5%",
     },
     headerBtn: {
         width: "100%",
@@ -177,13 +191,12 @@ const styles = StyleSheet.create({
     text3: {
         fontSize: 25,
         fontWeight: 'bold',
-        color: "#1EA584",
-        textAlign:"center"
+        color: "#1EA584"
     },
     centeredView: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center",
+        alignSelf:"center"
     },
     modalView: {
         height: "25%",
