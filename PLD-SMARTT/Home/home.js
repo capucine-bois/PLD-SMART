@@ -139,7 +139,7 @@ const onPressMobileNumberClick = (number) => {
 
         
 
-        <BoutonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  navigation.navigate(medicaleFile, {
+        <ButtonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  navigation.navigate(medicaleFile, {
             prenom: prenom,
             nom: nom,
             poids: poids,
