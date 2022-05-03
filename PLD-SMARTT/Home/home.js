@@ -138,8 +138,6 @@ const onPressMobileNumberClick = (number) => {
           <PopUp/>
         <ButtonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={() => setModalVisible(true)} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
 
-        
-
         <ButtonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  navigation.navigate(medicaleFile, {
             prenom: prenom,
             nom: nom,

@@ -30,8 +30,7 @@ import DosMedVaccinsAj from './DossierMedical/dosMedVaccinsAj'
 import DosMedAppareillages from './DossierMedical/dosMedAppareillages'
 import DosMedAppareillagesAj from './DossierMedical/dosMedAppareillagesAj'
 import DosMedPathologiesAj from './DossierMedical/dosMedPathologiesAj'
-
-
+import DosMedIndicateurPres from './DossierMedical/dosMedIndicateurPres'
 
 import React, {useEffect} from "react"
 
@@ -99,6 +98,7 @@ export default function App() {
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAppareillages" component={DosMedAppareillages}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAppareillagesAj" component={DosMedAppareillagesAj}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedPathologiesAj" component={DosMedPathologiesAj}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="DosMedIndicateurPres" component={DosMedIndicateurPres}   />
 
 
       </Stack.Navigator>
