@@ -3,27 +3,18 @@ import { FlatList,Button,StyleSheet, Text, View,TextInput,Image,StatusBar,Toucha
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from '../Style/styleHome'
-
-const Bouton = (props) =>{
-    return (
-      <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
-        <MaterialCommunityIcons style= {props.styleIcone} name={props.icone} color="#fff" size={45}/>
-        <Text style={props.styleText}>
-          {props.text}
-        </Text>
-      </TouchableOpacity>
-    )
-  
-  }
+import Header from "../Util/Header";
+import NoteSummary from "../Notes/NoteSummary";
+import ButtonAdd from "../Util/ButtonAdd";
+import RDVSummary from "./RDVSumarry";
+import {useIsFocused} from "@react-navigation/native";
 
 
 const RDV =({route,navigation})=>{
-    const{prenom,nom}= route.params;
-    const[recherche,setRecherche]=useState('');
-    const [data, setData] = useState([]);
 
-    
-    
+    const isFocused = useIsFocused();
+
+    const[rdvs,setRdvs] = useState([]);
 
     const getListRDV = () => {
       const params = {
@@ -31,19 +22,17 @@ const RDV =({route,navigation})=>{
         headers: {'Content-Type': 'application/json'},
         
       }
-      
+
       AsyncStorage.getItem('token')
       .then((token) => {
-        
-       
-       fetch('http://172.20.10.2:8080/rendezvous/user/'+token,params)
-       .then(response => response.json())
+           fetch(route.params.url+'/rendezvous/user/'+token,params)
+            .then(response => response.json())
             .then(data => {
+                console.log("oui");
                 console.log(data);
-      
-                setData(data)
+                setRdvs(data);
               });
-     });
+            });
     };
 
     const deleteRDV= (idRDV) => {
@@ -51,17 +40,15 @@ const RDV =({route,navigation})=>{
       const params = {
           method: 'DELETE',
           headers: {'Content-Type': 'application/json'},
-          
       }
-    fetch('http://172.20.10.2:8080/rendezvous/'+idRDV,params)
+    fetch(route.params.url+'/rendezvous/'+idRDV,params)
         .then(response => response.json());
     };
-      
-    
 
     useEffect(() => {
-      getListRDV()
-      }, []);
+        if(isFocused)
+            getListRDV()
+    },[isFocused]);
 
       const renderItem = ({ item }) => {
         const location = item.location + '\n';
@@ -102,34 +89,22 @@ const RDV =({route,navigation})=>{
 
     return(
         <View style={style.container}>
-        
-            <TouchableOpacity style={style.headerBtn} onPress={() =>  navigation.navigate('Accueil', {
-             prenom: prenom,
-             nom: nom,
-             })}>
-            <Text style={styles.text2}>
-           Mes Rendez-Vous 
-             </Text>
-             <MaterialCommunityIcons style={styles.iconDossier}  name='home' color="#fff" size={30}/>
-            </TouchableOpacity>
 
-            
-            
-            <View style={{width:'100%',height:'60%',backgroundColor:"#9e0e40",  flexDirection:"column"}}>
-            <FlatList
-        data={data}
-        renderItem={renderItem}
-        style={{alignContent:'center'}}
-          keyExtractor={(item) => item.id.toString()}
-        />
-             </View>
-        
-        <Bouton styleButton={style.nouvelleNoteBtn} styleText={style.text} onPress={() =>  navigation.navigate('RDV2', {
-            prenom: prenom,
-            nom: nom,
-            date: "Entrer la date et l'heure",
-            idRDV:-1,
-            })} text="Nouveau RDV" icone="plus" styleIcone ={styles.iconDossier}/>
+            <Header navigation={navigation} title = {"Mes Rendez-vous"} color={"#9e0e40"}/>
+
+            <View style={{height:"60%",width:"100%"}}>
+
+                <RDVSummary/>
+                <RDVSummary/>
+                <RDVSummary/>
+
+            </View>
+
+
+            <ButtonAdd text={"Nouveau RDV"} color={"#9e0e40"} icone={"plus"}  onPress={() =>  navigation.navigate('RDV2',{
+                idRDV:-1,
+                date:"Entrez la date et l'heure"
+            })} styleIcone ={styles.iconDossier}/>
 
         </View>
 
