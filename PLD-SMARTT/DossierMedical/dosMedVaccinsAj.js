@@ -2,8 +2,8 @@ import {React,useState} from 'react';
 import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
-import {Picker} from "@react-native-picker/picker"
-
+import FormField from "../Util/FormField";
+import DateCompletion from "../Util/DateCompletion";
 function Bouton(props){
     return (
         <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
@@ -17,19 +17,10 @@ function Bouton(props){
 function DosMedVaccinsAj({navigation}) {
     const prenom = "Gérard"
     const nom = "Dupont".toUpperCase()
-    const[titre,setTitre]=useState('');
-    const[severite,setSeverite]=useState('');
-    const[note,setNote]=useState('');
-    const [selectedValue, setSelectedValue] = useState("type");
-    const[ajouterModifier,setAjouterModifier]=useState('Ajouter');
-    const [bouton, setBouton] = useState(false);
-    const data = [{
-        value: 'Banana',
-    }, {
-        value: 'Mango',
-    }, {
-        value: 'Pear',
-    }];
+    const[title,setTitle]=useState('');
+    const[date,setDate]=useState('');
+    const[lot,setLot]=useState('');
+
     return(
         <View style={styles.container}>
             <View style={styles.headerBtn}>
@@ -50,44 +41,10 @@ function DosMedVaccinsAj({navigation}) {
                 </Text>
             </View>
 
-            <View style={styles.inputView}>
-                <Text style={styles.text3}>
-                    Nom
-                </Text>
-                <TextInput
-                    style={styles.TextInput}
-                    placeholderTextColor="#000"
-                    onChangeText={(titre) => setTitre(titre)}
-                />
-            </View>
-
-            <View style={styles.inputView}>
-                <Text style={styles.text3}>
-                    Type
-                </Text>
-                <Picker
-                    selectedValue={selectedValue}
-                    style={styles.picker}
-                    onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-                >
-                    <Picker.Item label="Alimentaire" value="alim" />
-                    <Picker.Item label="Saisonnière" value="saison" />
-                    <Picker.Item label="Perannuelle" value="peran" />
-                    <Picker.Item label="Au venin" value="venin" />
-                </Picker>
-            </View>
-            <View style={styles.descriptif}>
-                <Text style={styles.text4}>
-                    Descriptif
-                </Text>
-                <ScrollView style={styles.scrollView}>
-                    <TextInput
-                        style={styles.TextInput2}
-                        multiline={true}
-                        placeholderTextColor="#000"
-                        onChangeText={(note) => setNote(note)}
-                    />
-                </ScrollView>
+            <View style={{height:"45%", backgroundColor:"white", marginTop: "10%", marginBottom:"20%"}}>
+                <FormField label = {"Nom"} color={"#1EA584"} field={title} setField={setTitle}/>
+                <DateCompletion label = {"Date"} color={"#1EA584"} field={date} setField={setDate} keyboardType={'numeric'}/>
+                <FormField label = {"Lot"} color={"#1EA584"} field={lot} setField={setLot}/>
             </View>
 
             <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
@@ -213,5 +170,16 @@ const styles = StyleSheet.create({
         margin:"10%",
         color:"#000",
 
+    },
+    container2: {
+        flex: 1,
+        justifyContent: "center",
+        backgroundColor: "#ecf0f1",
+        padding: 8,
+    },
+    input: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
     },
 })
