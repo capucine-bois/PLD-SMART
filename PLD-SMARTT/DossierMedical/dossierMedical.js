@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity} from 'react-native';
+import {FlatList,StyleSheet, Text, ScrollView, View, TouchableOpacity} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -15,13 +15,16 @@ function Bouton(props){
     )
 }
 
-function DossierMedical({navigation}) {
-    const prenom = "Gérard"
-    const nom = "Dupont".toUpperCase()
+function DossierMedical({route,navigation}) {
+    const {prenom,nom,taille,poids,allergies,pathologies,vaccins,appareillages} = route.params;
+    
     const dateNaissance = "10/04/1947"
     const age = 75
-    const poids = 67
-    const taille = "1m71"
+    
+
+    
+
+
 	return (
 
     <View style={styles.container}>
@@ -52,20 +55,47 @@ function DossierMedical({navigation}) {
             </View>
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
                     text="Allergies" />
-            <Text style={styles.textContenuEtiquette}>Rhume des foins</Text>
-            <Text style={styles.textContenuEtiquette}>Acariens</Text>
+                    <FlatList
+                    style={{width:"100%"}}
+                    data={allergies}
+                    keyExtractor={item => item.allergyId}
+                    renderItem={({item}) =>
+                        <Text style={styles.textContenuEtiquette} >{item.name}</Text>
+                    }
+                />
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedPathologies')}
                     text="Pathologies" />
-            <Text style={styles.textContenuEtiquette}>Hypertension artérielle</Text>
+                    <FlatList
+                    style={{width:"100%"}}
+                    data={pathologies}
+                    keyExtractor={item => item.id}
+                    renderItem={({item}) =>
+                        <Text style={styles.textContenuEtiquette} >{item.name}</Text>
+                    }
+                />
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedVaccins')}
                     text="Vaccins" />
+                    <FlatList
+                    style={{width:"100%"}}
+                    data={vaccins}
+                    keyExtractor={item => item.id}
+                    renderItem={({item}) =>
+                        <Text style={styles.textContenuEtiquette} >{item.name.trim()}    {item.lastBooster}</Text>
+                    }
+                />
             <View>
             </View>
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAppareillages')}
                     text="Appareillages" />
                 <View>
-                    <Text style={styles.textContenuEtiquette}>Prothèses auditives</Text>
-                    <Text style={styles.textContenuEtiquette}>Lunettes</Text>
+                <FlatList
+                    style={{width:"100%"}}
+                    data={appareillages}
+                    keyExtractor={item => item.id}
+                    renderItem={({item}) =>
+                        <Text style={styles.textContenuEtiquette} >{item.name}</Text>
+                    }
+                />
                 </View>
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedIndicateurs')}
                     text="Indicateurs" />

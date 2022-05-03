@@ -79,17 +79,31 @@ const styles = StyleSheet.create({
     ParametreBtn: {
       width: "100%",
       display:"flex",
-      flexDirection:"row",
+      flexDirection:"row-reverse",
       
       height: 100,
       alignItems: "center",
       justifyContent: "center",
       marginTop: 0,
-      backgroundColor: "#7f00ff",
-      marginBottom: 210,
+      backgroundColor: "#4F4150",
+      marginBottom: 5,
       
      
   },
+  FicheBtn: {
+    width: "100%",
+    display:"flex",
+    flexDirection:"row",
+
+    height: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 0,
+    backgroundColor: "#7f00ff",
+    marginBottom: 5,
+
+
+    },
   text: {
     fontSize: 40,
     flex: 1,
@@ -106,8 +120,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: "#fff",
   },
-  iconParametre: {
+  iconFiche: {
     marginLeft:"10%"
+  },
+  iconParametre: {
+    marginRight:"5%"
   },
   iconTelephone: {
     marginLeft:"5%"

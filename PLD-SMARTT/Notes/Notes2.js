@@ -4,6 +4,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import styles from '../Style/styleHome'
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Radio from "./Radio";
+import Checkbox from "./Checkbox";
 
 
 
@@ -11,8 +13,9 @@ const Notes2 =({route,navigation})=>{
     const[auteur,setAuteur]=useState(route.params.author);
     const[titre,setTitre]=useState(route.params.title);
     const[note,setNote]=useState(route.params.note);
-    const[ajouterModifier,setAjouterModifier]=useState('Ajouter');
-    const [bouton, setBouton] = useState(false);
+    const [toggleNote, setToggleNote] = useState(false);
+    const[state, setState] = useState("undefined")
+
 
     const deleteNote = () => {
         const params = {
@@ -78,9 +81,19 @@ const Notes2 =({route,navigation})=>{
                 </TextInput>
             
             </View>
+
+
+            <View style={style.stateFilters}>
+                <Radio label={"Alarmant"} value={"alarmant"} radioAttr={state} setRadioAttr={setState}/>
+                <Radio label={"Mauvais"} value={"mauvais"} radioAttr={state} setRadioAttr={setState}/>
+                <Radio label={"Bon"} value={"bon"} radioAttr={state} setRadioAttr={setState}/>
+            </View>
+
+            <Checkbox label ="Ajouter une note"/>
+
             <Text style={{textAlign:'left',marginTop:20}}>
                     Notes
-                </Text>
+            </Text>
             <ScrollView style={{marginTop:20,textAlign:'left',width: "80%",height:"40%",borderWidth: 5,borderColor:"#ffd700",borderRadius:15}}>
             <TextInput
                 style={style.TextInput}
@@ -156,6 +169,13 @@ const style = StyleSheet.create({
         marginBottom:30,
         
       },
+
+        stateFilters:{
+            marginTop:20,
+            display:"flex",
+            flexDirection:"row",
+        },
+
       container: {
         display:"flex",
         flexDirection: 'column',

@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Picker} from "@react-native-picker/picker"
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Bouton(props){
     return (
@@ -64,6 +65,32 @@ const InscrDosMed4 =({route,navigation})=>{
          setDateFormate2( dd+"/"+mm+"/"+yyyy+' à ' + hh+":"+min);
          hideDatePicker();
        };
+
+       const submitPathologie= () => {
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "name":titre,
+                "description":note,
+                "startDate":dateFormate,
+
+                
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/pathology/'+token,params)
+                .then(response => {
+                    if(response.ok) {
+                       setTitre('')
+                       setNote('')
+                       
+                    }
+                });
+        });
+            
+      };
     
 
     return (
@@ -141,9 +168,7 @@ const InscrDosMed4 =({route,navigation})=>{
             </View>
 
             <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
-                <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('inscrDossierMedical5', {
-                prenom: prenom,
-                nom:nom,})} text="Ajouter"/>
+                <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  submitPathologie()} text="Ajouter"/>
                 <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('inscrDossierMedical5', {
                 prenom: prenom,
                 nom:nom,})} text="Passer"/>

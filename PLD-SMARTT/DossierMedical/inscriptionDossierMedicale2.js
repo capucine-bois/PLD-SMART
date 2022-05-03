@@ -4,6 +4,7 @@ import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput,Button} 
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Picker} from "@react-native-picker/picker"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Bouton(props){
     return (
@@ -22,6 +23,30 @@ const InscrDosMed2 =({route,navigation})=>{
     const[note,setNote]=useState('');
     const [selectedValue, setSelectedValue] = useState("type");
     const [bouton, setBouton] = useState(false);
+
+    const submitAllergie= () => {
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "name":titre,
+                "description":note,
+
+                
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/allergy/'+token,params)
+                .then(response => {
+                    if(response.ok) {
+                       setTitre('')
+                       setNote('')
+                    }
+                });
+        });
+            
+      };
 
     return (
         <ScrollView style={styles.container}>
@@ -92,9 +117,7 @@ const InscrDosMed2 =({route,navigation})=>{
             </View>
 
             <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
-                <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('inscrDossierMedical3', {
-                prenom: prenom,
-                nom:nom,})} text="Ajouter"/>
+                <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  submitAllergie()} text="Ajouter"/>
                 <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('inscrDossierMedical4', {
                 prenom: prenom,
                 nom:nom,})} text="Passer"/>
