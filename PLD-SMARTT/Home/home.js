@@ -133,8 +133,16 @@ const onPressMobileNumberClick = (number) => {
           <StatusBar style="auto" />
           <PopUp/>
         <ButtonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={() => setModalVisible(true)} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
-        <ButtonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  navigation.navigate("DossierMedical")} text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
-
+          <ButtonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  navigation.navigate(medicaleFile, {
+              prenom: prenom,
+              nom: nom,
+              poids: poids,
+              taille: taille,
+              allergies:allergies,
+              pathologies:pathologies,
+              vaccins:vaccins,
+              appareillages:appareillages,
+          })} text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
         <ButtonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Traitements', {
             prenom: prenom,
             nom: nom,
