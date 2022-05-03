@@ -18,6 +18,7 @@ import {useIsFocused} from "@react-navigation/native";
 import React, { useEffect,Component, useState } from 'react';
 import styles from '../Style/styleHome'
 import ButtonMenu from "../Util/ButtonMenu";
+import Header from "../Util/Header";
   
 const onPressMobileNumberClick = (number) => {
 
@@ -91,7 +92,7 @@ const onPressMobileNumberClick = (number) => {
 
     const PopUp = () => {
       return (
-        <View style={styles.centeredView}>
+        <View >
           <Modal
             animationType="slide"
             transparent={false}
@@ -101,7 +102,7 @@ const onPressMobileNumberClick = (number) => {
               setModalVisible(!modalVisible);
             }}
           >
-            <View style={styles.centeredView}>
+            <View>
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>Appeler le Samu ?</Text>
                 <Pressable
@@ -125,16 +126,12 @@ const onPressMobileNumberClick = (number) => {
       );
     };
 
-
+    const textHeader = "Bonjour, " + prenom + " " + nom;
     return(
       <View style={styles.container}>
-        
-        <TouchableOpacity style={styles.headerBtn} >
-          <Text style={styles.text2}>
-          Bonjour, {prenom} {nom}
-          </Text>
-        </TouchableOpacity>
-        <PopUp/>
+          <Header navigation={navigation} title = {textHeader} color={"#5169A7"}/>
+          <StatusBar style="auto" />
+          <PopUp/>
         <ButtonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={() => setModalVisible(true)} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
 
         

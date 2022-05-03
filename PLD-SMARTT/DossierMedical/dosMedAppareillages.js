@@ -53,8 +53,8 @@ function PopUp(props) {
 }
 
 
-function DosMedAllergies({navigation}) {
-    const allergies =["Rhume des foins","Acariens","test","test2","test3","test4","test5","test6","test7","test8"]
+function DosMedAppareillages({navigation}) {
+    const appareillages =["Prothèses auditives","Lunettes","test","test2","test3","test4","test5","test6","test7","test8"]
     const prenom = "Gérard"
     const nom = "Dupont".toUpperCase()
     const [modalVisible, setModalVisible] = useState(false);
@@ -69,28 +69,28 @@ function DosMedAllergies({navigation}) {
                 <Header navigation={navigation} title = {"Dossier Médical"} color={"#1EA584"}/>
                 <View style = {styles.titre}>
                     <Text style={styles.text}>
-                        ALLERGIES
+                        APPAREILLAGES
                     </Text>
                 </View>
                 <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
                 <ScrollView style={{height:"63%"}}>
                     <StatusBar style="auto" />
-                        {allergies.map((element,index) => (
-                            <TouchableHighlight key={`${element}-${index}`} style={styles.allergie} underlayColor="white">
-                                <View style={styles.containerAllergie}>
-                                    <View style={styles.elementsView}>
-                                        <Text style={styles.text3}>
-                                            {element}
-                                        </Text>
-                                    </View>
-                                    <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
+                    {appareillages.map((element,index) => (
+                        <TouchableHighlight key={`${element}-${index}`} style={styles.appareillage} underlayColor="white">
+                            <View style={styles.containerAppareillage}>
+                                <View style={styles.elementsView}>
+                                    <Text style={styles.text3}>
+                                        {element}
+                                    </Text>
                                 </View>
-                            </TouchableHighlight>
-                        ))}
+                                <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
+                            </View>
+                        </TouchableHighlight>
+                    ))}
                 </ScrollView>
                 <View style={{height:"15%"}}>
-                    <Bouton styleButton={styles.nouvelleAllergieBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedAllergiesAj', {
-                    })} text="Ajouter une allergie" icone="plus" styleIcone ={styles.iconDossier}/>
+                    <Bouton styleButton={styles.nouvelAppareillageBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedAppareillagesAj', {
+                    })} text="Ajouter un appareillage" icone="plus" styleIcone ={styles.iconDossier}/>
                 </View>
             </Pressable>
         </View>
@@ -98,15 +98,15 @@ function DosMedAllergies({navigation}) {
 
 }
 
-export default DosMedAllergies
+export default DosMedAppareillages
 
 const styles = StyleSheet.create({
-    allergie:{
+    appareillage:{
         backgroundColor: "#ffffff",
         width:"80%",
         alignSelf:"center",
         margin:"2%",
-        },
+    },
     titre:{
         backgroundColor: "#1EA584",
         borderRadius: 10,
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         alignSelf:"center",
         margin:"5%",
     },
-    nouvelleAllergieBtn: {
+    nouvelAppareillageBtn: {
         width: "80%",
         flexDirection:"row",
         borderRadius: 25,
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
         marginTop:"6%"
     },
     text: {
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: 'bold',
         color: "#fff",
         alignSelf:"center"
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
         color: "#fff",
         flex: 1
     },
-    containerAllergie:{
+    containerAppareillage:{
         flexDirection:"row",
         justifyContent:"space-between",
     },
