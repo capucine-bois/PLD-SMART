@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TouchableHighlight, Modal} from 'react-native';
+
+import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TouchableHighlight, Modal, Keyboard} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
 import Header from "../Util/Header";
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 
 function Bouton(props){
     return (
@@ -50,8 +52,9 @@ function PopUp(props) {
     )
 }
 
+
 function DosMedIndicateurs({navigation}) {
-    const indicateurs =["Indice glycémique","Poids","test","test2","test3","test4","test5","test6","test7","test8"]
+    const indicateurs =["Taille","Poids","test","test2","test3","test4","test5","test6","test7","test8"]
     const prenom = "Gérard"
     const nom = "Dupont".toUpperCase()
     const [modalVisible, setModalVisible] = useState(false);
@@ -59,34 +62,37 @@ function DosMedIndicateurs({navigation}) {
     const toggleModalVisible = () => {
         setModalVisible(false);
     }
+
     return(
         <View style={styles.container}>
-            <Header navigation={navigation} title = {"Dosser Médical"} color={"#1EA584"}/>
-            <View style = {styles.titre}>
-                <Text style={styles.text}>
-                    INDICATEURS
-                </Text>
-            </View>
-            <ScrollView style={{height:"63%"}}>
-                <StatusBar style="auto" />
-                {indicateurs.map((element,index) => (
-                    <TouchableHighlight key={`${element}-${index}`} style={styles.indicateur} underlayColor="white">
-                        <View style={styles.containerIndicateur}>
-                            <View style={styles.elementsView}>
-                                <Text style={styles.text3}>
-                                    {element}
-                                </Text>
+            <Pressable onPress={()=>Keyboard.dismiss()}>
+                <Header navigation={navigation} title = {"Dossier Médical"} color={"#1EA584"}/>
+                <View style = {styles.titre}>
+                    <Text style={styles.text}>
+                        INDICATEURS
+                    </Text>
+                </View>
+                <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
+                <ScrollView style={{height:"63%"}}>
+                    <StatusBar style="auto" />
+                    {indicateurs.map((element,index) => (
+                        <View key={`${element}-${index}`} style={styles.indicateur} underlayColor="white" >
+                            <View style={styles.containerIndicateur}>
+                                <TouchableOpacity style={styles.elementsView} onPress={()=> navigation.navigate('DosMedIndicateurPres', {})}>
+                                    <Text style={styles.text3}>
+                                        {element}
+                                    </Text>
+                                </TouchableOpacity>
+                                <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
                             </View>
-                            <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
                         </View>
-                    </TouchableHighlight>
-                ))}
-            </ScrollView>
-
-            <View style={{height:"15%"}}>
-                <Bouton styleButton={styles.nouvelIndicateurBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedIndicateursAj', {
-                })} text="Ajouter un indicateur" icone="plus" styleIcone ={styles.iconDossier}/>
-            </View>
+                    ))}
+                </ScrollView>
+                <View style={{height:"15%"}}>
+                    <Bouton styleButton={styles.nouvelIndicateurBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedIndicateursAj', {
+                    })} text="Ajouter un indicateur" icone="plus" styleIcone ={styles.iconDossier}/>
+                </View>
+            </Pressable>
         </View>
     )
 
@@ -100,17 +106,6 @@ const styles = StyleSheet.create({
         width:"80%",
         alignSelf:"center",
         margin:"2%",
-    },
-    containerIndicateur:{
-        flexDirection:"row",
-        justifyContent:"space-between",
-    },
-    elementsView:{
-        borderRadius: 10,
-        borderWidth : 3,
-        width:"80%",
-        borderColor: "#1EA584",
-        alignItems:"center"
     },
     titre:{
         backgroundColor: "#1EA584",
@@ -132,7 +127,7 @@ const styles = StyleSheet.create({
         marginTop:"6%"
     },
     text: {
-        fontSize: 24,
+        fontSize: 22,
         fontWeight: 'bold',
         color: "#fff",
         alignSelf:"center"
@@ -159,6 +154,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: "#fff",
         flex: 1
+    },
+    containerIndicateur:{
+        flexDirection:"row",
+        justifyContent:"space-between",
+    },
+    elementsView:{
+        borderRadius: 10,
+        borderWidth : 3,
+        width:"80%",
+        borderColor: "#1EA584",
+        alignItems:"center"
     },
     text3: {
         fontSize: 25,

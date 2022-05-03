@@ -4,6 +4,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {StatusBar} from "expo-status-bar";
 import FormField from "../Util/FormField";
 import Header from "../Util/Header";
+import { LineChart } from 'react-native-svg-charts'
+import * as shape from 'd3-shape'
 
 function Bouton(props){
     return (
@@ -15,11 +17,12 @@ function Bouton(props){
     )
 }
 
-function DosMedIndicateursAj({navigation}) {
+function DosMedIndicateurPres({navigation}) {
     const prenom = "Gérard"
     const nom = "Dupont".toUpperCase()
     const[title,setTitle]=useState('');
     const [remark, setRemark] = useState("");
+    const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
 
     return(
         <View style={styles.container}>
@@ -28,17 +31,26 @@ function DosMedIndicateursAj({navigation}) {
                 <StatusBar style="auto" />
                 <View style = {styles.titre}>
                     <Text style={styles.text}>
-                        Nouvel indicateur
+                        Indicateur Taille
                     </Text>
                 </View>
-                <View style={{height:"75%", marginTop:"20%"}}>
-                    <FormField label = {"Nom"} color={"#1EA584"} field={title} setField={setTitle}/>
-                    <FormField label = {"Unité"} color={"#1EA584"} field={title} setField={setTitle}/>
-
-                    <View style={{height:"15%", marginHorizontal:"15%", marginTop:"20%", flexDirection:"row", justifyContent:"space-between"}}>
-                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {
+                <View style={{height:"75%"}}>
+                    <Text style={styles.textCourbe}>
+                        Courbe
+                    </Text>
+                    <LineChart
+                        style={ { height: 200 } }
+                        dataPoints={ data }
+                        fillColor={ 'purple' }
+                        strokeColor={ 'rgb(134, 65, 244)' }
+                        shadowColor={ 'rgba(134, 65, 244, 0.2)' }
+                        contentInset={ { top: 20, bottom: 20 } }
+                        curve={shape.curve}
+                    />
+                    <View style={{height:"15%", marginHorizontal:"15%", marginTop:"10%", flexDirection:"row", justifyContent:"space-between"}}>
+                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {
                         })} text="Ajouter"/>
-                        <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {
+                        <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {
                         })} text="Annuler"/>
                     </View>
                 </View>
@@ -48,7 +60,7 @@ function DosMedIndicateursAj({navigation}) {
 
 }
 
-export default DosMedIndicateursAj
+export default DosMedIndicateurPres
 
 const styles = StyleSheet.create({
     iconDossier: {
@@ -68,6 +80,12 @@ const styles = StyleSheet.create({
     },
     text:{
         fontSize: 25,
+        fontWeight: 'bold',
+        color: "#1EA584",
+        alignSelf:"center"
+    },
+    textCourbe:{
+        fontSize: 22,
         fontWeight: 'bold',
         color: "#1EA584",
         alignSelf:"center"
@@ -157,7 +175,7 @@ const styles = StyleSheet.create({
     },
     titre:{
         alignSelf:"center",
-        margin:"10%",
+        marginBottom:"10%",
         color:"#000",
 
     },
