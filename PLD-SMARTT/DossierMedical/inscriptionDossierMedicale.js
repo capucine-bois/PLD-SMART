@@ -4,44 +4,15 @@ import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput,Button} 
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { response } from 'express';
 
 const InscrDosMed =({route,navigation})=>{
     const{prenom,nom}= route.params;
     const [taille, setTaille] = useState('');
     const [poids, setPoids] = useState('');
     const [age, setAge] = useState('');
-    const [idMetriqueTaille,setIdMetriqueTaille]=useState('');
     const [bouton, setBouton] = useState(false);
 
-    const submitMetriqueTaille= () => {
-        const params = {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                "name":'taille',
-                "unit":'cm',
-            })
-        }
-        AsyncStorage.getItem('token')
-        .then((token) => {
-            fetch(route.params.url+'/metric/'+token,params)
-                .then(response => 
-                  
-                    response.json()
-                    
-                )
-                .then(data =>{
-                    /*
-                    console.log(data)
-                    setIdMetriqueTaille(data.id)
-                    console.log(idMetriqueTaille)
-                    submitTaille()
-                    */
-                })
-        });
-            
-      };
+    
     
     const submitTaille= () => {
         const params = {
@@ -49,15 +20,17 @@ const InscrDosMed =({route,navigation})=>{
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 "value":taille,
-                "date":"2022-05-02"
                 
             })
         }
         AsyncStorage.getItem('token')
         .then((token) => {
-            fetch(route.params.url+'/measure/'+idMetriqueTaille,params)
-                .then(response => response.json())
-                .then(data => console.log(data))
+            fetch(route.params.url+'/height/'+token,params)
+                .then(response => {
+                    if(response.ok) {
+                        submitPoids()
+                    }
+                });
         });
             
       };
@@ -75,22 +48,17 @@ const InscrDosMed =({route,navigation})=>{
         .then((token) => {
             fetch(route.params.url+'/weight/'+token,params)
                 .then(response => {
-                
                     if(response.ok) {
-                        
                         navigation.navigate('inscrDossierMedical2', {
                             prenom: prenom,
                             nom:nom,
                             taille:taille,
                             poids:poids,
                             age:age,
-                            
+
                         })
                     }
-                   
-                
-                
-            });
+                });
         });
             
       };
@@ -160,7 +128,7 @@ const InscrDosMed =({route,navigation})=>{
                     disabled={!bouton}
                     onPress={() =>
                         /* 1. Navigate to the Details route with params */
-                        submitMetriqueTaille()
+                        submitTaille()
                     }
                 />
             </TouchableOpacity>
