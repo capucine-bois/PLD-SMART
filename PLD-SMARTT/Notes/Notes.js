@@ -52,6 +52,7 @@ const Notes =({route,navigation}) => {
     return(
         <View style={style.container}>
             <Header navigation={navigation} title = {"Mes Notes"} color={"#ffd700"}/>
+
             <View style={style.inputView}>
                 <TextInput
                 style={style.TextInput}
