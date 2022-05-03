@@ -17,7 +17,7 @@ function PopUp(props) {
     return (
         <View style={styles.centeredView}>
             <Modal
-                animationType="slide"
+                animationTyp e="slide"
                 transparent={true}
                 visible={props.modalVisibility}
                 >

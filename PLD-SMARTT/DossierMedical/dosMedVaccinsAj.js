@@ -1,5 +1,5 @@
 import {React,useState} from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput, Pressable, Keyboard} from 'react-native';
+import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
 import {Picker} from "@react-native-picker/picker"
@@ -14,7 +14,7 @@ function Bouton(props){
     )
 }
 
-function DosMedAllergiesAj({navigation}) {
+function DosMedVaccinsAj({navigation}) {
     const prenom = "Gérard"
     const nom = "Dupont".toUpperCase()
     const[titre,setTitre]=useState('');
@@ -32,7 +32,6 @@ function DosMedAllergiesAj({navigation}) {
     }];
     return(
         <View style={styles.container}>
-            <Pressable onPress={()=>Keyboard.dismiss()}>
             <View style={styles.headerBtn}>
                 <Text style={styles.text2}>
                     Dossier Médical
@@ -47,13 +46,13 @@ function DosMedAllergiesAj({navigation}) {
             <StatusBar style="auto" />
             <View style = {styles.titre}>
                 <Text style={styles.text}>
-                    Nouvelle allergie
+                    Nouveau vaccin
                 </Text>
             </View>
 
             <View style={styles.inputView}>
                 <Text style={styles.text3}>
-                    Titre
+                    Nom
                 </Text>
                 <TextInput
                     style={styles.TextInput}
@@ -84,7 +83,7 @@ function DosMedAllergiesAj({navigation}) {
                 <ScrollView style={styles.scrollView}>
                     <TextInput
                         style={styles.TextInput2}
-                        multiline={false}
+                        multiline={true}
                         placeholderTextColor="#000"
                         onChangeText={(note) => setNote(note)}
                     />
@@ -92,19 +91,19 @@ function DosMedAllergiesAj({navigation}) {
             </View>
 
             <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
-                <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {
+                <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedVaccins', {
                 })} text="Ajouter"/>
-                <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {
+                <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('Vaccins', {
                 })} text="Annuler"/>
 
             </View>
-            </Pressable>
+
         </View>
     )
 
 }
 
-export default DosMedAllergiesAj
+export default DosMedVaccinsAj
 
 const styles = StyleSheet.create({
     iconDossier: {
@@ -201,8 +200,7 @@ const styles = StyleSheet.create({
         width: "100%",
         padding:"5%",
         color: "#000000",
-        fontSize:17,
-        textAlignVertical:"top"
+        fontSize:17
     },
     inputView: {
         flexDirection:"row",
