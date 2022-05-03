@@ -1,6 +1,7 @@
 import {StyleSheet} from "react-native";
 import {useState} from "react";
 import {Text, TextInput, View} from "react-native";
+import {MaskedTextInput} from "react-native-mask-text";
 
 function getStyle(color)
 {
@@ -8,25 +9,25 @@ function getStyle(color)
 }
 
 
-const FormField = (props) => {
+const DateCompletion = (props) => {
 
     return(
         <View style={style.container}>
             <Text style={[style.text,getStyle(props.color)]}> {props.label} </Text>
-            <TextInput
+            <MaskedTextInput
+                mask="99/99/9999"
                 style={style.input}
                 value={props.field}
                 placeholder={props.placeholder}
                 onChangeText={props.setField}
-                keyboardType = {props.keyboardType}
+                keyboardType="numeric"
             />
-
         </View>
     );
 
 }
 
-export default FormField;
+export default DateCompletion;
 
 const style = StyleSheet.create({
     container:{
