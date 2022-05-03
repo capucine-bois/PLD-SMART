@@ -10,9 +10,33 @@ const InscrDosMed =({route,navigation})=>{
     const [taille, setTaille] = useState('');
     const [poids, setPoids] = useState('');
     const [age, setAge] = useState('');
+    const [idMetriqueTaille,setIdMetriqueTaille]=useState('');
     const [bouton, setBouton] = useState(false);
 
-    
+    const submitMetriqueTaille= () => {
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "name":'taille',
+                "unit":'cm',
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/metric/'+token,params)
+                .then(response => 
+                  
+                    response.json()
+                )
+                .then(data =>{
+                    console.log(data)
+                    setIdMetriqueTaille(data.id)
+                    submitTaille()
+                })
+        });
+            
+      };
     
     const submitTaille= () => {
         const params = {
@@ -20,17 +44,15 @@ const InscrDosMed =({route,navigation})=>{
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 "value":taille,
-                
+                "date":'2020-05-02'
             })
         }
         AsyncStorage.getItem('token')
         .then((token) => {
-            fetch(route.params.url+'/height/'+token,params)
-                .then(response => {
-                    if(response.ok) {
-                        submitPoids()
-                    }
-                });
+            fetch(route.params.url+'/measure/'+idMetriqueTaille,params)
+                .then(response => response.json()
+                )
+                .then(data => console.log(data))
         });
             
       };
@@ -48,17 +70,22 @@ const InscrDosMed =({route,navigation})=>{
         .then((token) => {
             fetch(route.params.url+'/weight/'+token,params)
                 .then(response => {
+                
                     if(response.ok) {
+                        
                         navigation.navigate('inscrDossierMedical2', {
                             prenom: prenom,
                             nom:nom,
                             taille:taille,
                             poids:poids,
                             age:age,
-
+                            
                         })
                     }
-                });
+                   
+                
+                
+            });
         });
             
       };
@@ -128,7 +155,7 @@ const InscrDosMed =({route,navigation})=>{
                     disabled={!bouton}
                     onPress={() =>
                         /* 1. Navigate to the Details route with params */
-                        submitTaille()
+                        submitMetriqueTaille()
                     }
                 />
             </TouchableOpacity>
