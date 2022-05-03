@@ -16,6 +16,7 @@ import DosMedAllergiesAj from './DossierMedical/dosMedAllergiesAj'
 import DosMedIndicateurs from './DossierMedical/dosMedIndicateurs'
 import DosMedIndicateursAj from './DossierMedical/dosMedIndicateursAj'
 import DosMedPathologies from './DossierMedical/dosMedPathologies'
+import DosMedVaccins from './DossierMedical/dosMedVaccins'
 
 
 import React, {useEffect} from "react"
@@ -64,6 +65,7 @@ export default function App() {
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedIndicateurs" component={DosMedIndicateurs}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedIndicateursAj" component={DosMedIndicateursAj}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedPathologies" component={DosMedPathologies}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="DosMedVaccins" component={DosMedVaccins}   />
 
       </Stack.Navigator>
 
