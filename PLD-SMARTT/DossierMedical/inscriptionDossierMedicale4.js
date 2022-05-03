@@ -4,6 +4,7 @@ import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput,Button} 
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Picker} from "@react-native-picker/picker"
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 function Bouton(props){
     return (
@@ -16,15 +17,57 @@ function Bouton(props){
 }
 
 
-const InscrDosMed2 =({route,navigation})=>{
-    const{prenom,nom,taille,poids,age}= route.params;
+const InscrDosMed4 =({route,navigation})=>{
+    const{prenom,nom}= route.params;
     const[titre,setTitre]=useState('');
     const[note,setNote]=useState('');
     const [selectedValue, setSelectedValue] = useState("type");
     const [bouton, setBouton] = useState(false);
+    const [date, setDate] = useState(new Date());
+    const [dateFormate,setDateFormate]=useState('')
+    const [dateFormate2,setDateFormate2]=useState( 'Entrer la date de début')
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+       };
+       const showHourPicker = () => {
+         setHourPickerVisibility(true);
+       };
+       const hideDatePicker = () => {
+         setDatePickerVisibility(false);
+       };
+       const hideHourPicker = () => {
+         setHourPickerVisibility(false);
+       };
+       const handleConfirm = (date) => {
+         setDate(date);
+         var dd = date.getDate();
+         var mm = date.getMonth() + 1; //January is 0!
+         var yyyy = date.getFullYear();
+         var hh=date.getHours();
+         var min=date.getMinutes();
+       
+         if (dd < 10) {
+             dd = '0' + dd;
+         }
+         if (mm < 10) {
+             mm = '0' + mm;
+         }
+         if(hh<10){
+           hh='0'+hh;
+         }
+         if(min<10){
+           min='0'+min;
+         }
+         setDateFormate(  yyyy + "-" + mm + "-" + dd+'T'+hh+':'+min+':00');
+         setDateFormate2( dd+"/"+mm+"/"+yyyy+' à ' + hh+":"+min);
+         hideDatePicker();
+       };
+    
 
     return (
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
             <View style={styles.headerBtn}>
                 <Text style={styles.text2}>
                     
@@ -45,7 +88,7 @@ const InscrDosMed2 =({route,navigation})=>{
                     </Text>
                     <View style={{marginTop:"2%",marginBottom:'5%'}}>
                     <Text style={styles.text3}>
-                        Avez-vous des allergies ? Si oui merci de les mentionner ci-dessous sinon cliquer sur passer :
+                        Avez-vous des Pathologies ? Si oui merci de les mentionner ci-dessous sinon cliquer sur passer :
                     </Text>
             </View>
 
@@ -60,22 +103,29 @@ const InscrDosMed2 =({route,navigation})=>{
                     onChangeText={(titre) => setTitre(titre)}
                 />
             </View>
-
-            <View style={styles.pickerView}>
-                <Text style={styles.text3}>
-                    Type
+            <View style={styles.inputView}>
+            <Text style={styles.text3}>
+                    Date
                 </Text>
-                <Picker
-                    selectedValue={selectedValue}
-                    style={styles.picker}
-                    onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-                >
-                    <Picker.Item label="Alimentaire" value="alim" />
-                    <Picker.Item label="Saisonnière" value="saison" />
-                    <Picker.Item label="Perannuelle" value="peran" />
-                    <Picker.Item label="Au venin" value="venin" />
-                </Picker>
+            <TouchableOpacity style={styles.DateInput}  onPress={showDatePicker}  >
+                    <Text style={{textAlign:'center',alignSelf:'center'}}>
+                       {dateFormate2}
+                    </Text>
+                    
+                </TouchableOpacity>
+                
+                
+                  <DateTimePickerModal
+                  
+                    isVisible={isDatePickerVisible}
+                    mode="datetime"
+                    locale="fr"
+                    onConfirm={handleConfirm}
+                    onCancel={hideDatePicker}
+                  />
+                
             </View>
+            
             <View style={styles.descriptif}>
                 <Text style={styles.text4}>
                     Descriptif
@@ -83,8 +133,7 @@ const InscrDosMed2 =({route,navigation})=>{
                 <ScrollView style={styles.scrollView}>
                     <TextInput
                         style={styles.TextInput2}
-                        
-                        textAlignVertical='top'
+                        multiline={true}
                         placeholderTextColor="#000"
                         onChangeText={(note) => setNote(note)}
                     />
@@ -92,10 +141,10 @@ const InscrDosMed2 =({route,navigation})=>{
             </View>
 
             <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
-                <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('inscrDossierMedical3', {
+                <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('inscrDossierMedical5', {
                 prenom: prenom,
                 nom:nom,})} text="Ajouter"/>
-                <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('inscrDossierMedical4', {
+                <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('inscrDossierMedical5', {
                 prenom: prenom,
                 nom:nom,})} text="Passer"/>
 
@@ -105,7 +154,7 @@ const InscrDosMed2 =({route,navigation})=>{
             </View>
 
 
-        </ScrollView>
+        </View>
 
 
 
@@ -113,13 +162,25 @@ const InscrDosMed2 =({route,navigation})=>{
     );
 }
 
-export default InscrDosMed2;
+export default InscrDosMed4;
 
 const styles = StyleSheet.create({
     text: {
         fontSize: 20,
         fontWeight: 'bold'
     },
+    DateInput: {
+        
+        
+        backgroundColor: "grey",
+        borderRadius: 30,
+        width: "60%",
+        height: "100%",
+        textAlign:"center",
+        paddingHorizontal:"5%",
+        color: "#000000",
+        alignSelf:"center"
+      },
     textProfil: {
         fontSize: 26,
         fontWeight: 'bold'
@@ -134,14 +195,7 @@ const styles = StyleSheet.create({
 
         alignItems: "center",
     },
-    TextInput: {
-        height: 50,
-        flex: 1,
-        padding: 10,
-        marginLeft: 20,
-        color: "#000000",
-        fontSize:25,
-    },
+    
     
     profil:{
         marginTop:"10%",
@@ -210,8 +264,8 @@ const styles = StyleSheet.create({
     descriptif:{
         flexDirection:"column",
         width: "80%",
-        height:"20%",
-        
+        height:"40%",
+        marginTop:'5%',
         alignSelf:"center",
     },
     scrollView:{
@@ -296,7 +350,7 @@ const styles = StyleSheet.create({
     inputView: {
         flexDirection:"row",
         paddingHorizontal:"10%",
-        marginTop:"1%"
+        marginTop:"5%"
     },
     titre:{
         alignSelf:"center",
