@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-
 import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TouchableHighlight, Modal} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
@@ -51,9 +50,8 @@ function PopUp(props) {
     )
 }
 
-
-function DosMedAllergies({navigation}) {
-    const allergies =["Rhume des foins","Acariens","test","test2","test3","test4","test5","test6","test7","test8"]
+function DosMedVaccins({navigation}) {
+    const vaccins =["Hépatite B","Tétanos","Covid-19","test2","test3","test4","test5","test6","test7","test8"]
     const prenom = "Gérard"
     const nom = "Dupont".toUpperCase()
     const [modalVisible, setModalVisible] = useState(false);
@@ -61,49 +59,60 @@ function DosMedAllergies({navigation}) {
     const toggleModalVisible = () => {
         setModalVisible(false);
     }
-
     return(
         <View style={styles.container}>
-            <Header navigation={navigation} title = {"Dosser Médical"} color={"#1EA584"}/>
+            <Header navigation={navigation} title = {"Dossier Médical"} color={"#1EA584"}/>
             <View style = {styles.titre}>
                 <Text style={styles.text}>
-                    ALLERGIES
+                    VACCINS
                 </Text>
             </View>
+            <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
             <ScrollView style={{height:"63%"}}>
                 <StatusBar style="auto" />
-                    {allergies.map((element,index) => (
-                        <TouchableHighlight key={`${element}-${index}`} style={styles.allergie} underlayColor="white">
-                            <View style={styles.containerAllergie}>
-                                <View style={styles.elementsView}>
-                                    <Text style={styles.text3}>
-                                        {element}
-                                    </Text>
-                                </View>
-                                <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
+                {vaccins.map((element,index) => (
+                    <TouchableHighlight key={`${element}-${index}`} style={styles.vaccin} underlayColor="white">
+                        <View style={styles.containerVaccin}>
+                            <View style={styles.elementsView}>
+                                <Text style={styles.text3}>
+                                    {element}
+                                </Text>
                             </View>
-                        </TouchableHighlight>
-                    ))}
+                            <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
+                        </View>
+                    </TouchableHighlight>
+                ))}
             </ScrollView>
 
             <View style={{height:"15%"}}>
-                <Bouton styleButton={styles.nouvelleAllergieBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedAllergiesAj', {
-                })} text="Ajouter une allergie" icone="plus" styleIcone ={styles.iconDossier}/>
+                <Bouton styleButton={styles.nouveauVaccinBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedVaccinsAj', {
+                })} text="Ajouter un vaccin" icone="plus" styleIcone ={styles.iconDossier}/>
             </View>
         </View>
     )
 
 }
 
-export default DosMedAllergies
+export default DosMedVaccins
 
 const styles = StyleSheet.create({
-    allergie:{
+    vaccin:{
         backgroundColor: "#ffffff",
         width:"80%",
         alignSelf:"center",
         margin:"2%",
-        },
+    },
+    containerVaccin:{
+        flexDirection:"row",
+        justifyContent:"space-between",
+    },
+    elementsView:{
+        borderRadius: 10,
+        borderWidth : 3,
+        width:"80%",
+        borderColor: "#1EA584",
+        alignItems:"center"
+    },
     titre:{
         backgroundColor: "#1EA584",
         borderRadius: 10,
@@ -112,7 +121,7 @@ const styles = StyleSheet.create({
         alignSelf:"center",
         margin:"5%",
     },
-    nouvelleAllergieBtn: {
+    nouveauVaccinBtn: {
         width: "80%",
         flexDirection:"row",
         borderRadius: 25,
@@ -124,7 +133,7 @@ const styles = StyleSheet.create({
         marginTop:"6%"
     },
     text: {
-        fontSize: 25,
+        fontSize: 24,
         fontWeight: 'bold',
         color: "#fff",
         alignSelf:"center"
@@ -150,18 +159,8 @@ const styles = StyleSheet.create({
         textAlign:"center",
         fontWeight: 'bold',
         color: "#fff",
-        flex: 1
-    },
-    containerAllergie:{
-        flexDirection:"row",
-        justifyContent:"space-between",
-    },
-    elementsView:{
-        borderRadius: 10,
-        borderWidth : 3,
-        width:"80%",
-        borderColor: "#1EA584",
-        alignItems:"center"
+        flex: 1,
+
     },
     text3: {
         fontSize: 25,

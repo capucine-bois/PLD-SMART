@@ -4,16 +4,17 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from '../Style/styleHome'
+import Header from "../Util/Header";
 
 
 
 const RDV2 =({route,navigation})=>{
     const{prenom,nom}= route.params;
-    const idRDV = route.params.idRDV;
+    const id = route.params.id;
     const [data, setData] = useState([]);
     const [date, setDate] = useState(new Date());
-    const [dateFormate,setDateFormate]=useState('')
-    const [dateFormate2,setDateFormate2]=useState( route.params.date)
+    const [dateFormate,setDateFormate]=useState(route.params.date)
+    const [dateFormate2,setDateFormate2]=useState( route.params.dateFormat)
     const [open, setOpen] = useState(false);
     const[praticien,setPraticien]=useState(route.params.namePractitioner);
     const[metierPraticien,setMetierPraticien]=useState(route.params.typePractitioner);
@@ -21,6 +22,7 @@ const RDV2 =({route,navigation})=>{
     const[commentaire,setCommentaire]=useState(route.params.commentaire);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isHourPickerVisible, setHourPickerVisibility] = useState(false);
+
     const showDatePicker = () => {
      setDatePickerVisibility(true);
     };
@@ -58,15 +60,12 @@ const RDV2 =({route,navigation})=>{
       hideDatePicker();
     };
 
-    
-    const modifyRDV= () => {
-      console.log('modify RDV')
-      console.log(idRDV)
+    const submitRDV= () => {
       const params = {
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
-             "id":idRDV,
+              "id":id,
               "date": dateFormate ,
               "namePractitioner": praticien,
               "typePractitioner": metierPraticien,
@@ -74,71 +73,40 @@ const RDV2 =({route,navigation})=>{
               "remark":commentaire,
           })
       }
-
       AsyncStorage.getItem('token')
-      .then((token) => {  
-
-          fetch('http://172.20.10.2:8080/rendezvous/'+token,params)
-              .then(response => response.json());
-            });
+      .then((token) => {
+          fetch(route.params.url+'/rendezvous/'+token,params)
+              .then(response => {
+                  if(response.ok) {
+                      navigation.navigate('RDV')
+                  }
+              });
+      });
           
-            };
+    };
 
-    const createRDV= () => {
-      console.log('create RDV')
-      console.log(idRDV)
-      const params = {
-          method: 'PUT',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            "id":idRDV,
-              "date": dateFormate ,
-              "namePractitioner": praticien,
-              "typePractitioner": metierPraticien,
-              "location": adress,
-              "remark":commentaire,
-          })
-      }
-
-      AsyncStorage.getItem('token')
-      .then((token) => {  
-
-          fetch('http://172.20.10.2:8080/rendezvous/'+token,params)
-              .then(response => response.json());
-            });
-          
-            };
-    
-
-  useEffect(() => {
-    
-   
-    
-  });
+    const deleteRDV= () => {
+        const params = {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'},
+        }
+        fetch(route.params.url+'/rendezvous/'+id,params)
+            .then(navigation.navigate("RDV"))
+    };
 
     return(
         <View style={style.container}>
-        
-            <TouchableOpacity style={style.headerBtn} onPress={() =>  navigation.navigate('Accueil', {
-             prenom: prenom,
-             nom: nom,
-             })}>
-            <Text style={styles.text2}>
-           Mes Rendez-Vous
-             </Text>
-             <MaterialCommunityIcons style={styles.iconDossier}  name='home' color="#fff" size={30}/>
-            </TouchableOpacity>
+
+            <Header navigation={navigation} title = {"Mes Rendez-vous"} color={"#9e0e40"}/>
 
             <View style={style.inputView}>
             
-            <TouchableOpacity style={style.DateInput}  onPress={showDatePicker}  >
+                <TouchableOpacity style={style.DateInput}  onPress={showDatePicker}  >
                     <Text>
                        {dateFormate2}
                     </Text>
                     
                 </TouchableOpacity>
-                
-                
                   <DateTimePickerModal
                     isVisible={isDatePickerVisible}
                     mode="datetime"
@@ -152,85 +120,96 @@ const RDV2 =({route,navigation})=>{
             
 
             <View style={style.inputView}>
-            
                 <TextInput
                 style={style.TextInput}
-            
                 placeholder="Nom Praticien"
                 placeholderTextColor="#003f5c"
                 onChangeText={(praticien) => setPraticien(praticien)}
-                
-            >
-              {praticien}
-              </TextInput>
+                >
+                    {praticien}
+                </TextInput>
             </View>
             <View style={style.inputView}>
             
                 <TextInput
                 style={style.TextInput}
-            
                 placeholder="Métier Praticien"
                 placeholderTextColor="#003f5c"
                 onChangeText={(metierPraticien) => setMetierPraticien(metierPraticien)}
-                
-            >
-            {metierPraticien}
-              </TextInput>
+                >
+                    {metierPraticien}
+                </TextInput>
+
             </View>
+
             <View style={style.inputView}>
             
                 <TextInput
                 style={style.TextInput}
-            
                 placeholder="Adresse"
                 placeholderTextColor="#003f5c"
                 onChangeText={(adress) => setAdress(adress)}
-                
-            >
-              {adress}
-              </TextInput>
+                >
+                    {adress}
+                </TextInput>
             </View>
 
             
             <Text style={{textAlign:'left',marginTop:20}}>
-                   Commentaire
-                </Text>
+                Commentaire
+            </Text>
+
             <ScrollView style={{marginTop:20,textAlign:'left',width: "80%",height:"30%",borderWidth: 5,borderColor:"#9e0e40",borderRadius:15}}>
-            <TextInput
-                style={style.TextInput}
-            
-                placeholder="Commentaire"
-                placeholderTextColor="#003f5c"
-                onChangeText={(commentaire) => setCommentaire(commentaire)}
-                
-            >
-            {commentaire}
-              </TextInput>
+
+                <TextInput
+                    style={style.TextInput}
+                    placeholder="Commentaire"
+                    placeholderTextColor="#003f5c"
+                    onChangeText={(commentaire) => setCommentaire(commentaire)}
+                >
+                    {commentaire}
+                </TextInput>
 
             </ScrollView>
 
-             <View style={style.BtnView}>
+            {
+                route.params.id == -1 ?
+                    <View style={style.BtnView}>
+                        <TouchableOpacity  style={[style.btn, style.AjouterBtn]} onPress={submitRDV} >
+                            <Text>
+                                Ajouter
+                            </Text>
+                        </TouchableOpacity>
 
-             
-                <TouchableOpacity style={style.AjouterBtn} onPress={() => { createRDV(),navigation.navigate('RDV', {
-             prenom: prenom,
-             nom: nom,
-             }) }} >
-                    <Text>
-                       Ajouter
-                    </Text>
-                </TouchableOpacity>
+                        <TouchableOpacity style={[style.btn, style.AnnulerBtn]} onPress={()=>navigation.navigate('RDV')}>
+                            <Text>
+                                Annuler
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    :
+                    <View style={style.BtnView}>
+                        <TouchableOpacity  style={[style.btn, style.AjouterBtn]} onPress={submitRDV} >
+                            <Text>
+                                Modifier
+                            </Text>
+                        </TouchableOpacity>
 
-                <TouchableOpacity style={style.AnnulerBtn} onPress={()=>navigation.navigate('RDV', {
-             prenom: prenom,
-             nom: nom,
-             })}>
-                    <Text>
-                        Annuler
-                    </Text>
-                </TouchableOpacity>
+                        <TouchableOpacity style={[style.btn, style.deleteBtn]} onPress={deleteRDV}>
+                            <Text>
+                                Supprimer
+                            </Text>
+                        </TouchableOpacity>
 
-            </View>
+                        <TouchableOpacity style={[style.btn, style.AnnulerBtn]} onPress={()=>navigation.navigate('RDV')}>
+                            <Text>
+                                Annuler
+                            </Text>
+                        </TouchableOpacity>
+
+
+                    </View>
+            }
         
         </View>
 
@@ -257,10 +236,11 @@ const style = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center'
       },
+
       nouvelleNoteBtn: {
         width: "80%",
         display:"flex",
-      flexDirection:"row",
+        flexDirection:"row",
         borderRadius: 25,
         height: 50,
         alignItems: "center",
@@ -274,63 +254,59 @@ const style = StyleSheet.create({
         flex: 1,
         textAlign: 'center',
         fontWeight: 'bold',
-        color: "#fff",
-        
-      
+        color: "black",
       },
       TextInput: {
         height: 40,
         flex: 1,
         padding: 10,
         marginLeft: 20,
-        color: "#000000",
+        color: "black",
       },
       DateInput: {
         height: 40,
-        
         flexDirection: 'row',
         padding: 10,
         marginLeft: 20,
         color: "#000000",
       },
       inputView: {
-          marginTop: 10,
-          flexDirection: 'row',
+        marginTop: 10,
+        flexDirection: 'row',
         backgroundColor: "#9C9C9C",
         borderRadius: 30,
         width: "80%",
         height: 50,
         alignItems: "center",
       },
-        AjouterBtn: {
-        width: "30%",
-        borderRadius: 25,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 50,
-        backgroundColor: "#9e0e40",
-        
-      },
-      AnnulerBtn: {
-        width: "30%",
-        borderRadius: 25,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 50,
-        backgroundColor: "#9C9C9C",
-        marginLeft:"2%"
-        
-      },
-      BtnView: {
 
-          
-        height:"20%",
-        width:"80%",
-        flexDirection:"row",
-        alignItems:"flex-start",
-        marginLeft:"30%",
+    btn:{
+        width: "30%",
+        borderRadius: 25,
+        height: 50,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 50,
+    },
+
+    AjouterBtn: {
+        backgroundColor: "#ffd700",
+    },
+    AnnulerBtn: {
+        backgroundColor: "#9C9C9C",
+    },
+
+    deleteBtn:{
+        backgroundColor: "red",
+    },
+
+
+      BtnView: {
+          height:"20%",
+          width:"80%",
+          display:"flex",
+          flexDirection:"row",
+          justifyContent:"center",
         
       },
 

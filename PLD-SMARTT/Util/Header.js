@@ -12,11 +12,11 @@ function getStyle(color)
 const Header = (props) => {
 
     return(
-        <TouchableOpacity style={[getStyle(props.color),style.headerBtn]} onPress={() => props.navigation.navigate('Accueil')}>
+        <TouchableOpacity style={[getStyle(props.color),style.headerBtn]}>
             <Text style={styles.text2}>
                 {props.title}
             </Text>
-            <MaterialCommunityIcons style={styles.iconDossier} name='home' color="#fff" size={30}/>
+            <MaterialCommunityIcons style={styles.iconDossier} name='home' color="#fff" size={30} onPress={() => props.navigation.navigate("Accueil")}/>
         </TouchableOpacity>
     )
 }
