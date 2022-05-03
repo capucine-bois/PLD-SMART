@@ -18,17 +18,6 @@ public class MedicalFile {
     private long medicalId;
 
 
-    @OneToMany(mappedBy = "medicalFile")
-    @JsonManagedReference
-    private List<Weight> weight;
-
-    @OneToMany(mappedBy = "medicalFile")
-    @JsonManagedReference
-    @Column(name="height")
-    private List<Height> height;
-
-
-
     @OneToOne
     @JoinColumn(name = "id_user", referencedColumnName = "id_user")
     @JsonBackReference
@@ -51,8 +40,27 @@ public class MedicalFile {
     @JsonManagedReference
     private List<Equipment> equipments;
 
+    @OneToMany(mappedBy = "medicalFile")
+    @JsonManagedReference
+    private List<Metric> metrics;
 
     public MedicalFile() {
+    }
+
+    public List<Metric> getMetrics() {
+        return metrics;
+    }
+
+    public void setMetrics(List<Metric> metrics) {
+        this.metrics = metrics;
+    }
+
+    public List<Equipment> getEquipments() {
+        return equipments;
+    }
+
+    public void setEquipments(List<Equipment> equipments) {
+        this.equipments = equipments;
     }
 
     public List<Vaccine> getVaccines() {
@@ -71,21 +79,6 @@ public class MedicalFile {
         this.medicalId = medicalId;
     }
 
-    public List<Weight> getWeight() {
-        return weight;
-    }
-
-    public void setWeight(List<Weight> weight) {
-        this.weight = weight;
-    }
-
-    public List<Height> getHeight() {
-        return height;
-    }
-
-    public void setHeight(List<Height> height) {
-        this.height = height;
-    }
 
     public User getUser() {
         return user;
@@ -115,12 +108,11 @@ public class MedicalFile {
     public String toString() {
         return "MedicalFile{" +
                 "medicalId=" + medicalId +
-                ", weight=" + weight +
-                ", height=" + height +
                 ", user=" + user +
                 ", allergies=" + allergies +
                 ", pathologies=" + pathologies +
                 ", vaccines=" + vaccines +
+                ", metrics=" + metrics +
                 '}';
     }
 }

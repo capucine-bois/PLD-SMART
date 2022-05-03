@@ -1,9 +1,9 @@
 package com.controller;
 
-import com.model.Weight;
+import com.model.Metric;
 import com.model.MedicalFile;
 import com.model.User;
-import com.repository.WeightRepository;
+import com.repository.MetricRepository;
 import com.repository.MedicalFileRepository;
 import com.repository.UserRepository;
 import org.slf4j.Logger;
@@ -18,25 +18,24 @@ import java.util.List;
 
 
 @RestController
-public class WeightController {
+public class MetricController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WeightController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MetricController.class);
 
     private UserRepository userRepository;
     private MedicalFileRepository medicalFileRepository;
-
-    private WeightRepository weightRepository;
+    private MetricRepository metricRepository;
 
     @Autowired
-    WeightController(final UserRepository userRepository, final MedicalFileRepository medicalFileRepository, final WeightRepository weightRepository) {
+    MetricController(final UserRepository userRepository, final MedicalFileRepository medicalFileRepository, final MetricRepository metricRepository) {
         this.userRepository = userRepository;
         this.medicalFileRepository = medicalFileRepository;
-        this.weightRepository = weightRepository;
+        this.metricRepository = metricRepository;
     }
 
-    @GetMapping("/weight/user/{usertoken}")
+    @GetMapping("/metric/user/{usertoken}")
     @ResponseBody
-    public ResponseEntity<List<Weight>> getHeightByUser(@PathVariable(value = "usertoken") String usertoken){
+    public ResponseEntity<List<Metric>> getMetricsByUser(@PathVariable(value = "usertoken") String usertoken){
 
         User user = userRepository.findByToken(usertoken)
                 .orElseThrow(() -> new UserNotFoundException(usertoken));
@@ -44,49 +43,46 @@ public class WeightController {
         MedicalFile medicalFile = medicalFileRepository.findByUser(user)
                 .orElseThrow(() -> new MedicalFileNotFoundException(user));
 
-        List<Weight> listWeight = weightRepository.findByMedicalFile(medicalFile)
-                .orElseThrow(() -> new HeightNotFoundException(medicalFile));
+        List<Metric> listMetric = metricRepository.findByMedicalFile(medicalFile)
+                .orElseThrow(() -> new AllergyNotFoundException(medicalFile));
 
-        return new ResponseEntity<List<Weight>>(listWeight, HttpStatus.OK);
+        return new ResponseEntity<List<Metric>>(listMetric, HttpStatus.OK);
     }
 
-    @PutMapping("/weight/{usertoken}")
+    @PutMapping("/metric/{usertoken}")
     @ResponseBody
     @Transactional
-    public ResponseEntity<Weight> createHeight(@RequestBody Weight weight,@PathVariable(value = "usertoken") String usertoken){
+    public ResponseEntity<Metric> createMetric(@RequestBody Metric metric,@PathVariable(value = "usertoken") String usertoken){
         User user = userRepository.findByToken(usertoken)
                 .orElseThrow(() -> new UserNotFoundException(usertoken));
 
         MedicalFile medicalFile = medicalFileRepository.findByUser(user)
                 .orElseThrow(() -> new MedicalFileNotFoundException(user));
 
-        weight.setMedicalFile(medicalFile);
-        weightRepository.save(weight);
+        metric.setMedicalFile(medicalFile);
+        metricRepository.save(metric);
 
-        return new ResponseEntity<Weight>(weight, HttpStatus.OK);
+        return new ResponseEntity<Metric>(metric, HttpStatus.OK);
     }
 
-    @DeleteMapping( "/weight/{weightid}")
+    @DeleteMapping( "/metric/{metricid}")
     @ResponseBody
     @Transactional
-    public ResponseEntity<Long> deleteWeightById (@PathVariable(value = "weightid") Long weightid) {
-        weightRepository.deleteWeightById(weightid);
-        return new ResponseEntity<>(weightid, HttpStatus.OK);
+    public ResponseEntity<Long> deleteMetricById (@PathVariable(value = "metricid") Long metricid) {
+        metricRepository.deleteMetricById(metricid);
+        return new ResponseEntity<>(metricid, HttpStatus.OK);
     }
 
-
-    /*
-    @PostMapping("/allergy/{allergyid}")
+/*
+    @PostMapping("/metric/{allergyid}")
     @ResponseBody
     @Transactional
-    public ResponseEntity<Allergy> modifyAllergyById (@RequestBody Allergy modifiedAllergy,@PathVariable(value = "allergyid") Long allergyid) {
+    public ResponseEntity<Metric> modifyMetricById (@RequestBody Metric modifiedMetric,@PathVariable(value = "allergyid") Long allergyid) {
         Allergy allergyToModify = allergyRepository.getById(allergyid);
         allergyToModify.setDescription(modifiedAllergy.getDescription());
         allergyToModify.setType(modifiedAllergy.getType());
         allergyToModify.setName(modifiedAllergy.getName());
         allergyRepository.save(allergyToModify);
         return new ResponseEntity<Allergy>(allergyToModify, HttpStatus.OK);
-    }
-    
-     */
+    }*/
 }
