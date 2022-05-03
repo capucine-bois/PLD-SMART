@@ -16,15 +16,16 @@ function Bouton(props){
 }
 
 
-const InscrDosMed2 =({route,navigation})=>{
-    const{prenom,nom,taille,poids,age}= route.params;
+const InscrDosMed3 =({route,navigation})=>{
+    const{prenom,nom}= route.params;
     const[titre,setTitre]=useState('');
     const[note,setNote]=useState('');
     const [selectedValue, setSelectedValue] = useState("type");
     const [bouton, setBouton] = useState(false);
+    
 
     return (
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
             <View style={styles.headerBtn}>
                 <Text style={styles.text2}>
                     
@@ -45,7 +46,7 @@ const InscrDosMed2 =({route,navigation})=>{
                     </Text>
                     <View style={{marginTop:"2%",marginBottom:'5%'}}>
                     <Text style={styles.text3}>
-                        Avez-vous des allergies ? Si oui merci de les mentionner ci-dessous sinon cliquer sur passer :
+                        Avez-vous d'autres allergies ? Si oui merci de les mentionner ci-dessous sinon cliquer sur passer :
                     </Text>
             </View>
 
@@ -83,8 +84,7 @@ const InscrDosMed2 =({route,navigation})=>{
                 <ScrollView style={styles.scrollView}>
                     <TextInput
                         style={styles.TextInput2}
-                        
-                        textAlignVertical='top'
+                        multiline={true}
                         placeholderTextColor="#000"
                         onChangeText={(note) => setNote(note)}
                     />
@@ -105,7 +105,7 @@ const InscrDosMed2 =({route,navigation})=>{
             </View>
 
 
-        </ScrollView>
+        </View>
 
 
 
@@ -113,7 +113,7 @@ const InscrDosMed2 =({route,navigation})=>{
     );
 }
 
-export default InscrDosMed2;
+export default InscrDosMed3;
 
 const styles = StyleSheet.create({
     text: {
