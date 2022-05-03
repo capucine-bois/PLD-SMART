@@ -3,6 +3,7 @@ import React, { Component, useState } from 'react';
 import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput,Button} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const InscrDosMed =({route,navigation})=>{
     const{prenom,nom}= route.params;
@@ -10,6 +11,55 @@ const InscrDosMed =({route,navigation})=>{
     const [poids, setPoids] = useState('');
     const [age, setAge] = useState('');
     const [bouton, setBouton] = useState(false);
+
+    const submitTaille= () => {
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "value":taille,
+                
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/height/'+token,params)
+                .then(response => {
+                    if(response.ok) {
+                        submitPoids()
+                    }
+                });
+        });
+            
+      };
+
+      const submitPoids= () => {
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "value":poids,
+                
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/weight/'+token,params)
+                .then(response => {
+                    if(response.ok) {
+                        navigation.navigate('inscrDossierMedical2', {
+                            prenom: prenom,
+                            nom:nom,
+                            taille:taille,
+                            poids:poids,
+                            age:age,
+
+                        })
+                    }
+                });
+        });
+            
+      };
 
 
     return (
@@ -76,14 +126,7 @@ const InscrDosMed =({route,navigation})=>{
                     disabled={!bouton}
                     onPress={() =>
                         /* 1. Navigate to the Details route with params */
-                        navigation.navigate('inscrDossierMedical2', {
-                            prenom: prenom,
-                            nom:nom,
-                            taille:taille,
-                            poids:poids,
-                            age:age,
-
-                        })
+                        submitTaille()
                     }
                 />
             </TouchableOpacity>

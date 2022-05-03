@@ -44,8 +44,11 @@ export default function App() {
             .then(result => {
                 setToken(result);
             })
+
     }, []);
 
+    
+   
   return (
       <NavigationContainer style={styles.container} >
       <Stack.Navigator screenOptions={{headerShown: false}}>
