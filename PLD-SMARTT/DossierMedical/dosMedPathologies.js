@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
+import Header from "../Util/Header";
 
 function PopUp(props) {
     return (
@@ -70,18 +71,7 @@ function DosMedPathologies({navigation}) {
     }
     return(
         <View style={styles.container}>
-            <View style={styles.headerBtn}>
-                <Text style={styles.text2}>
-                    Dossier Médical
-                </Text>
-                <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
-                <TouchableOpacity>
-                    <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
-                        prenom: prenom,
-                        nom: nom,
-                    })}/>
-                </TouchableOpacity>
-            </View>
+            <Header navigation={navigation} title = {"Dosser Médical"} color={"#1EA584"}/>
             <View style = {styles.titre}>
                 <Text style={styles.text}>
                     PATHOLOGIES
