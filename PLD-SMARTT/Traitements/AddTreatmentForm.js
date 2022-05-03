@@ -51,6 +51,7 @@ const AddTreatmentForm = ({route,navigation})=> {
 
       hideDatePicker();
     };
+
     const handleConfirmEnd = (date) => {
       setDate(date);
       var dd = date.getDate();
@@ -64,7 +65,7 @@ const AddTreatmentForm = ({route,navigation})=> {
           mm = '0' + mm;
       }
       setDateFormateFin( dd+"/"+mm+"/"+yyyy);
-      }
+
 
       hideDatePicker();
     };
@@ -126,7 +127,7 @@ const AddTreatmentForm = ({route,navigation})=> {
 
 
 
-    );
+    )
 
 }
 
