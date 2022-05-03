@@ -30,7 +30,6 @@ public class Height {
 
     public Height(float value, MedicalFile medicalFile) {
         this.value = value;
-        this.medicalFile = medicalFile;
     }
 
     public long getId() {

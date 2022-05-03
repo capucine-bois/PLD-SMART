@@ -26,12 +26,21 @@ public class Vaccine {
     private Date lastBooster;
 
     @Column(name="lot")
-    private String description;
+    private String lot;
 
     @ManyToOne
     @JoinColumn(name="id_medical_file",nullable=false, referencedColumnName = "id_medical_file")
     @JsonBackReference
     private MedicalFile medicalFile;
+
+    public Vaccine() {
+    }
+
+    public Vaccine(String name, Date lastBooster, String lot) {
+        this.name = name;
+        this.lastBooster = lastBooster;
+        this.lot = lot;
+    }
 
     public long getId() {
         return id;
@@ -57,12 +66,12 @@ public class Vaccine {
         this.lastBooster = lastBooster;
     }
 
-    public String getDescription() {
-        return description;
+    public String getLot() {
+        return lot;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setLot(String lot) {
+        this.lot = lot;
     }
 
     public MedicalFile getMedicalFile() {
@@ -79,7 +88,7 @@ public class Vaccine {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", lastBooster=" + lastBooster +
-                ", description='" + description + '\'' +
+                ", lot='" + lot + '\'' +
                 ", medicalFile=" + medicalFile +
                 '}';
     }
