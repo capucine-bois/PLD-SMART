@@ -19,18 +19,8 @@ function DosMedVaccinsAj({navigation}) {
     const nom = "Dupont".toUpperCase()
     const[title,setTitle]=useState('');
     const[date,setDate]=useState('');
+    const[lot,setLot]=useState('');
 
-    const[note,setNote]=useState('');
-    const [selectedValue, setSelectedValue] = useState("type");
-    const[ajouterModifier,setAjouterModifier]=useState('Ajouter');
-    const [bouton, setBouton] = useState(false);
-    const data = [{
-        value: 'Banana',
-    }, {
-        value: 'Mango',
-    }, {
-        value: 'Pear',
-    }];
     return(
         <View style={styles.container}>
             <View style={styles.headerBtn}>
@@ -51,22 +41,10 @@ function DosMedVaccinsAj({navigation}) {
                 </Text>
             </View>
 
-            <FormField label = {"Nom"} color={"#1EA584"} field={title} setField={setTitle}/>
-            <DateCompletion label = {"Date"} color={"#1EA584"} field={date} setField={setDate} keyboardType={'numeric'}/>
-
-
-            <View style={styles.descriptif}>
-                <Text style={styles.text4}>
-                    Descriptif
-                </Text>
-                <ScrollView style={styles.scrollView}>
-                    <TextInput
-                        style={styles.TextInput2}
-                        multiline={true}
-                        placeholderTextColor="#000"
-                        onChangeText={(note) => setNote(note)}
-                    />
-                </ScrollView>
+            <View style={{height:"45%", backgroundColor:"white", marginTop: "10%", marginBottom:"20%"}}>
+                <FormField label = {"Nom"} color={"#1EA584"} field={title} setField={setTitle}/>
+                <DateCompletion label = {"Date"} color={"#1EA584"} field={date} setField={setDate} keyboardType={'numeric'}/>
+                <FormField label = {"Lot"} color={"#1EA584"} field={lot} setField={setLot}/>
             </View>
 
             <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
