@@ -19,7 +19,8 @@ const Notes2 =({route,navigation})=>{
             method:"DELETE",
         }
 
-        fetch(route.params.url+"/notes/id/"+route.params.id,params);
+        fetch(route.params.url+"/notes/id/"+route.params.id,params)
+            .then(response => navigation.navigate('BlocNotes'))
     }
 
     const addOrChange = () => {
@@ -38,7 +39,8 @@ const Notes2 =({route,navigation})=>{
 
         AsyncStorage.getItem('token')
             .then((token) => {
-                fetch(route.params.url+'/notes/user/'+token,params);
+                fetch(route.params.url+'/notes/user/'+token,params)
+                    .then(response => navigation.navigate('BlocNotes'))
             });
     }
 

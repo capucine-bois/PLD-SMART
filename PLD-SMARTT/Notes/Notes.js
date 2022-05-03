@@ -2,6 +2,7 @@ import React, {Component, useEffect, useState} from 'react';
 import {Button, StyleSheet, Text, View, TextInput, Image, StatusBar, TouchableOpacity, FlatList} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import NoteSummary from "./NoteSummary";
+import Header from "../Util/Header";
 import styles from '../Style/styleHome'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -46,19 +47,11 @@ const Notes =({route,navigation}) => {
                     });
             });
 
-    },[])
+    })
 
     return(
         <View style={style.container}>
-
-            <TouchableOpacity style={style.headerBtn} onPress={() =>  navigation.navigate('Accueil')}>
-                <Text style={styles.text2}>
-                    Mon Bloc Notes
-                </Text>
-
-                <MaterialCommunityIcons style={styles.iconDossier}  name='home' color="#fff" size={30}/>
-            </TouchableOpacity>
-
+            <Header navigation={navigation} title = {"Mes Notes"} color={"#ffd700"}/>
             <View style={style.inputView}>
                 <TextInput
                 style={style.TextInput}
@@ -105,17 +98,6 @@ const Notes =({route,navigation}) => {
 export default Notes;
 
 const style = StyleSheet.create({
-    headerBtn: {
-        width: "100%",
-        height: 75,
-        display:"flex",
-        flexDirection:"row",
-        alignItems:"flex-end",
-        paddingBottom:20,
-        backgroundColor: "#ffd700",
-        marginBottom:30,
-
-      },
       flatSummary:{
         width:"100%",
       },
