@@ -61,7 +61,7 @@ function DossierMedical({navigation}) {
                     text="Vaccins" />
             <View>
             </View>
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAppareillages')}
                     text="Appareillages" />
                 <View>
                     <Text style={styles.textContenuEtiquette}>Prothèses auditives</Text>
