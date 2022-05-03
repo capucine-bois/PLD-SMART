@@ -1,8 +1,9 @@
 import {React,useState} from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput, Pressable, Keyboard} from 'react-native';
+import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput, Pressable, KeyboardAvoidingView, Keyboard} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
-import {Picker} from "@react-native-picker/picker"
+import FormField from "../Util/FormField";
+import Header from "../Util/Header";
 
 function Bouton(props){
     return (
@@ -17,87 +18,35 @@ function Bouton(props){
 function DosMedAllergiesAj({navigation}) {
     const prenom = "Gérard"
     const nom = "Dupont".toUpperCase()
-    const[titre,setTitre]=useState('');
-    const[severite,setSeverite]=useState('');
-    const[note,setNote]=useState('');
-    const [selectedValue, setSelectedValue] = useState("type");
-    const[ajouterModifier,setAjouterModifier]=useState('Ajouter');
-    const [bouton, setBouton] = useState(false);
-    const data = [{
-        value: 'Banana',
-    }, {
-        value: 'Mango',
-    }, {
-        value: 'Pear',
-    }];
+    const[title,setTitle]=useState('');
+    const [remark, setRemark] = useState("");
+
     return(
         <View style={styles.container}>
             <Pressable onPress={()=>Keyboard.dismiss()}>
-            <View style={styles.headerBtn}>
-                <Text style={styles.text2}>
-                    Dossier Médical
-                </Text>
-                <TouchableOpacity>
-                    <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
-                        prenom: prenom,
-                        nom: nom,
-                    })}/>
-                </TouchableOpacity>
-            </View>
-            <StatusBar style="auto" />
-            <View style = {styles.titre}>
-                <Text style={styles.text}>
-                    Nouvelle allergie
-                </Text>
-            </View>
-
-            <View style={styles.inputView}>
-                <Text style={styles.text3}>
-                    Titre
-                </Text>
-                <TextInput
-                    style={styles.TextInput}
-                    placeholderTextColor="#000"
-                    onChangeText={(titre) => setTitre(titre)}
-                />
-            </View>
-
-            <View style={styles.inputView}>
-                <Text style={styles.text3}>
-                    Type
-                </Text>
-                <Picker
-                    selectedValue={selectedValue}
-                    style={styles.picker}
-                    onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-                >
-                    <Picker.Item label="Alimentaire" value="alim" />
-                    <Picker.Item label="Saisonnière" value="saison" />
-                    <Picker.Item label="Perannuelle" value="peran" />
-                    <Picker.Item label="Au venin" value="venin" />
-                </Picker>
-            </View>
-            <View style={styles.descriptif}>
-                <Text style={styles.text4}>
-                    Descriptif
-                </Text>
-                <ScrollView style={styles.scrollView}>
+                <Header navigation={navigation} title = {"Dosser Médical"} color={"#1EA584"}/>
+                <StatusBar style="auto" />
+                <View style = {styles.titre}>
+                    <Text style={styles.text}>
+                        Nouvelle allergie
+                    </Text>
+                </View>
+                <View style={{height:"75%"}}>
+                    <FormField label = {"Titre"} color={"#1EA584"} field={title} setField={setTitle}/>
+                    <Text style={styles.title2}> Descriptif </Text>
                     <TextInput
-                        style={styles.TextInput2}
-                        multiline={false}
-                        placeholderTextColor="#000"
-                        onChangeText={(note) => setNote(note)}
+                        style={styles.remarkInput}
+                        value={remark}
+                        multiline={true}
+                        onChangeText={setRemark}
                     />
-                </ScrollView>
-            </View>
-
-            <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
-                <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {
-                })} text="Ajouter"/>
-                <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {
-                })} text="Annuler"/>
-
-            </View>
+                    <View style={{height:"15%", marginHorizontal:"15%", marginTop:"10%", flexDirection:"row", justifyContent:"space-between"}}>
+                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {
+                        })} text="Ajouter"/>
+                        <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {
+                        })} text="Annuler"/>
+                    </View>
+                </View>
             </Pressable>
         </View>
     )
@@ -163,7 +112,7 @@ const styles = StyleSheet.create({
     },
     text4:{
         color:"#1EA584",
-        fontSize: 20,
+        fontSize: 25,
         fontWeight: 'bold',
         marginTop:"5%",
         marginBottom:"2%"
@@ -209,6 +158,7 @@ const styles = StyleSheet.create({
         justifyContent:"space-between",
         paddingHorizontal:"10%",
         marginTop:"5%"
+
     },
     titre:{
         alignSelf:"center",
@@ -216,4 +166,26 @@ const styles = StyleSheet.create({
         color:"#000",
 
     },
+
+    title2:{
+        fontSize:25,
+        color:"#1EA584",
+        fontWeight:"bold",
+        marginLeft:20,
+        marginTop:"10%"
+    },
+    remarkInput:{
+        width:"95%",
+        textAlignVertical:"top",
+        height:"35%",
+        borderStyle:"solid",
+        paddingLeft:"5%",
+        paddingTop:"5%",
+        marginLeft:"auto",
+        marginRight:"auto",
+        borderColor:"grey",
+        borderRadius:10,
+        borderWidth:5,
+        marginTop:10
+    }
 })
