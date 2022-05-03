@@ -36,11 +36,9 @@ import {createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
-<<<<<<< Updated upstream
-const urlBack = "http://172.20.10.2:8080";
-=======
+
 const urlBack = "http://172.21.32.1:8080";
->>>>>>> Stashed changes
+
 export default function App() {
 
 
