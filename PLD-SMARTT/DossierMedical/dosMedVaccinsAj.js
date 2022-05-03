@@ -1,9 +1,10 @@
 import {React,useState} from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput} from 'react-native';
+import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput, Keyboard, KeyboardAvoidingView} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
 import FormField from "../Util/FormField";
 import DateCompletion from "../Util/DateCompletion";
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 function Bouton(props){
     return (
         <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
@@ -23,38 +24,38 @@ function DosMedVaccinsAj({navigation}) {
 
     return(
         <View style={styles.container}>
-            <View style={styles.headerBtn}>
-                <Text style={styles.text2}>
-                    Dossier Médical
-                </Text>
-                <TouchableOpacity>
-                    <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
-                        prenom: prenom,
-                        nom: nom,
-                    })}/>
-                </TouchableOpacity>
-            </View>
-            <StatusBar style="auto" />
-            <View style = {styles.titre}>
-                <Text style={styles.text}>
-                    Nouveau vaccin
-                </Text>
-            </View>
-
-            <View style={{height:"45%", backgroundColor:"white", marginTop: "10%", marginBottom:"20%"}}>
-                <FormField label = {"Nom"} color={"#1EA584"} field={title} setField={setTitle}/>
-                <DateCompletion label = {"Date"} color={"#1EA584"} field={date} setField={setDate} keyboardType={'numeric'}/>
-                <FormField label = {"Lot"} color={"#1EA584"} field={lot} setField={setLot}/>
-            </View>
-
-            <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
-                <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedVaccins', {
-                })} text="Ajouter"/>
-                <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('Vaccins', {
-                })} text="Annuler"/>
-
-            </View>
-
+            <Pressable onPress={()=>Keyboard.dismiss()}>
+                <KeyboardAvoidingView >
+                <View style={styles.headerBtn}>
+                    <Text style={styles.text2}>
+                        Dossier Médical
+                    </Text>
+                    <TouchableOpacity>
+                        <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
+                            prenom: prenom,
+                            nom: nom,
+                        })}/>
+                    </TouchableOpacity>
+                </View>
+                <StatusBar style="auto" />
+                <View style = {styles.titre}>
+                    <Text style={styles.text}>
+                        Nouveau vaccin
+                    </Text>
+                </View>
+                    <View style={{height:"45%", backgroundColor:"white", marginTop: "10%", marginBottom:"20%"}}>
+                        <FormField label = {"Nom"} color={"#1EA584"} field={title} setField={setTitle}/>
+                        <DateCompletion label = {"Date"} color={"#1EA584"} field={date} setField={setDate} keyboardType={'numeric'}/>
+                        <FormField label = {"Lot"} color={"#1EA584"} field={lot} setField={setLot}/>
+                    </View>
+                <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
+                    <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedVaccins', {
+                    })} text="Ajouter"/>
+                    <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedVaccins', {
+                    })} text="Annuler"/>
+                </View>
+                </KeyboardAvoidingView>
+            </Pressable>
         </View>
     )
 
@@ -63,6 +64,9 @@ function DosMedVaccinsAj({navigation}) {
 export default DosMedVaccinsAj
 
 const styles = StyleSheet.create({
+    containerKeyBoard:{
+        flex:1
+    },
     iconDossier: {
         marginRight:"5%"
     },

@@ -1,5 +1,5 @@
 import {React,useState} from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput} from 'react-native';
+import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput, Keyboard, Pressable} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
 import {Picker} from "@react-native-picker/picker"
@@ -20,7 +20,9 @@ function DosMedIndicateursAj({navigation}) {
 
     return(
         <View style={styles.container}>
+            <Pressable onPress={()=>Keyboard.dismiss()}>
 
+            </Pressable>
         </View>
     )
 
