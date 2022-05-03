@@ -59,11 +59,13 @@ const onPressMobileNumberClick = (number) => {
            fetch(route.params.url+'/user/token/'+token,params)
            .then(response => response.json())
            .then(data => {
+             /*
               if(data.medicalFile.height.length != 0){
                 setMedicaleFile('DossierMedical');
               }else{
                 setMedicaleFile('inscrDossierMedical');
               }
+              /*
               setTailleTableau(data.medicalFile.weight.length -1);
               setPoids(data.medicalFile.weight[tailleTableau].value)
               setAllergies(data.medicalFile.allergies)
@@ -72,6 +74,8 @@ const onPressMobileNumberClick = (number) => {
               setAppareillages(data.medicalFile.equipments)
               setTailleTableau(data.medicalFile.height.length -1);
               setTaille(data.medicalFile.height[tailleTableau].value)
+              */
+              console.log(data)
            })
         })
     }
@@ -133,7 +137,17 @@ const onPressMobileNumberClick = (number) => {
           <StatusBar style="auto" />
           <PopUp/>
         <ButtonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={() => setModalVisible(true)} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
-        <ButtonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  navigation.navigate("DossierMedical")} text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
+
+        <ButtonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  navigation.navigate(medicaleFile, {
+            prenom: prenom,
+            nom: nom,
+            poids: poids,
+            taille: taille,
+            allergies:allergies,
+            pathologies:pathologies,
+            vaccins:vaccins,
+            appareillages:appareillages,
+            })} text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
 
         <ButtonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Traitements', {
             prenom: prenom,

@@ -1,8 +1,8 @@
 import React from 'react';
-import {FlatList,StyleSheet, Text, ScrollView, View, TouchableOpacity} from 'react-native';
+import {FlatList,StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import { ScrollView } from 'react-native-virtualized-view'
 
 function Bouton(props){
     return (
@@ -55,48 +55,58 @@ function DossierMedical({route,navigation}) {
             </View>
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
                     text="Allergies" />
-                    <FlatList
-                    style={{width:"100%"}}
-                    data={allergies}
-                    keyExtractor={item => item.allergyId}
-                    renderItem={({item}) =>
+                
+                    
+                <View >
+                        {allergies.map((item) => {
+                         return (
+                        <View key={item.allergyId}>
                         <Text style={styles.textContenuEtiquette} >{item.name}</Text>
-                    }
-                />
+                        </View>
+                             );
+                            })}
+                </View>
+                
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedPathologies')}
                     text="Pathologies" />
-                    <FlatList
-                    style={{width:"100%"}}
-                    data={pathologies}
-                    keyExtractor={item => item.id}
-                    renderItem={({item}) =>
+                    
+                <View >
+                        {pathologies.map((item) => {
+                         return (
+                        <View key={item.id}>
                         <Text style={styles.textContenuEtiquette} >{item.name}</Text>
-                    }
-                />
+                        </View>
+                             );
+                            })}
+                </View>
+                
+
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedVaccins')}
                     text="Vaccins" />
-                    <FlatList
-                    style={{width:"100%"}}
-                    data={vaccins}
-                    keyExtractor={item => item.id}
-                    renderItem={({item}) =>
-                        <Text style={styles.textContenuEtiquette} >{item.name.trim()}    {item.lastBooster}</Text>
-                    }
-                />
-            <View>
-            </View>
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAppareillages')}
-                    text="Appareillages" />
-                <View>
-                <FlatList
-                    style={{width:"100%"}}
-                    data={appareillages}
-                    keyExtractor={item => item.id}
-                    renderItem={({item}) =>
-                        <Text style={styles.textContenuEtiquette} >{item.name}</Text>
-                    }
-                />
+                    
+                <View >
+                        {vaccins.map((item) => {
+                         return (
+                        <View key={item.id}>
+                        <Text  style={styles.textContenuEtiquette} >{item.name.trim()}   {item.lastBooster}</Text>
+                        </View>
+                             );
+                            })}
                 </View>
+           
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
+                    text="Appareillages" />
+                
+                <View >
+                        {appareillages.map((item) => {
+                         return (
+                        <View key={item.id}>
+                        <Text style={styles.textContenuEtiquette} >{item.name}   </Text>
+                        </View>
+                             );
+                            })}
+                </View>
+
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedIndicateurs')}
                     text="Indicateurs" />
         </ScrollView>
