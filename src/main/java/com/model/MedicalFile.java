@@ -18,12 +18,14 @@ public class MedicalFile {
     private long medicalId;
 
 
-    @Column(name="weight")
-    private float weight;
+    @OneToMany(mappedBy = "medicalFile")
+    @JsonManagedReference
+    private List<Weight> weight;
 
-
+    @OneToMany(mappedBy = "medicalFile")
+    @JsonManagedReference
     @Column(name="height")
-    private float height;
+    private List<Height> height;
 
 
 
@@ -37,18 +39,28 @@ public class MedicalFile {
     private List<Allergy> allergies;
 
 
-
     @OneToMany(mappedBy = "medicalFile")
     @JsonManagedReference
     private List<Pathology> pathologies;
+
+    @OneToMany(mappedBy = "medicalFile")
+    @JsonManagedReference
+    private List<Vaccine> vaccines;
+
+    @OneToMany(mappedBy = "medicalFile")
+    @JsonManagedReference
+    private List<Equipment> equipments;
 
 
     public MedicalFile() {
     }
 
-    public MedicalFile(float weight, float height) {
-        this.weight = weight;
-        this.height = height;
+    public List<Vaccine> getVaccines() {
+        return vaccines;
+    }
+
+    public void setVaccines(List<Vaccine> vaccines) {
+        this.vaccines = vaccines;
     }
 
     public long getMedicalId() {
@@ -59,19 +71,19 @@ public class MedicalFile {
         this.medicalId = medicalId;
     }
 
-    public float getWeight() {
+    public List<Weight> getWeight() {
         return weight;
     }
 
-    public void setWeight(float weight) {
+    public void setWeight(List<Weight> weight) {
         this.weight = weight;
     }
 
-    public float getHeight() {
+    public List<Height> getHeight() {
         return height;
     }
 
-    public void setHeight(float height) {
+    public void setHeight(List<Height> height) {
         this.height = height;
     }
 
@@ -108,6 +120,7 @@ public class MedicalFile {
                 ", user=" + user +
                 ", allergies=" + allergies +
                 ", pathologies=" + pathologies +
+                ", vaccines=" + vaccines +
                 '}';
     }
 }

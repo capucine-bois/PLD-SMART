@@ -1,51 +1,49 @@
 package com.model;
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import java.util.Date;
+import com.model.User;
 
 import javax.persistence.*;
+import java.util.Date;
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
-@Table(name="pathology")
-
-
-public class Pathology {
+@Table(name="equipment")
+public class Equipment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_pathology")
+    @Column(name="id_equipment")
     private long id;
 
     @Column(name="name",length = 50)
     private String name;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name="end_date")
-    private Date endDate;
+    @Column(name="description")
+    private String description;
 
     @Temporal(TemporalType.DATE)
     @Column(name="start_date")
     private Date startDate;
 
-    @Column(name="description")
-    private String description;
+    @Temporal(TemporalType.DATE)
+    @Column(name="end_date")
+    private Date endDate;
 
     @ManyToOne
     @JoinColumn(name="id_medical_file",nullable=false, referencedColumnName = "id_medical_file")
     @JsonBackReference
     private MedicalFile medicalFile;
 
-    public Pathology(String name, Date endDate, Date startDate, String description, MedicalFile medicalFile) {
-        this.name = name;
-        this.endDate = endDate;
-        this.startDate = startDate;
-        this.description = description;
-        this.medicalFile = medicalFile;
+    public Equipment() {
     }
 
-    public Pathology() {
+    public Equipment(String name, String description, Date startDate, MedicalFile medicalFile) {
+        this.name = name;
+        this.description = description;
+        this.startDate = startDate;
+        this.medicalFile = medicalFile;
     }
 
     public long getId() {
@@ -64,6 +62,13 @@ public class Pathology {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Date getStartDate() {
         return startDate;
@@ -71,22 +76,6 @@ public class Pathology {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public MedicalFile getMedicalFile() {
@@ -97,14 +86,22 @@ public class Pathology {
         this.medicalFile = medicalFile;
     }
 
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
     @Override
     public String toString() {
-        return "Pathology{" +
+        return "Equipment{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", endDate=" + endDate +
-                ", startDate=" + startDate +
                 ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
                 ", medicalFile=" + medicalFile +
                 '}';
     }

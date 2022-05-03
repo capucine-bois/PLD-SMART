@@ -3,50 +3,35 @@ package com.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.*;
 import java.util.Date;
 
-import javax.persistence.*;
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
-@Table(name="pathology")
+@Table(name="vaccine")
 
 
-public class Pathology {
+public class Vaccine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_pathology")
+    @Column(name="id_vaccine")
     private long id;
 
     @Column(name="name",length = 50)
     private String name;
 
     @Temporal(TemporalType.DATE)
-    @Column(name="end_date")
-    private Date endDate;
+    @Column(name="last_booster")
+    private Date lastBooster;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name="start_date")
-    private Date startDate;
-
-    @Column(name="description")
+    @Column(name="lot")
     private String description;
 
     @ManyToOne
     @JoinColumn(name="id_medical_file",nullable=false, referencedColumnName = "id_medical_file")
     @JsonBackReference
     private MedicalFile medicalFile;
-
-    public Pathology(String name, Date endDate, Date startDate, String description, MedicalFile medicalFile) {
-        this.name = name;
-        this.endDate = endDate;
-        this.startDate = startDate;
-        this.description = description;
-        this.medicalFile = medicalFile;
-    }
-
-    public Pathology() {
-    }
 
     public long getId() {
         return id;
@@ -64,21 +49,12 @@ public class Pathology {
         this.name = name;
     }
 
-
-    public Date getStartDate() {
-        return startDate;
+    public Date getLastBooster() {
+        return lastBooster;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setLastBooster(Date lastBooster) {
+        this.lastBooster = lastBooster;
     }
 
     public String getDescription() {
@@ -99,11 +75,10 @@ public class Pathology {
 
     @Override
     public String toString() {
-        return "Pathology{" +
+        return "Vaccine{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", endDate=" + endDate +
-                ", startDate=" + startDate +
+                ", lastBooster=" + lastBooster +
                 ", description='" + description + '\'' +
                 ", medicalFile=" + medicalFile +
                 '}';
