@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import Header from "../Util/Header";
 import FormField from "../Util/FormField";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 
 
@@ -24,6 +25,49 @@ const AddTreatmentForm = ({route,navigation})=> {
     const [start, setStart] = useState("");
     const [end, setEnd] = useState("");
     const [remark, setRemark] = useState("");
+    const [dateFormateDebut,setDateFormateDebut]=useState("");
+    const [dateFormateFin,setDateFormateFin]=useState("");
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [isHourPickerVisible, setHourPickerVisibility] = useState(false);
+
+    const showDatePicker = () => {
+     setDatePickerVisibility(true);
+    };
+
+    const handleConfirmDebut = (date) => {
+      setDate(date);
+      var dd = date.getDate();
+      var mm = date.getMonth() + 1; //January is 0!
+      var yyyy = date.getFullYear();
+
+      if (dd < 10) {
+          dd = '0' + dd;
+      }
+      if (mm < 10) {
+          mm = '0' + mm;
+      }
+      setDateFormateDebut( dd+"/"+mm+"/"+yyyy);
+
+
+      hideDatePicker();
+    };
+    const handleConfirmEnd = (date) => {
+      setDate(date);
+      var dd = date.getDate();
+      var mm = date.getMonth() + 1; //January is 0!
+      var yyyy = date.getFullYear();
+
+      if (dd < 10) {
+          dd = '0' + dd;
+      }
+      if (mm < 10) {
+          mm = '0' + mm;
+      }
+      setDateFormateFin( dd+"/"+mm+"/"+yyyy);
+      }
+
+      hideDatePicker();
+    };
 
     return (
 
@@ -35,8 +79,22 @@ const AddTreatmentForm = ({route,navigation})=> {
                 <Header navigation={navigation} title = {"Traitement"} color={"#2DB142"}/>
                 <Text style={style.title}> Nouveau Traitement </Text>
                 <FormField label = {"Titre"} color={"#2DB142"} field={title} setField={setTitle}/>
-                <FormField placeholder={"DD/MM/YYYY"} label = {"Début"} color={"#2DB142"} field={start} setField={setStart}/>
-                <FormField placeholder={"DD/MM/YYYY"} label = {"Fin"} color={"#2DB142"} field={end} setField={setEnd}/>
+                <FormField placeholder={dateFormateDebut} label = {"Début"} color={"#2DB142"} onPress={showDatePicker(parent)} field={start} setField={setStart} onPress/>
+                <FormField placeholder={dateFormateFin} label = {"Fin"} color={"#2DB142"} onPress={showDatePicker(parent)} field={end} setField={setEnd}/>
+                <DateTimePickerModal
+                    isVisible={isDatePickerBeginVisible}
+                    mode="datetime"
+                    locale="fr"
+                    onConfirm={handleConfirmEnd}
+                    onCancel={hideDatePicker}
+                />
+                <DateTimePickerModal
+                    isVisible={isDatePickerEndVisible}
+                    mode="datetime"
+                    locale="fr"
+                    onConfirm={handleConfirmEnd}
+                    onCancel={hideDatePicker}
+                />
                 <Text style={style.title2}> Commentaire </Text>
 
                 <TextInput
@@ -49,7 +107,7 @@ const AddTreatmentForm = ({route,navigation})=> {
                 <View style={style.btnView}>
                     <TouchableOpacity  style={[style.btn, style.suivantBtn]} >
                         <Text>
-                            Suivant
+                            Sauvegarder
                         </Text>
                     </TouchableOpacity>
 
