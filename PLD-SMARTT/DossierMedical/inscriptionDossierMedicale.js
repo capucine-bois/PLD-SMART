@@ -11,6 +11,7 @@ const InscrDosMed =({route,navigation})=>{
     const [poids, setPoids] = useState('');
     const [age, setAge] = useState('');
     const [idMetriqueTaille,setIdMetriqueTaille]=useState('');
+    const [idMetriquePoids,setIdMetriquePoids]=useState('');
     const [bouton, setBouton] = useState(false);
 
     const submitMetriqueTaille= () => {
@@ -32,14 +33,14 @@ const InscrDosMed =({route,navigation})=>{
                 .then(data =>{
                     console.log(data)
                     setIdMetriqueTaille(data.id)
-                    submitTaille()
-                    
+                    submitTaille(data.id)
+
                 })
         });
             
       };
     
-    const submitTaille= () => {
+    const submitTaille= (id) => {
         const params = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
@@ -50,15 +51,71 @@ const InscrDosMed =({route,navigation})=>{
         }
         AsyncStorage.getItem('token')
         .then((token) => {
-            fetch(route.params.url+'/measure/'+idMetriqueTaille,params)
+            fetch(route.params.url+'/measure/'+id,params)
                 .then(response => response.json()
                 )
-                .then(data => console.log(data))
+                .then(data => {
+                    console.log(data)
+                    submitMetriquePoids()
+                })
         });
             
       };
 
-      const submitPoids= () => {
+      const submitMetriquePoids= () => {
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "name":'Poids',
+                "unit":'kg',
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/metric/'+token,params)
+                .then(response => 
+                  
+                    response.json()
+                )
+                .then(data =>{
+                    console.log(data)
+                    setIdMetriquePoids(data.id)
+                    submitPoids(data.id)
+                    
+                })
+        });
+            
+      };
+    
+    const submitPoids= (id) => {
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "value":poids,
+                "date":'2020-05-02'
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/measure/'+id,params)
+                .then(response => response.json()
+                )
+                .then(data => {console.log(data)
+                    navigation.navigate('inscrDossierMedical2', {
+                        prenom: prenom,
+                        nom:nom,
+                        taille:taille,
+                        poids:poids,
+                        age:age,
+                        
+                    })})
+        });
+            
+      };
+
+      const submitPoids2= () => {
         const params = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},

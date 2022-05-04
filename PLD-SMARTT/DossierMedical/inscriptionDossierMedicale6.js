@@ -26,6 +26,17 @@ const InscrDosMed6 =({route,navigation})=>{
     const [dateFormate,setDateFormate]=useState('')
     const [dateFormate2,setDateFormate2]=useState( 'Entrer la date de début')
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    
+    
+    const[tailleTableau,setTailleTableau]=useState(0);
+    const [taille,setTaille]=useState('')
+    const [age,setAge]=useState('');
+    const [poids,setPoids]=useState('')
+    const [allergies,setAllergies]=useState('')
+    const [pathologies,setPathologie]=useState('')
+    const [vaccins, setVaccins]=useState('')
+    const [appareillages,setAppareillages]=useState('')
+    const [indicateurs,setIndicateurs]=useState('')
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -90,6 +101,39 @@ const InscrDosMed6 =({route,navigation})=>{
      });
          
    };
+
+   const checkMedicalFile = () => {
+    const params = {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+    }
+    AsyncStorage.getItem('token')
+    .then((token) => {
+         fetch(route.params.url+'/user/token/'+token,params)
+         .then(response => response.json())
+         .then(data => {
+           /*
+            if(data.medicalFile.height.length != 0){
+              setMedicaleFile('DossierMedical');
+            }else{
+              setMedicaleFile('inscrDossierMedical');
+            }
+            */
+            //setTailleTableau(data.medicalFile.weight.length -1);
+            //setPoids(data.medicalFile.weight[tailleTableau].value)
+            //setMedicaleFile('DossierMedical');
+            setAllergies(data.medicalFile.allergies)
+            setPathologie(data.medicalFile.pathologies)
+            setVaccins(data.medicalFile.vaccines)
+            setAppareillages(data.medicalFile.equipments)
+            //setTailleTableau(data.medicalFile.height.length -1);
+            //setTaille(data.medicalFile.height[tailleTableau].value)
+            
+            console.log(allergies)
+            //console.log(data.medicalFile.metrics)
+         })
+      })
+  }
  
     
 
@@ -170,9 +214,16 @@ const InscrDosMed6 =({route,navigation})=>{
 
             <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
                 <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  submitAppareillage()} text="Ajouter"/>
-                <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DossierMedical', {
-                prenom: prenom,
-                nom:nom,})} text="Passer"/>
+                <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() => {  checkMedicalFile(),navigation.navigate('DossierMedical', {
+            prenom: prenom,
+            nom: nom,
+            poids: poids,
+            taille: taille,
+            allergies:allergies,
+            pathologies:pathologies,
+            vaccins:vaccins,
+            appareillages:appareillages,
+            })}} text="Passer"/>
 
             </View>
 

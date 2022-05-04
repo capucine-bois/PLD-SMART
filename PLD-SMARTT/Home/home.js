@@ -65,17 +65,19 @@ const onPressMobileNumberClick = (number) => {
               }else{
                 setMedicaleFile('inscrDossierMedical');
               }
-              /*
-              setTailleTableau(data.medicalFile.weight.length -1);
-              setPoids(data.medicalFile.weight[tailleTableau].value)
+              */
+              //setTailleTableau(data.medicalFile.weight.length -1);
+              //setPoids(data.medicalFile.weight[tailleTableau].value)
+              //setMedicaleFile('DossierMedical');
               setAllergies(data.medicalFile.allergies)
               setPathologie(data.medicalFile.pathologies)
               setVaccins(data.medicalFile.vaccines)
               setAppareillages(data.medicalFile.equipments)
-              setTailleTableau(data.medicalFile.height.length -1);
-              setTaille(data.medicalFile.height[tailleTableau].value)
-              */
+              //setTailleTableau(data.medicalFile.height.length -1);
+              //setTaille(data.medicalFile.height[tailleTableau].value)
+              
               console.log(data)
+              //console.log(data.medicalFile.metrics)
            })
         })
     }
