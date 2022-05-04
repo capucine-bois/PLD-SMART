@@ -81,6 +81,18 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/user/birthdate/token/{token}")
+    @ResponseBody
+    public ResponseEntity<Date> getBirthDateByToken(@PathVariable(value = "token") String token){
+
+        User user = userRepository.findByToken(token)
+                .orElseThrow(() -> new UserNotFoundException(token));
+
+        Date birthDate = user.getBirthDate();
+
+        return new ResponseEntity<Date>(birthDate, HttpStatus.OK);
+    }
+
     @GetMapping("/user/name/{name}")
     @ResponseBody
     public ResponseEntity<User> getUserByName(@PathVariable(value = "name") String name){
