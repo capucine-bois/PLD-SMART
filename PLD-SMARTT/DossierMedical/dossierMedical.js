@@ -19,7 +19,7 @@ function Bouton(props){
 function DossierMedical({route,navigation}) {
     const {prenom,nom} = route.params;
     
-    const dateNaissance = "10/04/1947"
+    const [dateNaissance,setDateDeNaissance] = useState('')
     
 
     const[tailleTableau,setTailleTableau]=useState(0);
@@ -73,7 +73,33 @@ function DossierMedical({route,navigation}) {
           })
       }
 
+      const getBirthDate = () => {
+        const params = {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/user/birthdate/token/'+token,params)
+             .then(response => response.json())
+             .then(data => {
+                var mois = data.slice(5,7);
+                var jour  = data.slice(8,10);
+                var year = data.slice(0,4);
+                var dateFormat = jour+"/"+mois+"/"+year;
+                var today = new Date();
+                var age = today.getFullYear() - year;
+                if (today.getMonth() < mois || (today.getMonth() == mois && today.getDate() < jour)) {
+                    age--;
+                }
+                setAge(age)
 
+                setDateDeNaissance(dateFormat)
+                
+             })
+             
+          })
+      }
 
 
     const checkMedicalFile = () => {
@@ -91,21 +117,19 @@ function DossierMedical({route,navigation}) {
                 setPathologie(data.medicalFile.pathologies)
                 setVaccins(data.medicalFile.vaccines)
                 setAppareillages(data.medicalFile.equipments)
-                //setTailleTableau(data.medicalFile.height.length -1);
-                //setTaille(data.medicalFile.height[tailleTableau].value)
-                
-                
-                //console.log(data.medicalFile.metrics)
                 
              })
           })
       }
+
+
     
       useEffect(() => {
         if(isFocused){
         checkMedicalFile();
         getTaille();
         getPoids();
+        getBirthDate()
         }
       }, [isFocused]);
 

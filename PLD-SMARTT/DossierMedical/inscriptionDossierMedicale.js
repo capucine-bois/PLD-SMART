@@ -16,10 +16,11 @@ const InscrDosMed =({route,navigation})=>{
     const [bouton, setBouton] = useState(false);
     const [date, setDate] = useState(new Date());
     const dateAjd =useState(new Date())
+    const [dateAjdFormate,setDateAjdFormate]=useState('')
     const [dateFormate,setDateFormate]=useState('')
-    const [dateFormate2,setDateFormate2]=useState( 'Entrer votre date de naissance')
+    const [dateFormate2,setDateFormate2]=useState( 'Entrez votre date de naissance')
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
+    
     const showDatePicker = () => {
         setDatePickerVisibility(true);
        };
@@ -37,6 +38,7 @@ const InscrDosMed =({route,navigation})=>{
          var dd = date.getDate();
          var mm = date.getMonth() + 1; //January is 0!
          var yyyy = date.getFullYear();
+
          
        
          if (dd < 10) {
@@ -50,6 +52,10 @@ const InscrDosMed =({route,navigation})=>{
          setDateFormate2( dd+"/"+mm+"/"+yyyy);
          hideDatePicker();
        };
+       
+
+       
+
 
     const submitMetriqueTaille= () => {
         const params = {
@@ -78,12 +84,25 @@ const InscrDosMed =({route,navigation})=>{
       };
     
     const submitTaille= (id) => {
+        var dd = dateAjd[0].getDate();
+        var mm = dateAjd[0].getMonth() + 1; //January is 0!
+        var yyyy = dateAjd[0].getFullYear();
+        
+      
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        
+        setDateAjdFormate(  yyyy + "-" + mm + "-" + dd);
         const params = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 "value":taille,
-                "date":dateAjd
+                "date":dateAjdFormate
             })
         }
         AsyncStorage.getItem('token')
@@ -126,17 +145,52 @@ const InscrDosMed =({route,navigation})=>{
       };
     
     const submitPoids= (id) => {
+        var dd = dateAjd[0].getDate();
+        var mm = dateAjd[0].getMonth() + 1; //January is 0!
+        var yyyy = dateAjd[0].getFullYear();
+        
+      
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        
+        setDateAjdFormate(  yyyy + "-" + mm + "-" + dd);
         const params = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 "value":poids,
-                "date":dateAjd
+                "date":dateAjdFormate
             })
         }
         AsyncStorage.getItem('token')
         .then((token) => {
             fetch(route.params.url+'/measure/'+id,params)
+                .then(response => response.json()
+                )
+                .then(data => {console.log(data)
+                    submitBirthDate()
+                    })
+        });
+            
+      };
+
+      const submitBirthDate= () => {
+        
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "birthDate":dateFormate,
+               
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/user/'+token,params)
                 .then(response => response.json()
                 )
                 .then(data => {console.log(data)
