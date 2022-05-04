@@ -1,9 +1,10 @@
-import React from 'react';
+import {useIsFocused} from "@react-navigation/native";
 import {FlatList,StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ScrollView } from 'react-native-virtualized-view'
-
+import React, { useEffect,Component, useState } from 'react';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function Bouton(props){
     return (
         <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
@@ -16,13 +17,56 @@ function Bouton(props){
 }
 
 function DossierMedical({route,navigation}) {
-    const {prenom,nom,taille,poids,allergies,pathologies,vaccins,appareillages} = route.params;
+    const {prenom,nom} = route.params;
     
     const dateNaissance = "10/04/1947"
-    const age = 75
     
 
+    const[tailleTableau,setTailleTableau]=useState(0);
+    const [taille,setTaille]=useState('')
+    const [age,setAge]=useState('');
+    const [poids,setPoids]=useState('')
+    const [allergies,setAllergies]=useState(new Array())
+    const [pathologies,setPathologie]=useState(new Array())
+    const [vaccins, setVaccins]=useState(new Array())
+    const [appareillages,setAppareillages]=useState(new Array())
+    const [indicateurs,setIndicateurs]=useState(new Array())
+    const isFocused = useIsFocused();
+    const checkMedicalFile = () => {
+        const params = {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/user/token/'+token,params)
+             .then(response => response.json())
+             .then(data => {
+               /*
+                
+                */
+                //setTailleTableau(data.medicalFile.weight.length -1);
+                //setPoids(data.medicalFile.weight[tailleTableau].value)
+                //setMedicaleFile('DossierMedical');
+                setAllergies(data.medicalFile.allergies)
+                setPathologie(data.medicalFile.pathologies)
+                setVaccins(data.medicalFile.vaccines)
+                setAppareillages(data.medicalFile.equipments)
+                //setTailleTableau(data.medicalFile.height.length -1);
+                //setTaille(data.medicalFile.height[tailleTableau].value)
+                
+                console.log(allergies)
+                //console.log(data.medicalFile.metrics)
+                
+             })
+          })
+      }
     
+      useEffect(() => {
+        if(isFocused){
+        checkMedicalFile();
+        }
+      }, [isFocused]);
 
 
 	return (

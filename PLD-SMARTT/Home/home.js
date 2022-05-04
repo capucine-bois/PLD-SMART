@@ -84,7 +84,7 @@ const onPressMobileNumberClick = (number) => {
 
     useEffect(() => {
       if(isFocused){
-      checkMedicalFile();
+      //checkMedicalFile();
         const name = AsyncStorage.getItem("name")
             .then(result => {
                 setPrenom(result);
