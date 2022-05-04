@@ -63,6 +63,7 @@ public class RendezVousController {
         User user = userRepository.findByToken(usertoken)
                 .orElseThrow(() -> new UserNotFoundException(usertoken));
         rendezvous.setUser(user);
+
         rendezVousRepository.save(rendezvous);
         return new ResponseEntity<RendezVous>(rendezvous, HttpStatus.OK);
     }

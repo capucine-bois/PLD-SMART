@@ -30,6 +30,9 @@ public class Note {
     @Column(name="date")
     private Date date;
 
+    @Column(name="state", length=10)
+    private String state;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "id_user")
@@ -81,5 +84,13 @@ public class Note {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +47,43 @@ public class NoteController {
 
         return new ResponseEntity<Note>(note, HttpStatus.OK);
 
+    }
+
+    @GetMapping("/notes/user/{token}/state/{state}/date/{date}")
+    @ResponseBody
+    public ResponseEntity<List<Note>> getAllNotesByStateAndDate(@PathVariable(value ="token") String token, @PathVariable(value="state") String state, @PathVariable(value="date") String date){
+
+        User user = userRepository.findByToken(token)
+                .orElseThrow(() -> new UserNotFoundException(token));
+
+        List<Note> notes;
+        System.out.println(date);
+        Date realDate = null;
+
+        if(!date.equals("all")) {
+
+            try {
+                realDate = new SimpleDateFormat("mm-dd-yy").parse(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(!state.equals("all") && !date.equals("all")){
+            notes = noteRepository.findAllByDateAfterAndStateAndUser(realDate,state,user);
+        }
+        else if(!state.equals("all")){
+            notes = noteRepository.findAllByStateAndUser(state,user);
+        }
+        else if(!date.equals("all")){
+            System.out.println("realDate : " + realDate);
+            notes = noteRepository.findAllByDateAfterAndUser(realDate,user);
+        }
+        else{
+            notes = noteRepository.findAllByUser(user);
+        }
+
+        return new ResponseEntity<List<Note>>(notes, HttpStatus.OK);
     }
 
     @DeleteMapping("/notes/id/{id}")
