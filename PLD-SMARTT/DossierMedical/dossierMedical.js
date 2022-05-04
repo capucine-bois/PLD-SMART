@@ -26,12 +26,56 @@ function DossierMedical({route,navigation}) {
     const [taille,setTaille]=useState('')
     const [age,setAge]=useState('');
     const [poids,setPoids]=useState('')
-    const [allergies,setAllergies]=useState(new Array())
+    const [allergies,setAllergies]=useState([])
     const [pathologies,setPathologie]=useState(new Array())
     const [vaccins, setVaccins]=useState(new Array())
     const [appareillages,setAppareillages]=useState(new Array())
     const [indicateurs,setIndicateurs]=useState(new Array())
+   
+   
+   
     const isFocused = useIsFocused();
+
+
+    const getTaille = () => {
+        const params = {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/metric/name/taille/token/'+token,params)
+             .then(response => response.json())
+             .then(data => {
+                 setTailleTableau(data.measure.length-1)
+                 setTaille(data.measure[tailleTableau].value)
+                 
+             })
+             
+          })
+      }
+
+      const getPoids = () => {
+        const params = {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/metric/name/Poids/token/'+token,params)
+             .then(response => response.json())
+             .then(data => {
+                setTailleTableau(data.measure.length-1)
+                 setPoids(data.measure[tailleTableau].value)
+                
+             })
+             
+          })
+      }
+
+
+
+
     const checkMedicalFile = () => {
         const params = {
           method: 'GET',
@@ -50,7 +94,7 @@ function DossierMedical({route,navigation}) {
                 //setTailleTableau(data.medicalFile.height.length -1);
                 //setTaille(data.medicalFile.height[tailleTableau].value)
                 
-                console.log(allergies)
+                
                 //console.log(data.medicalFile.metrics)
                 
              })
@@ -60,6 +104,8 @@ function DossierMedical({route,navigation}) {
       useEffect(() => {
         if(isFocused){
         checkMedicalFile();
+        getTaille();
+        getPoids();
         }
       }, [isFocused]);
 
