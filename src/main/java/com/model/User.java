@@ -41,7 +41,7 @@ public class User {
     private List<RendezVous> rendezVous;
 
     @OneToMany(mappedBy = "user")
-    @JsonManagedReference
+    @JsonManagedReference(value="user-treatment")
     private List<Treatment> treatments;
 
     @Column(name="token", length = 50,unique = true)

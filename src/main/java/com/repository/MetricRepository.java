@@ -14,6 +14,8 @@ public interface MetricRepository extends JpaRepository<Metric,Long> {
 
     Optional<Metric> findById(Long id);
 
+    Optional<Metric> findByMedicalFileAndName(MedicalFile medicalFile, String name);
+
     void deleteMetricById(Long id);
 
 }

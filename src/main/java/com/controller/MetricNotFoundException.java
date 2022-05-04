@@ -12,4 +12,8 @@ public class MetricNotFoundException extends RuntimeException {
     MetricNotFoundException(MedicalFile medicalFile){
         super("Could not find metric on medical file " + medicalFile);
     }
+
+    MetricNotFoundException(MedicalFile medicalFile, String name){
+        super("Could not find metric with medical file "+medicalFile+" and name " + name);
+    }
 }

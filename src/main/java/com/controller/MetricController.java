@@ -49,6 +49,22 @@ public class MetricController {
         return new ResponseEntity<List<Metric>>(listMetric, HttpStatus.OK);
     }
 
+    @GetMapping("/metric/name/{metricName}/token/{token}")
+    @ResponseBody
+    public ResponseEntity<Metric> getMetricsByName(@PathVariable(value = "metricName") String metricName, @PathVariable(value = "token") String token){
+
+        User user = userRepository.findByToken(token)
+                .orElseThrow(() -> new UserNotFoundException(token));
+
+        MedicalFile medicalFile = medicalFileRepository.findByUser(user)
+                .orElseThrow(() -> new MedicalFileNotFoundException(user));
+
+        Metric metric = metricRepository.findByMedicalFileAndName(medicalFile, metricName)
+                .orElseThrow(() -> new MetricNotFoundException(medicalFile, metricName));
+
+        return new ResponseEntity<Metric>(metric, HttpStatus.OK);
+    }
+
     @PutMapping("/metric/{usertoken}")
     @ResponseBody
     @Transactional

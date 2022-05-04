@@ -31,8 +31,13 @@ public class Treatment {
     private List<Medication> medications;
     @ManyToOne
     @JoinColumn(name="id_user",nullable=false, referencedColumnName = "id_user")
-    @JsonBackReference
+    @JsonBackReference(value="user-treatment")
     private User user;
+
+    @OneToOne
+    @JoinColumn(name = "id_pathology", referencedColumnName = "id_pathology")
+    @JsonBackReference
+    private Pathology pathology;
 
     public Treatment() {
 
@@ -43,6 +48,7 @@ public class Treatment {
         this.remark = remark;
         this.medications = medications;
         this.user = user;
+        this.pathology = pathology;
     }
 
     public long getId() {
@@ -85,6 +91,14 @@ public class Treatment {
         this.user = user;
     }
 
+    public Pathology getPathology() {
+        return pathology;
+    }
+
+    public void setPathology(Pathology pathology) {
+        this.pathology = pathology;
+    }
+
     @Override
     public String toString() {
         return "Treatment{" +
@@ -93,6 +107,7 @@ public class Treatment {
                 ", remark='" + remark + '\'' +
                 ", medications=" + medications +
                 ", user=" + user +
+                ", pathology=" + pathology +
                 '}';
     }
 }
