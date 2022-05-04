@@ -42,12 +42,7 @@ function DossierMedical({route,navigation}) {
              fetch(route.params.url+'/user/token/'+token,params)
              .then(response => response.json())
              .then(data => {
-               /*
-                
-                */
-                //setTailleTableau(data.medicalFile.weight.length -1);
-                //setPoids(data.medicalFile.weight[tailleTableau].value)
-                //setMedicaleFile('DossierMedical');
+               
                 setAllergies(data.medicalFile.allergies)
                 setPathologie(data.medicalFile.pathologies)
                 setVaccins(data.medicalFile.vaccines)

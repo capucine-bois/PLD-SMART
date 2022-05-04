@@ -38,16 +38,7 @@ const onPressMobileNumberClick = (number) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [prenom, setPrenom] = useState("");
     const [nom, setNom] = useState("");
-    const[tailleTableau,setTailleTableau]=useState(0);
-    const [medicaleFile,setMedicaleFile]=useState('inscrDossierMedical');
-    const [taille,setTaille]=useState('')
-    const [age,setAge]=useState('');
-    const [poids,setPoids]=useState('')
-    const [allergies,setAllergies]=useState('')
-    const [pathologies,setPathologie]=useState('')
-    const [vaccins, setVaccins]=useState('')
-    const [appareillages,setAppareillages]=useState('')
-    const [indicateurs,setIndicateurs]=useState('')
+    
 
     const checkMedicalFile = () => {
       const params = {
@@ -66,16 +57,6 @@ const onPressMobileNumberClick = (number) => {
                 setMedicaleFile('inscrDossierMedical');
               }
               */
-              //setTailleTableau(data.medicalFile.weight.length -1);
-              //setPoids(data.medicalFile.weight[tailleTableau].value)
-              //setMedicaleFile('DossierMedical');
-              setAllergies(data.medicalFile.allergies)
-              setPathologie(data.medicalFile.pathologies)
-              setVaccins(data.medicalFile.vaccines)
-              setAppareillages(data.medicalFile.equipments)
-              //setTailleTableau(data.medicalFile.height.length -1);
-              //setTaille(data.medicalFile.height[tailleTableau].value)
-              
               console.log(data)
               //console.log(data.medicalFile.metrics)
            })
