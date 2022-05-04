@@ -135,25 +135,8 @@ const styles = StyleSheet.create({
     iconDossier: {
         marginRight:"5%"
     },
-    headerBtn: {
-        width: "100%",
-        height: "11%",
-        display:"flex",
-        flexDirection:"row",
-        alignItems:"flex-end",
-        paddingBottom:20,
-        backgroundColor: "#1EA584"
-
-    },
     container: {
         backgroundColor: '#ffffff'
-    },
-    text2: {
-        fontSize: 20,
-        textAlign:"center",
-        fontWeight: 'bold',
-        color: "#fff",
-        flex: 1
     },
     containerAllergie:{
         flexDirection:"row",

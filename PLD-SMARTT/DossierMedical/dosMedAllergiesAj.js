@@ -1,6 +1,5 @@
-import {React,useState} from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput, Pressable, KeyboardAvoidingView, Keyboard} from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View, TouchableOpacity, TextInput, Pressable, Keyboard} from 'react-native';
 import {StatusBar} from "expo-status-bar";
 import FormField from "../Util/FormField";
 import Header from "../Util/Header";
@@ -56,38 +55,10 @@ function DosMedAllergiesAj({navigation}) {
 export default DosMedAllergiesAj
 
 const styles = StyleSheet.create({
-    iconDossier: {
-        marginRight:"5%"
-    },
-    descriptif:{
-        flexDirection:"column",
-        width: "80%",
-        height:"40%",
-        marginTop:"10%",
-        alignSelf:"center",
-    },
-    scrollView:{
-        borderWidth: 5,
-        borderColor:"#1EA584",
-        borderRadius:15,
-    },
     text:{
         fontSize: 25,
         fontWeight: 'bold',
         color: "#1EA584",
-        alignSelf:"center"
-    },
-    picker:{
-        backgroundColor: "#B8E6DA",
-        width: "60%",
-        paddingHorizontal:"5%",
-        color: "#000000",
-        alignSelf:"center"
-    },
-    text3:{
-        color:"#1EA584",
-        fontSize: 22,
-        fontWeight: 'bold',
         alignSelf:"center"
     },
     btnAjout: {
@@ -110,22 +81,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#695353",
         marginTop:"10%"
     },
-    text4:{
-        color:"#1EA584",
-        fontSize: 25,
-        fontWeight: 'bold',
-        marginTop:"5%",
-        marginBottom:"2%"
-    },
-    headerBtn: {
-        width: "100%",
-        height: "11%",
-        display:"flex",
-        flexDirection:"row",
-        alignItems:"flex-end",
-        paddingBottom:20,
-        backgroundColor: "#1EA584"
-    },
     container: {
         backgroundColor: '#ffffff'
     },
@@ -136,37 +91,12 @@ const styles = StyleSheet.create({
         color: "#fff",
         flex: 1
     },
-    TextInput: {
-        backgroundColor: "#B8E6DA",
-        borderRadius: 30,
-        width: "60%",
-        height: "100%",
-        textAlign:"center",
-        paddingHorizontal:"5%",
-        color: "#000000",
-        alignSelf:"center"
-    },
-    TextInput2: {
-        width: "100%",
-        padding:"5%",
-        color: "#000000",
-        fontSize:17,
-        textAlignVertical:"top"
-    },
-    inputView: {
-        flexDirection:"row",
-        justifyContent:"space-between",
-        paddingHorizontal:"10%",
-        marginTop:"5%"
-
-    },
     titre:{
         alignSelf:"center",
         margin:"10%",
         color:"#000",
 
     },
-
     title2:{
         fontSize:25,
         color:"#1EA584",

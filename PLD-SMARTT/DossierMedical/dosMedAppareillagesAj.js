@@ -1,6 +1,5 @@
 import {React,useState} from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput, Pressable, KeyboardAvoidingView, Keyboard} from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {StyleSheet, Text, View, TouchableOpacity, TextInput, Pressable, Keyboard} from 'react-native';
 import {StatusBar} from "expo-status-bar";
 import FormField from "../Util/FormField";
 import Header from "../Util/Header";
@@ -61,38 +60,10 @@ function DosMedAppareillagesAj({navigation}) {
 export default DosMedAppareillagesAj
 
 const styles = StyleSheet.create({
-    iconDossier: {
-        marginRight:"5%"
-    },
-    descriptif:{
-        flexDirection:"column",
-        width: "80%",
-        height:"40%",
-        marginTop:"10%",
-        alignSelf:"center",
-    },
-    scrollView:{
-        borderWidth: 5,
-        borderColor:"#1EA584",
-        borderRadius:15,
-    },
     text:{
         fontSize: 25,
         fontWeight: 'bold',
         color: "#1EA584",
-        alignSelf:"center"
-    },
-    picker:{
-        backgroundColor: "#B8E6DA",
-        width: "60%",
-        paddingHorizontal:"5%",
-        color: "#000000",
-        alignSelf:"center"
-    },
-    text3:{
-        color:"#1EA584",
-        fontSize: 22,
-        fontWeight: 'bold',
         alignSelf:"center"
     },
     btnAjout: {
@@ -112,13 +83,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-evenly",
         backgroundColor: "#695353",
-    },
-    text4:{
-        color:"#1EA584",
-        fontSize: 25,
-        fontWeight: 'bold',
-        marginTop:"5%",
-        marginBottom:"2%"
     },
     container: {
         backgroundColor: '#ffffff'
