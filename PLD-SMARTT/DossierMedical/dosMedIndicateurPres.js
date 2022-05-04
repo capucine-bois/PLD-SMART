@@ -1,11 +1,9 @@
 import {React,useState} from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput, Pressable, KeyboardAvoidingView, Keyboard} from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {StyleSheet, Text, View, TouchableOpacity, Dimensions, Pressable, Keyboard} from 'react-native';
 import {StatusBar} from "expo-status-bar";
-import FormField from "../Util/FormField";
 import Header from "../Util/Header";
-import { LineChart } from 'react-native-svg-charts'
-import * as shape from 'd3-shape'
+import PureChart from "react-native-pure-chart";
+
 
 function Bouton(props){
     return (
@@ -22,7 +20,14 @@ function DosMedIndicateurPres({navigation}) {
     const nom = "Dupont".toUpperCase()
     const[title,setTitle]=useState('');
     const [remark, setRemark] = useState("");
-    const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+    var { match, RouterContext } = require("react-router");
+    let sampleData = [
+        {x: '01/02/2022', y: 175},
+        {x: '22/06/2022', y: 174},
+        {x: '19/11/2022', y: 173.5},
+        {x: '03/08/2023', y: 172},
+        {x: '11/12/2023', y: 171},
+    ]
 
     return(
         <View style={styles.container}>
@@ -34,19 +39,14 @@ function DosMedIndicateurPres({navigation}) {
                         Indicateur Taille
                     </Text>
                 </View>
-                <View style={{height:"75%"}}>
+                <View style={{height:"75%", alignItems:"center"}}>
                     <Text style={styles.textCourbe}>
                         Courbe
                     </Text>
-                    <LineChart
-                        style={ { height: 200 } }
-                        dataPoints={ data }
-                        fillColor={ 'purple' }
-                        strokeColor={ 'rgb(134, 65, 244)' }
-                        shadowColor={ 'rgba(134, 65, 244, 0.2)' }
-                        contentInset={ { top: 20, bottom: 20 } }
-                        curve={shape.curve}
-                    />
+                    <View style={{height:"30%", alignItems:"center", marginTop:"10%"}}>
+                        <PureChart data={sampleData} type='line' />
+                    </View>
+
                     <View style={{height:"15%", marginHorizontal:"15%", marginTop:"10%", flexDirection:"row", justifyContent:"space-between"}}>
                         <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {
                         })} text="Ajouter"/>
