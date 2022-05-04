@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
+import {useIsFocused} from "@react-navigation/native";
 import {
     StyleSheet,
     Text,
@@ -13,31 +14,31 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
 import Header from "../Util/Header";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function PopUp(props) {
     return (
         <View style={styles.centeredView}>
             <Modal
-                animationTyp e="slide"
+                animationType="slide"
                 transparent={true}
                 visible={props.modalVisibility}
-                >
+            >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={styles.textModal}>Supprimer ?</Text>
                         <View style={styles.boutonsModalView}>
                             <TouchableOpacity
                                 style={styles.btnOui}
-                                onPress={() => {
-                                }}
+                                onPress={props.valider
+                                }
                             >
                                 <Text style={styles.text}>Oui</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.btnNon]}
-                                onPress={() => {
-                                    props.setter();
-                                }}
+                                onPress={
+                                    props.annuler
+                                }
                             >
                                 <Text style={styles.text}>Non</Text>
                             </TouchableOpacity>
@@ -63,14 +64,66 @@ function Bouton(props){
 function DosMedPathologies({navigation,route}) {
     //const pathologies =["Bipolarité","Sida","test","test2","test3","test4","test5","test6","test7","test8"]
     //const prenom = "Gérard"
-    //const nom = "Dupont".toUpperCase()
-
-    const {prenom,nom,appareillages,allergies,pathologies,vaccins}=route.params
-        const [modalVisible, setModalVisible] = useState(false);
-
+    const {prenom,nom}=route.params
+    const [allergies,setAllergies]=useState([])
+    const [pathologies,setPathologie]=useState(route.params.pathologies)
+    const [vaccins, setVaccins]=useState(route.params.vaccins)
+    const [appareillages,setAppareillages]=useState(route.params.appareillages)
+    const [modalVisible, setModalVisible] = useState(false);
+    const isFocused = useIsFocused();
+    const [idItemSelectionne,setIdItemSelectionne]=useState('0');
     const toggleModalVisible = () => {
+
         setModalVisible(false);
     }
+
+    const toggleModalVisible2 = (id) => {
+        deletePathologie(id)
+        //setModalVisible(false);
+    }
+    const checkMedicalFile = () => {
+        const params = {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/user/token/'+token,params)
+             .then(response => response.json())
+             .then(data => {
+                setAllergies(data.medicalFile.allergies)
+                setPathologie(data.medicalFile.pathologies)
+                setVaccins(data.medicalFile.vaccines)
+                setAppareillages(data.medicalFile.equipments)
+                
+             })
+          })
+      }
+
+      const deletePathologie = (id) => {
+        const params = {
+          method: 'DELETE',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/pathology/'+id,params)
+             .then(response => {
+                if(response.ok){
+                    setModalVisible(false)
+                    checkMedicalFile()
+                }});
+             
+          })
+      }
+
+
+    useEffect(() => {
+        if(isFocused){
+        checkMedicalFile();
+        }
+      }, [isFocused]);
+
     return(
         <View style={styles.container}>
             
@@ -80,6 +133,8 @@ function DosMedPathologies({navigation,route}) {
                     PATHOLOGIES
                 </Text>
             </View>
+            <PopUp modalVisibility={modalVisible} annuler={()=>toggleModalVisible()} valider={()=>toggleModalVisible2(idItemSelectionne)} />
+
             <ScrollView style={{height:"63%"}}>
                 <StatusBar style="auto" />
                 {pathologies.map((item) => {
@@ -91,7 +146,7 @@ function DosMedPathologies({navigation,route}) {
                                             {item.name}
                                         </Text>
                                     </View>
-                                    <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
+                                    <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true),setIdItemSelectionne(item.id)}}/>
                                 </View>
                             </TouchableHighlight>
                             );
