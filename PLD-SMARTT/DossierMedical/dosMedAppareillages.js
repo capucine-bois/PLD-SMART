@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-
+import React, {useState,useEffect} from 'react';
+import {useIsFocused} from "@react-navigation/native";
 import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TouchableHighlight, Modal, Keyboard} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
 import Header from "../Util/Header";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function Bouton(props){
     return (
         <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
@@ -31,16 +31,16 @@ function PopUp(props) {
                         <View style={styles.boutonsModalView}>
                             <TouchableOpacity
                                 style={styles.btnOui}
-                                onPress={() => {
-                                }}
+                                onPress={props.valider
+                                }
                             >
                                 <Text style={styles.text}>Oui</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.btnNon]}
-                                onPress={() => {
-                                    props.setter();
-                                }}
+                                onPress={
+                                    props.annuler
+                                }
                             >
                                 <Text style={styles.text}>Non</Text>
                             </TouchableOpacity>
@@ -53,15 +53,72 @@ function PopUp(props) {
 }
 
 
-function DosMedAppareillages({navigation}) {
-    const appareillages =["Prothèses auditives","Lunettes","test","test2","test3","test4","test5","test6","test7","test8"]
-    const prenom = "Gérard"
-    const nom = "Dupont".toUpperCase()
-    const [modalVisible, setModalVisible] = useState(false);
+function DosMedAppareillages({navigation,route}) {
+    //const appareillages =["Prothèses auditives","Lunettes","test","test2","test3","test4","test5","test6","test7","test8"]
+    //const prenom = "Gérard"
+    //const nom = "Dupont".toUpperCase()
 
+    const {prenom,nom}=route.params
+    const [allergies,setAllergies]=useState([])
+    const [pathologies,setPathologie]=useState(route.params.pathologies)
+    const [vaccins, setVaccins]=useState(route.params.vaccins)
+    const [appareillages,setAppareillages]=useState(route.params.appareillages)
+    const [modalVisible, setModalVisible] = useState(false);
+    const isFocused = useIsFocused();
+    const [idItemSelectionne,setIdItemSelectionne]=useState('0');
     const toggleModalVisible = () => {
+
         setModalVisible(false);
     }
+
+    const toggleModalVisible2 = (id) => {
+        deleteAppareillage(id)
+        setModalVisible(false);
+    }
+
+    const checkMedicalFile = () => {
+        const params = {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/user/token/'+token,params)
+             .then(response => response.json())
+             .then(data => {
+                setAllergies(data.medicalFile.allergies)
+                setPathologie(data.medicalFile.pathologies)
+                setVaccins(data.medicalFile.vaccines)
+                setAppareillages(data.medicalFile.equipments)
+                
+             })
+          })
+      }
+
+      const deleteAppareillage = (id) => {
+        const params = {
+          method: 'DELETE',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/equipment/'+id,params)
+             .then(response => {
+                if(response.ok){
+                    
+                    checkMedicalFile()
+                }});
+             
+          })
+      }
+
+
+    
+      useEffect(() => {
+        if(isFocused){
+        checkMedicalFile();
+        }
+      }, [isFocused]);
 
     return(
         <View style={styles.container}>
@@ -72,24 +129,27 @@ function DosMedAppareillages({navigation}) {
                         APPAREILLAGES
                     </Text>
                 </View>
-                <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
+                <PopUp modalVisibility={modalVisible} annuler={()=>toggleModalVisible()} valider={()=>toggleModalVisible2(idItemSelectionne)} />
                 <ScrollView style={{height:"63%"}}>
                     <StatusBar style="auto" />
-                    {appareillages.map((element,index) => (
-                        <TouchableHighlight key={`${element}-${index}`} style={styles.appareillage} underlayColor="white">
-                            <View style={styles.containerAppareillage}>
-                                <View style={styles.elementsView}>
-                                    <Text style={styles.text3}>
-                                        {element}
-                                    </Text>
+                    {appareillages.map((item) => {
+                        
+                            return(
+                            <TouchableHighlight key={item.id} style={styles.appareillage} underlayColor="white">
+                                <View style={styles.containerAppareillage}>
+                                    <View style={styles.elementsView}>
+                                        <Text style={styles.text3}>
+                                            {item.name}
+                                        </Text>
+                                    </View>
+                                    <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true),setIdItemSelectionne(item.id) }}/>
                                 </View>
-                                <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
-                            </View>
-                        </TouchableHighlight>
-                    ))}
+                            </TouchableHighlight>
+                            );
+                        })}
                 </ScrollView>
                 <View style={{height:"15%"}}>
-                    <Bouton styleButton={styles.nouvelAppareillageBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedAppareillagesAj', {
+                    <Bouton styleButton={styles.nouvelAppareillageBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedAppareillagesAj', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                     })} text="Ajouter un appareillage" icone="plus" styleIcone ={styles.iconDossier}/>
                 </View>
             </Pressable>

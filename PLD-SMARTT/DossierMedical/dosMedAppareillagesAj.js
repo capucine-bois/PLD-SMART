@@ -4,6 +4,7 @@ import {StatusBar} from "expo-status-bar";
 import FormField from "../Util/FormField";
 import Header from "../Util/Header";
 import DateCompletion from "../Util/DateCompletion";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Bouton(props){
     return (
@@ -15,13 +16,42 @@ function Bouton(props){
     )
 }
 
-function DosMedAppareillagesAj({navigation}) {
-    const prenom = "Gérard"
-    const nom = "Dupont".toUpperCase()
+function DosMedAppareillagesAj({navigation,route}) {
+    //const prenom = "Gérard"
+    //const nom = "Dupont".toUpperCase()
+
+    const {prenom,nom,appareillages,allergies,pathologies,vaccins}=route.params
     const[title,setTitle]=useState('');
     const [remark, setRemark] = useState("");
     const[dateDeb,setDateDeb]=useState('');
     const[dateFin,setDateFin]=useState('');
+
+
+    const addAppareillage= () => {
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "name":title,
+                "description": remark ,
+                "startDate":"2020-05-05",
+                "endDate":"2020-05-05"
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/equipment/'+token,params)
+                .then(response => {
+                    if(response.ok) {
+                        navigation.navigate('DosMedAppareillages', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
+                        })
+                    }
+                });
+        });
+            
+      };
+
+      
 
     return(
         <View style={styles.container}>
@@ -45,9 +75,8 @@ function DosMedAppareillagesAj({navigation}) {
                         onChangeText={setRemark}
                     />
                     <View style={{height:"15%", marginHorizontal:"15%", marginTop:"10%", flexDirection:"row", justifyContent:"space-between"}}>
-                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {
-                        })} text="Ajouter"/>
-                        <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {
+                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  addAppareillage()} text="Ajouter"/>
+                        <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAppareillages', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                         })} text="Annuler"/>
                     </View>
                 </View>

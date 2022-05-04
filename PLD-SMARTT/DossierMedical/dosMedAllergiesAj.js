@@ -14,9 +14,12 @@ function Bouton(props){
     )
 }
 
-function DosMedAllergiesAj({navigation}) {
-    const prenom = "Gérard"
-    const nom = "Dupont".toUpperCase()
+function DosMedAllergiesAj({navigation,route}) {
+    //const prenom = "Gérard"
+   // const nom = "Dupont".toUpperCase()
+
+    const {prenom,nom,appareillages,allergies,pathologies,vaccins}=route.params
+
     const[title,setTitle]=useState('');
     const [remark, setRemark] = useState("");
 
@@ -40,9 +43,9 @@ function DosMedAllergiesAj({navigation}) {
                         onChangeText={setRemark}
                     />
                     <View style={{height:"15%", marginHorizontal:"15%", marginTop:"10%", flexDirection:"row", justifyContent:"space-between"}}>
-                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {
+                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                         })} text="Ajouter"/>
-                        <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {
+                        <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                         })} text="Annuler"/>
                     </View>
                 </View>

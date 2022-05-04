@@ -50,11 +50,13 @@ function PopUp(props) {
     )
 }
 
-function DosMedVaccins({navigation}) {
-    const vaccins =["Hépatite B","Tétanos","Covid-19","test2","test3","test4","test5","test6","test7","test8"]
-    const prenom = "Gérard"
-    const nom = "Dupont".toUpperCase()
-    const [modalVisible, setModalVisible] = useState(false);
+function DosMedVaccins({navigation,route}) {
+    //const vaccins =["Hépatite B","Tétanos","Covid-19","test2","test3","test4","test5","test6","test7","test8"]
+    ///const prenom = "Gérard"
+    //const nom = "Dupont".toUpperCase()
+
+    const {prenom,nom,appareillages,allergies,pathologies,vaccins}=route.params
+        const [modalVisible, setModalVisible] = useState(false);
 
     const toggleModalVisible = () => {
         setModalVisible(false);
@@ -70,22 +72,24 @@ function DosMedVaccins({navigation}) {
             <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
             <ScrollView style={{height:"63%"}}>
                 <StatusBar style="auto" />
-                {vaccins.map((element,index) => (
-                    <TouchableHighlight key={`${element}-${index}`} style={styles.vaccin} underlayColor="white">
-                        <View style={styles.containerVaccin}>
-                            <View style={styles.elementsView}>
-                                <Text style={styles.text3}>
-                                    {element}
-                                </Text>
-                            </View>
-                            <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
-                        </View>
-                    </TouchableHighlight>
-                ))}
+                {vaccins.map((item) => {
+                            return(
+                            <TouchableHighlight key={item.id} style={styles.vaccin} underlayColor="white">
+                                <View style={styles.containerVaccin}>
+                                    <View style={styles.elementsView}>
+                                        <Text style={styles.text3}>
+                                            {item.name}
+                                        </Text>
+                                    </View>
+                                    <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
+                                </View>
+                            </TouchableHighlight>
+                            );
+                        })}
             </ScrollView>
 
             <View style={{height:"15%"}}>
-                <Bouton styleButton={styles.nouveauVaccinBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedVaccinsAj', {
+                <Bouton styleButton={styles.nouveauVaccinBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedVaccinsAj', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                 })} text="Ajouter un vaccin" icone="plus" styleIcone ={styles.iconDossier}/>
             </View>
         </View>

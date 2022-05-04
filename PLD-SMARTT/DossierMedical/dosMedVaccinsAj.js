@@ -15,9 +15,11 @@ function Bouton(props){
     )
 }
 
-function DosMedVaccinsAj({navigation}) {
-    const prenom = "Gérard"
-    const nom = "Dupont".toUpperCase()
+function DosMedVaccinsAj({navigation,route}) {
+    //const prenom = "Gérard"
+    //const nom = "Dupont".toUpperCase()
+
+    const {prenom,nom,appareillages,allergies,pathologies,vaccins}=route.params
     const[title,setTitle]=useState('');
     const[date,setDate]=useState('');
     const[lot,setLot]=useState('');
@@ -49,9 +51,9 @@ function DosMedVaccinsAj({navigation}) {
                         <FormField label = {"Lot"} color={"#1EA584"} field={lot} setField={setLot}/>
                     </View>
                 <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
-                    <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedVaccins', {
+                    <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedVaccins', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                     })} text="Ajouter"/>
-                    <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedVaccins', {
+                    <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedVaccins', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                     })} text="Annuler"/>
                 </View>
                 </KeyboardAvoidingView>

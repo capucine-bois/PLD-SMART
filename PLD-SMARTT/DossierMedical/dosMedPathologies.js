@@ -60,17 +60,20 @@ function Bouton(props){
     )
 }
 
-function DosMedPathologies({navigation}) {
-    const pathologies =["Bipolarité","Sida","test","test2","test3","test4","test5","test6","test7","test8"]
-    const prenom = "Gérard"
-    const nom = "Dupont".toUpperCase()
-    const [modalVisible, setModalVisible] = useState(false);
+function DosMedPathologies({navigation,route}) {
+    //const pathologies =["Bipolarité","Sida","test","test2","test3","test4","test5","test6","test7","test8"]
+    //const prenom = "Gérard"
+    //const nom = "Dupont".toUpperCase()
+
+    const {prenom,nom,appareillages,allergies,pathologies,vaccins}=route.params
+        const [modalVisible, setModalVisible] = useState(false);
 
     const toggleModalVisible = () => {
         setModalVisible(false);
     }
     return(
         <View style={styles.container}>
+            
             <Header navigation={navigation} title = {"Dosser Médical"} color={"#1EA584"}/>
             <View style = {styles.titre}>
                 <Text style={styles.text}>
@@ -79,24 +82,27 @@ function DosMedPathologies({navigation}) {
             </View>
             <ScrollView style={{height:"63%"}}>
                 <StatusBar style="auto" />
-                {pathologies.map((element,index) => (
-                    <TouchableHighlight key={`${element}-${index}`} style={styles.pathologie} underlayColor="white">
-                    <View style={styles.containerPathologie}>
-                        <View style={styles.elementsView}>
-                                <Text style={styles.text3}>
-                                    {element}
-                                </Text>
-                        </View>
-                        <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
-                    </View>
-                    </TouchableHighlight>
-                ))}
+                {pathologies.map((item) => {
+                            return(
+                            <TouchableHighlight key={item.id} style={styles.allergie} underlayColor="white">
+                                <View style={styles.containerPathologie}>
+                                    <View style={styles.elementsView}>
+                                        <Text style={styles.text3}>
+                                            {item.name}
+                                        </Text>
+                                    </View>
+                                    <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
+                                </View>
+                            </TouchableHighlight>
+                            );
+                        })}
             </ScrollView>
 
             <View style={{height:"15%"}}>
-                <Bouton styleButton={styles.nouvellePathologieBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedPathologiesAj', {
-                })} text="Ajouter une pathologie" icone="plus"/>
+                <Bouton styleButton={styles.nouvellePathologieBtn} styleText={styles.text} onPress={() => { navigation.navigate('DosMedPathologiesAj'
+                ,{prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies})}} text="Ajouter une pathologie" icone="plus"/>
             </View>
+            
         </View>
     )
 

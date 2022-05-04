@@ -93,7 +93,6 @@ function DossierMedical({route,navigation}) {
                     age--;
                 }
                 setAge(age)
-
                 setDateDeNaissance(dateFormat)
                 
              })
@@ -112,7 +111,6 @@ function DossierMedical({route,navigation}) {
              fetch(route.params.url+'/user/token/'+token,params)
              .then(response => response.json())
              .then(data => {
-               
                 setAllergies(data.medicalFile.allergies)
                 setPathologie(data.medicalFile.pathologies)
                 setVaccins(data.medicalFile.vaccines)
@@ -160,9 +158,11 @@ function DossierMedical({route,navigation}) {
             </View>
             <View style={styles.mensurations}>
                 <Text style={styles.text}>Poids : {poids} kg</Text>
-                <Text style={styles.text}>Taille : {taille}</Text>
+                <Text style={styles.text}>Taille : {taille} cm</Text>
             </View>
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies', {
+                    prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
+                })}
                     text="Allergies" />
                 
                     
@@ -176,7 +176,7 @@ function DossierMedical({route,navigation}) {
                             })}
                 </View>
                 
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedPathologies')}
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedPathologies',{prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies})}
                     text="Pathologies" />
                     
                 <View >
@@ -190,7 +190,7 @@ function DossierMedical({route,navigation}) {
                 </View>
                 
 
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedVaccins')}
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedVaccins',{prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies})}
                     text="Vaccins" />
                     
                 <View >
@@ -203,7 +203,7 @@ function DossierMedical({route,navigation}) {
                             })}
                 </View>
            
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAppareillages',{prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies})}
                     text="Appareillages" />
                 
                 <View >

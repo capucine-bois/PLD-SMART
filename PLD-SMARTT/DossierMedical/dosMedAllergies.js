@@ -53,11 +53,12 @@ function PopUp(props) {
 }
 
 
-function DosMedAllergies({navigation}) {
-    const allergies =["Rhume des foins","Acariens","test","test2","test3","test4","test5","test6","test7","test8"]
-    const prenom = "Gérard"
-    const nom = "Dupont".toUpperCase()
-    const [modalVisible, setModalVisible] = useState(false);
+function DosMedAllergies({navigation,route}) {
+    //const allergies =["Rhume des foins","Acariens","test","test2","test3","test4","test5","test6","test7","test8"]
+    //const prenom = "Gérard"
+    //const nom = "Dupont".toUpperCase()
+    const {prenom,nom,appareillages,allergies,pathologies,vaccins}=route.params
+        const [modalVisible, setModalVisible] = useState(false);
 
     const toggleModalVisible = () => {
         setModalVisible(false);
@@ -75,21 +76,23 @@ function DosMedAllergies({navigation}) {
                 <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
                 <ScrollView style={{height:"63%"}}>
                     <StatusBar style="auto" />
-                        {allergies.map((element,index) => (
-                            <TouchableHighlight key={`${element}-${index}`} style={styles.allergie} underlayColor="white">
+                        {allergies.map((item) => {
+                            return(
+                            <TouchableHighlight key={item.allergyId} style={styles.allergie} underlayColor="white">
                                 <View style={styles.containerAllergie}>
                                     <View style={styles.elementsView}>
                                         <Text style={styles.text3}>
-                                            {element}
+                                            {item.name}
                                         </Text>
                                     </View>
                                     <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
                                 </View>
                             </TouchableHighlight>
-                        ))}
+                            );
+                        })}
                 </ScrollView>
                 <View style={{height:"15%"}}>
-                    <Bouton styleButton={styles.nouvelleAllergieBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedAllergiesAj', {
+                    <Bouton styleButton={styles.nouvelleAllergieBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedAllergiesAj', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                     })} text="Ajouter une allergie" icone="plus" styleIcone ={styles.iconDossier}/>
                 </View>
             </Pressable>

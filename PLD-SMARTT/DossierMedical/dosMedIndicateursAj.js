@@ -16,8 +16,10 @@ function Bouton(props){
 }
 
 function DosMedIndicateursAj({navigation}) {
-    const prenom = "Gérard"
-    const nom = "Dupont".toUpperCase()
+    //const prenom = "Gérard"
+    //const nom = "Dupont".toUpperCase()
+
+    const {prenom,nom,appareillages,allergies,pathologies,vaccins}=route.params
     const[title,setTitle]=useState('');
     const [remark, setRemark] = useState("");
 
@@ -36,9 +38,9 @@ function DosMedIndicateursAj({navigation}) {
                     <FormField label = {"Unité"} color={"#1EA584"} field={title} setField={setTitle}/>
 
                     <View style={{height:"15%", marginHorizontal:"15%", marginTop:"20%", flexDirection:"row", justifyContent:"space-between"}}>
-                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {
+                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                         })} text="Ajouter"/>
-                        <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {
+                        <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                         })} text="Annuler"/>
                     </View>
                 </View>
