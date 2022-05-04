@@ -5,6 +5,7 @@ import {StatusBar} from "expo-status-bar";
 import FormField from "../Util/FormField";
 import DateCompletion from "../Util/DateCompletion";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function Bouton(props){
     return (
         <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
@@ -23,6 +24,30 @@ function DosMedVaccinsAj({navigation,route}) {
     const[title,setTitle]=useState('');
     const[date,setDate]=useState('');
     const[lot,setLot]=useState('');
+
+    const addVaccin= () => {
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "name":title,
+                "lot": lot ,
+                "lastBooster":"2020-05-05",
+                
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/vaccine/'+token,params)
+                .then(response => {
+                    if(response.ok) {
+                        navigation.navigate('DosMedVaccins', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
+                        })
+                    }
+                });
+        });
+            
+      };
 
     return(
         <View style={styles.container}>
@@ -51,8 +76,7 @@ function DosMedVaccinsAj({navigation,route}) {
                         <FormField label = {"Lot"} color={"#1EA584"} field={lot} setField={setLot}/>
                     </View>
                 <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
-                    <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedVaccins', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
-                    })} text="Ajouter"/>
+                    <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  addVaccin()} text="Ajouter"/>
                     <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedVaccins', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                     })} text="Annuler"/>
                 </View>
