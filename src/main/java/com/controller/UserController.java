@@ -1,8 +1,7 @@
 package com.controller;
 
-import com.model.MedicalFile;
+import com.model.*;
 import com.repository.MedicalFileRepository;
-import com.model.RendezVous;
 import com.repository.RendezVousRepository;
 
 import com.util.TokenGenerator;
@@ -15,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 
-import com.model.User;
 import com.repository.UserRepository;
+
+import java.util.Date;
 
 
 @RestController
@@ -49,6 +49,26 @@ public class UserController {
         user.setMedicalFile(medicalFile);
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
+
+    @PutMapping("/user/{token}")
+    @ResponseBody
+    @Transactional
+    public ResponseEntity<User> modifyUser (@RequestBody User user,@PathVariable(value = "token") String token) {
+        User userToModify = userRepository.findByToken(token)
+                .orElseThrow(() -> new UserNotFoundException(token));
+        if(user.getName()!=null) {
+            userToModify.setName(user.getName());
+        }
+        if(user.getSurname()!=null) {
+            userToModify.setSurname(user.getSurname());
+        }
+        if(user.getBirthDate()!=null) {
+            userToModify.setBirthDate(user.getBirthDate());
+        }
+        userRepository.save(userToModify);
+        return new ResponseEntity<User>(userToModify, HttpStatus.OK);
+    }
+
 
 
     @GetMapping("/user/token/{token}")
