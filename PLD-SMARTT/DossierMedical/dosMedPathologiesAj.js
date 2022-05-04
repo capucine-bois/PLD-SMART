@@ -27,14 +27,22 @@ function DosMedPathologiesAj({navigation,route}) {
     const[dateDeb,setDateDeb]=useState('');
     const[dateFin,setDateFin]=useState('');
 
+
+
     const addPathologie= () => {
+
+        var moisDeb= dateDeb.slice(3,5);
+        var jourDeb = dateDeb.slice(0,2);
+        var yearDeb = dateDeb.slice(6,10);
+        var dateDebFormate = yearDeb + '-'+moisDeb+'-'+jourDeb ;
+
         const params = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 "name":title,
                 "description": remark ,
-                "startDate":"2020-05-05",
+                "startDate":dateDebFormate,
                 
             })
         }

@@ -41,16 +41,17 @@ const Notes =({route,navigation}) => {
                 fetch(route.params.url+'/notes/user/'+token,params)
                     .then(response => response.json())
                     .then(data => {
+                      console.log(data)
                         for(let i in data){
-                            data[i].author = data[i].author.trim();
-                            data[i].title = data[i].title.trim();
-                            data[i].note = data[i].note.trim();
+                            //data[i].author = data[i].author.trim();
+                            //data[i].title = data[i].title.trim();
+                           // data[i].note = data[i].note.trim();
                         }
                         setNotes(data);
                     });
             });
 
-    })
+    }, []);
 
     return(
         <View style={style.container}>

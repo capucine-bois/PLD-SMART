@@ -1,22 +1,10 @@
-import React, {useState} from 'react';
-
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TouchableHighlight, Modal, Keyboard} from 'react-native';
+import React, {useState,useEffect} from 'react';
+import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TouchableHighlight, Modal} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
 import Header from "../Util/Header";
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
-
-function Bouton(props){
-    return (
-        <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
-            <Text style={props.styleText}>
-                {props.text}
-            </Text>
-            <MaterialCommunityIcons style= {props.styleIcone} name={props.icone} color="#fff" size={45}/>
-        </TouchableOpacity>
-    )
-}
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useIsFocused} from "@react-navigation/native";
 function PopUp(props) {
     return (
         <View style={styles.centeredView}>
@@ -31,16 +19,16 @@ function PopUp(props) {
                         <View style={styles.boutonsModalView}>
                             <TouchableOpacity
                                 style={styles.btnOui}
-                                onPress={() => {
-                                }}
+                                onPress={props.valider
+                                }
                             >
                                 <Text style={styles.text}>Oui</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.btnNon]}
-                                onPress={() => {
-                                    props.setter();
-                                }}
+                                onPress={
+                                    props.annuler
+                                }
                             >
                                 <Text style={styles.text}>Non</Text>
                             </TouchableOpacity>
@@ -52,28 +40,89 @@ function PopUp(props) {
     )
 }
 
+function Bouton(props){
+    return (
+        <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
+            <Text style={props.styleText}>
+                {props.text}
+            </Text>
+            <MaterialCommunityIcons style= {props.styleIcone} name={props.icone} color="#fff" size={45}/>
+        </TouchableOpacity>
+    )
+}
 
 function DosMedAllergies({navigation,route}) {
-    //const allergies =["Rhume des foins","Acariens","test","test2","test3","test4","test5","test6","test7","test8"]
+    //const pathologies =["Bipolarité","Sida","test","test2","test3","test4","test5","test6","test7","test8"]
     //const prenom = "Gérard"
-    //const nom = "Dupont".toUpperCase()
-    const {prenom,nom,appareillages,allergies,pathologies,vaccins}=route.params
-        const [modalVisible, setModalVisible] = useState(false);
-
+    const {prenom,nom}=route.params
+    const [allergies,setAllergies]=useState([])
+    const [pathologies,setPathologie]=useState(route.params.pathologies)
+    const [vaccins, setVaccins]=useState(route.params.vaccins)
+    const [appareillages,setAppareillages]=useState(route.params.appareillages)
+    const [modalVisible, setModalVisible] = useState(false);
+    const isFocused = useIsFocused();
+    const [idItemSelectionne,setIdItemSelectionne]=useState('0');
     const toggleModalVisible = () => {
+
         setModalVisible(false);
     }
 
+    const toggleModalVisible2 = (id) => {
+        deleteAllergie(id)
+        //setModalVisible(false);
+    }
+    const checkMedicalFile = () => {
+        const params = {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/user/token/'+token,params)
+             .then(response => response.json())
+             .then(data => {
+                setAllergies(data.medicalFile.allergies)
+                setPathologie(data.medicalFile.pathologies)
+                setVaccins(data.medicalFile.vaccines)
+                setAppareillages(data.medicalFile.equipments)
+                
+             })
+          })
+      }
+
+      const deleteAllergie = (id) => {
+        const params = {
+          method: 'DELETE',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/allergy/'+id,params)
+             .then(response => {
+                if(response.ok){
+                    setModalVisible(false)
+                    checkMedicalFile()
+                }});
+             
+          })
+      }
+
+
+    useEffect(() => {
+        if(isFocused){
+        checkMedicalFile();
+        }
+      }, [isFocused]);
     return(
         <View style={styles.container}>
-            <Pressable onPress={()=>Keyboard.dismiss()}>
+            
                 <Header navigation={navigation} title = {"Dossier Médical"} color={"#1EA584"}/>
                 <View style = {styles.titre}>
                     <Text style={styles.text}>
                         ALLERGIES
                     </Text>
                 </View>
-                <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
+                <PopUp modalVisibility={modalVisible} annuler={()=>toggleModalVisible()} valider={()=>toggleModalVisible2(idItemSelectionne)} />
                 <ScrollView style={{height:"63%"}}>
                     <StatusBar style="auto" />
                         {allergies.map((item) => {
@@ -85,7 +134,7 @@ function DosMedAllergies({navigation,route}) {
                                             {item.name}
                                         </Text>
                                     </View>
-                                    <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
+                                    <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true),setIdItemSelectionne(item.allergyId)}}/>
                                 </View>
                             </TouchableHighlight>
                             );
@@ -95,7 +144,7 @@ function DosMedAllergies({navigation,route}) {
                     <Bouton styleButton={styles.nouvelleAllergieBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedAllergiesAj', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                     })} text="Ajouter une allergie" icone="plus" styleIcone ={styles.iconDossier}/>
                 </View>
-            </Pressable>
+           
         </View>
     )
 

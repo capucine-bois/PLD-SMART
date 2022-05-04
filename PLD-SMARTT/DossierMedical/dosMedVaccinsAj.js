@@ -25,14 +25,19 @@ function DosMedVaccinsAj({navigation,route}) {
     const[date,setDate]=useState('');
     const[lot,setLot]=useState('');
 
+
     const addVaccin= () => {
+        var moisDeb= date.slice(3,5);
+        var jourDeb = date.slice(0,2);
+        var yearDeb = date.slice(6,10);
+        var dateDebFormate = yearDeb + '-'+moisDeb+'-'+jourDeb ;
         const params = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 "name":title,
                 "lot": lot ,
-                "lastBooster":"2020-05-05",
+                "lastBooster":dateDebFormate,
                 
             })
         }

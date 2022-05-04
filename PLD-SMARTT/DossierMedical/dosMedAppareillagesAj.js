@@ -28,14 +28,26 @@ function DosMedAppareillagesAj({navigation,route}) {
 
 
     const addAppareillage= () => {
+
+        var moisDeb= dateDeb.slice(3,5);
+        var jourDeb = dateDeb.slice(0,2);
+        var yearDeb = dateDeb.slice(6,10);
+        var dateDebFormate = yearDeb + '-'+moisDeb+'-'+jourDeb ;
+
+        var moisFin= dateFin.slice(3,5);
+        var jourFin = dateFin.slice(0,2);
+        var yearFin = dateFin.slice(6,10);
+        var dateFinFormate = yearFin + '-'+moisFin+'-'+jourFin ;
+
+       
         const params = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 "name":title,
                 "description": remark ,
-                "startDate":"2020-05-05",
-                "endDate":"2020-05-05"
+                "startDate":dateDebFormate,
+                "endDate":dateFinFormate
             })
         }
         AsyncStorage.getItem('token')
@@ -51,7 +63,7 @@ function DosMedAppareillagesAj({navigation,route}) {
             
       };
 
-      
+
 
     return(
         <View style={styles.container}>

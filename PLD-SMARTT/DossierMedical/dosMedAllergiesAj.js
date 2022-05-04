@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, TouchableOpacity, TextInput, Pressable, Keyboard
 import {StatusBar} from "expo-status-bar";
 import FormField from "../Util/FormField";
 import Header from "../Util/Header";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function Bouton(props){
     return (
         <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
@@ -22,6 +22,30 @@ function DosMedAllergiesAj({navigation,route}) {
 
     const[title,setTitle]=useState('');
     const [remark, setRemark] = useState("");
+
+
+    const addAllergie= () => {
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "name":title,
+                "description": remark ,
+                
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/allergy/'+token,params)
+                .then(response => {
+                    if(response.ok) {
+                        navigation.navigate('DosMedAllergies', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
+                        })
+                    }
+                });
+        });
+            
+      };
 
     return(
         <View style={styles.container}>
@@ -43,8 +67,7 @@ function DosMedAllergiesAj({navigation,route}) {
                         onChangeText={setRemark}
                     />
                     <View style={{height:"15%", marginHorizontal:"15%", marginTop:"10%", flexDirection:"row", justifyContent:"space-between"}}>
-                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
-                        })} text="Ajouter"/>
+                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  addAllergie()} text="Ajouter"/>
                         <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedAllergies', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                         })} text="Annuler"/>
                     </View>
