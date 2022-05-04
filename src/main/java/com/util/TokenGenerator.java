@@ -6,7 +6,7 @@ public class TokenGenerator {
 
     public static String generateRandomPassword(int len) {
         String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk"
-                +"lmnopqrstuvwxyz!@#$%&";
+                +"lmnopqrstuvwxyz";
         Random rnd = new Random();
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++)
