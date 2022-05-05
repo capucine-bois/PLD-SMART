@@ -1,9 +1,20 @@
 import {StyleSheet, Text, View, Pressable} from "react-native";
 
+function getColor(state){
+    if(state == "bon"){
+        return {backgroundColor:"green"}
+    }
+    else if(state == "mauvais"){
+        return {backgroundColor:"orange"}
+    }
+    else {
+        return {backgroundColor:"red"}
+    }
+}
 const NoteSummary = (props) => {
 
     return(
-        <Pressable style={noteSummaryStyle.container} onPress={() =>  props.navigation.navigate('BlocNotes2', {"title":props.title,"date":props.date, "author":props.author, "note":props.note,"id":props.id})}>
+        <Pressable style={[noteSummaryStyle.container,getColor(props.state)]} onPress={() =>  props.navigation.navigate('BlocNotes2', {"title":props.title,"date":props.date, "author":props.author, "state":props.state, "note":props.note,"id":props.id})}>
             <Text style={noteSummaryStyle.title}>
                 {props.title}
             </Text>
@@ -24,7 +35,6 @@ export default NoteSummary;
 
 const noteSummaryStyle = StyleSheet.create({
     container: {
-        backgroundColor:"#F4A126",
         height:90,
         width:"80%",
         marginLeft:"auto",

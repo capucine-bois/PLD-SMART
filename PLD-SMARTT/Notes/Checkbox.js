@@ -1,5 +1,4 @@
 import {Pressable, StyleSheet,View,Text} from "react-native";
-import React, {Component, useEffect, useState} from 'react';
 
 function getStyle(val) {
     if (val) {
@@ -12,12 +11,10 @@ function getStyle(val) {
 
 const Checkbox = (props) =>{
 
-
-    const [toggleCheck, setToggleCheck] = React.useState(false);
     return(
 
         <View style={style.checkView}>
-            <Pressable style={[style.checkbox, getStyle(toggleCheck)]} onPress={() => setToggleCheck(!toggleCheck)}>
+            <Pressable style={[style.checkbox, getStyle(props.toggleCheck)]} onPress={() => props.setToggleCheck(!props.toggleCheck)}>
 
             </Pressable>
             <Text>

@@ -31,17 +31,20 @@ import DosMedAppareillages from './DossierMedical/dosMedAppareillages'
 import DosMedAppareillagesAj from './DossierMedical/dosMedAppareillagesAj'
 import DosMedPathologiesAj from './DossierMedical/dosMedPathologiesAj'
 import DosMedIndicateurPres from './DossierMedical/dosMedIndicateurPres'
+import DosMedIndicateurAjMes from './DossierMedical/dosMedIndicateurAjMes'
 
 import React, {useEffect} from "react"
 
 import { NavigationContainer } from '@react-navigation/native';
 import {createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Camera from "./Traitements/TreatmentCamera";
+import TreatmentCamera from "./Traitements/TreatmentCamera";
+import TreatmentCameraSave from "./Traitements/TreatmenCameraSave";
+import AddMedicationForm from "./Traitements/AddMedicationForm";
 
 const Stack = createNativeStackNavigator();
-
-const urlBack = "http://172.20.10.2:8080";
-
+const urlBack = "http://10.43.4.92:8080";
 export default function App() {
 
 
@@ -55,8 +58,8 @@ export default function App() {
 
     }, []);
 
-    
-   
+
+
   return (
       <NavigationContainer style={styles.container} >
       <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -87,7 +90,9 @@ export default function App() {
         <Stack.Screen initialParams={{'url':urlBack}} name="ParametersUrgencyCall" component={ParametersUrgencyCall}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="ParametersNotification" component={ParametersNotification}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="Traitements" component={Traitements}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="TreatmentCameraSave" component={TreatmentCameraSave}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="Traitements2" component={AddTreatmentForm}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="AddMedicationForm" component={AddMedicationForm} />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAllergies" component={DosMedAllergies}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAllergiesAj" component={DosMedAllergiesAj}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedIndicateurs" component={DosMedIndicateurs}   />
@@ -99,7 +104,7 @@ export default function App() {
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAppareillagesAj" component={DosMedAppareillagesAj}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedPathologiesAj" component={DosMedPathologiesAj}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedIndicateurPres" component={DosMedIndicateurPres}   />
-
+        <Stack.Screen initialParams={{'url':urlBack}} name="DosMedIndicateurAjMes" component={DosMedIndicateurAjMes}   />
 
       </Stack.Navigator>
 

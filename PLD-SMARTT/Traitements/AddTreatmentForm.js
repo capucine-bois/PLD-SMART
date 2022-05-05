@@ -16,6 +16,7 @@ import {
 import Header from "../Util/Header";
 import FormField from "../Util/FormField";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
@@ -25,51 +26,41 @@ const AddTreatmentForm = ({route,navigation})=> {
     const [start, setStart] = useState("");
     const [end, setEnd] = useState("");
     const [remark, setRemark] = useState("");
-    const [dateFormateDebut,setDateFormateDebut]=useState("");
-    const [dateFormateFin,setDateFormateFin]=useState("");
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [isHourPickerVisible, setHourPickerVisibility] = useState(false);
+    const [boolTreat, setBoolTreat] = useState(false);
 
-    const showDatePicker = () => {
-     setDatePickerVisibility(true);
-    };
+    if(route.params.back){
+        const params = {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+        }
+    }
 
-    const handleConfirmDebut = (date) => {
-      setDate(date);
-      var dd = date.getDate();
-      var mm = date.getMonth() + 1; //January is 0!
-      var yyyy = date.getFullYear();
+    const deleteTreatment = () => {
 
-      if (dd < 10) {
-          dd = '0' + dd;
-      }
-      if (mm < 10) {
-          mm = '0' + mm;
-      }
-      setDateFormateDebut( dd+"/"+mm+"/"+yyyy);
+        navigation.navigate('Traitements')
+    }
+    const addTreatment = () => {
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "name":title,
+                "remark":remark,
+            })
+        }
 
+        AsyncStorage.getItem('token')
+            .then((token) => {
+                fetch(route.params.url+'/treatment/user/'+token,params)
+                    .then(response =>{
+                        setBoolTreat(true);
+                        navigation.navigate('AddMedicationForm', {
+                            nameTreatment: "name"
+                        })
+                    })
+            });
 
-      hideDatePicker();
-    };
-
-    const handleConfirmEnd = (date) => {
-      setDate(date);
-      var dd = date.getDate();
-      var mm = date.getMonth() + 1; //January is 0!
-      var yyyy = date.getFullYear();
-
-      if (dd < 10) {
-          dd = '0' + dd;
-      }
-      if (mm < 10) {
-          mm = '0' + mm;
-      }
-      setDateFormateFin( dd+"/"+mm+"/"+yyyy);
-
-
-      hideDatePicker();
-    };
-
+    }
     return (
 
         <View style={style.container}>
@@ -80,22 +71,6 @@ const AddTreatmentForm = ({route,navigation})=> {
                 <Header navigation={navigation} title = {"Traitement"} color={"#2DB142"}/>
                 <Text style={style.title}> Nouveau Traitement </Text>
                 <FormField label = {"Titre"} color={"#2DB142"} field={title} setField={setTitle}/>
-                <FormField placeholder={dateFormateDebut} label = {"Début"} color={"#2DB142"} onPress={showDatePicker(parent)} field={start} setField={setStart} onPress/>
-                <FormField placeholder={dateFormateFin} label = {"Fin"} color={"#2DB142"} onPress={showDatePicker(parent)} field={end} setField={setEnd}/>
-                <DateTimePickerModal
-                    isVisible={isDatePickerBeginVisible}
-                    mode="datetime"
-                    locale="fr"
-                    onConfirm={handleConfirmEnd}
-                    onCancel={hideDatePicker}
-                />
-                <DateTimePickerModal
-                    isVisible={isDatePickerEndVisible}
-                    mode="datetime"
-                    locale="fr"
-                    onConfirm={handleConfirmEnd}
-                    onCancel={hideDatePicker}
-                />
                 <Text style={style.title2}> Commentaire </Text>
 
                 <TextInput
@@ -106,17 +81,18 @@ const AddTreatmentForm = ({route,navigation})=> {
                 />
 
                 <View style={style.btnView}>
-                    <TouchableOpacity  style={[style.btn, style.suivantBtn]} >
-                        <Text>
-                            Sauvegarder
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={[style.btn, style.annulerBtn]} onPress={()=>navigation.navigate('Traitements')}>
+                    <TouchableOpacity style={[style.btn, style.annulerBtn]} onPress={deleteTreatment}>
                         <Text>
                             Annuler
                         </Text>
                     </TouchableOpacity>
+
+                    <TouchableOpacity onPress={()=>addTreatment()} style={[style.btn, style.suivantBtn]} >
+                        <Text>
+                            Suivant
+                        </Text>
+                    </TouchableOpacity>
+
                 </View>
 
             </KeyboardAvoidingView>
@@ -147,10 +123,11 @@ const style = StyleSheet.create({
     suivantBtn: {
         backgroundColor: "#2DB142",
         color:"white",
-        marginRight:30,
+
     },
     annulerBtn: {
         backgroundColor: "#9C9C9C",
+        marginRight:30,
     },
 
     btnView: {
@@ -161,6 +138,8 @@ const style = StyleSheet.create({
         display:"flex",
         flexDirection:"row",
         justifyContent:"center",
+        position:"relative",
+        marginTop:"auto",
     },
 
     container:{

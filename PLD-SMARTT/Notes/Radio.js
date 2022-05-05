@@ -8,6 +8,7 @@ const Radio = (props) =>
 
         <View style={style.radio}>
             <RadioButton
+                disabled={props.disabled}
                 color={"black"}
                 value={props.value}
                 status={ props.radioAttr === props.value ? 'checked' : 'unchecked' }

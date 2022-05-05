@@ -1,10 +1,10 @@
 import {React,useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, FlatList, Pressable, Keyboard} from 'react-native';
-import {StatusBar} from "expo-status-bar";
+import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput, Pressable, KeyboardAvoidingView, Keyboard} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {StatusBar} from "expo-status-bar";
+import FormField from "../Util/FormField";
 import Header from "../Util/Header";
-import PureChart from "react-native-pure-chart";
-
+import DateCompletion from "../Util/DateCompletion";
 
 function Bouton(props){
     return (
@@ -12,28 +12,15 @@ function Bouton(props){
             <Text style={props.styleText}>
                 {props.text}
             </Text>
-            <MaterialCommunityIcons style= {props.styleIcone} name={props.icone} color="#fff" size={45}/>
         </TouchableOpacity>
     )
 }
 
-function DosMedIndicateurPres({navigation}) {
+function DosMedIndicateurAjMes({navigation}) {
     const prenom = "Gérard"
     const nom = "Dupont".toUpperCase()
-    let mesures =  [
-        {key: '01/02/2022 : 1m75'},
-        {key: '22/06/2022 : 1m74'},
-        {key: '19/11/2022 : 1m73,5'},
-        {key: '03/08/2023 : 1m72'},
-        {key: '11/12/2023 : 1m71'}]
-
-    let sampleData = [
-        {x: '01/02/2022', y: 175},
-        {x: '22/06/2022', y: 174},
-        {x: '19/11/2022', y: 173.5},
-        {x: '03/08/2023', y: 172},
-        {x: '11/12/2023', y: 171},
-    ]
+    const[title,setTitle]=useState('');
+    const [date, setDate] = useState("");
 
     return(
         <View style={styles.container}>
@@ -42,28 +29,19 @@ function DosMedIndicateurPres({navigation}) {
                 <StatusBar style="auto" />
                 <View style = {styles.titre}>
                     <Text style={styles.text}>
-                        Indicateur Taille
+                        Nouvelle mesure
                     </Text>
                 </View>
-                <View style={{height:"78%", alignItems:"center"}}>
-                    <Text style={styles.textCourbe}>
-                        Courbe
-                    </Text>
-                    <View style={{height:"30%", marginTop:"5%", paddingVertical:"8%", borderWidth:5, borderColor:"#1EA584", borderRadius:20}}>
-                        <PureChart data={sampleData} type='line' style={{alignSelf:"center"}}/>
-                    </View >
-                    <View style={{height:"30%",margin:"5%"}}>
-                        <Text style={styles.textMes}>Mesures</Text>
-                        <FlatList
-                            data={mesures}
-                            renderItem={({item}) => <View style={{flexDirection:"row"}}><MaterialCommunityIcons style= {{alignSelf:"center"}} name={"square-small"} color="#000" size={45}/><Text style={styles.item}>{item.key}</Text></View>}
-                        />
-                    </View>
-                    <View style={{height:"15%"}}>
-                        <Bouton styleButton={styles.nouvelIndicateurBtn} styleText={styles.textAjout} onPress={() =>  navigation.navigate('DosMedIndicateurAjMes', {
-                        })} text="Ajouter une mesure" icone="plus" styleIcone ={styles.iconDossier}/>
-                    </View>
+                <View style={{height:"75%", marginTop:"20%"}}>
+                    <FormField label = {"Valeur"} color={"#1EA584"} field={title} setField={setTitle}/>
+                    <DateCompletion label = {"Date"} color={"#1EA584"} field={date} setField={setDate} keyboardType={'numeric'}/>
 
+                    <View style={{height:"15%", marginHorizontal:"15%", marginTop:"20%", flexDirection:"row", justifyContent:"space-between"}}>
+                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {
+                        })} text="Ajouter"/>
+                        <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {
+                        })} text="Annuler"/>
+                    </View>
                 </View>
             </Pressable>
         </View>
@@ -71,13 +49,9 @@ function DosMedIndicateurPres({navigation}) {
 
 }
 
-export default DosMedIndicateurPres
+export default DosMedIndicateurAjMes
 
 const styles = StyleSheet.create({
-    item: {
-        fontSize: 16,
-        alignSelf:"center"
-    },
     iconDossier: {
         marginRight:"5%"
     },
@@ -88,49 +62,16 @@ const styles = StyleSheet.create({
         marginTop:"10%",
         alignSelf:"center",
     },
-    textAjout: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        color: "#fff",
-        alignSelf:"center",
-    },
     scrollView:{
         borderWidth: 5,
         borderColor:"#1EA584",
         borderRadius:15,
-    },
-    nouvelIndicateurBtn: {
-        width: "70%",
-        flexDirection:"row",
-        borderRadius: 20,
-        height: "60%",
-        alignItems: "center",
-        alignSelf:"center",
-        justifyContent: "space-evenly",
-        backgroundColor: "#1EA584",
-        marginTop:"6%",
     },
     text:{
         fontSize: 25,
         fontWeight: 'bold',
         color: "#1EA584",
         alignSelf:"center"
-    },
-    textCourbe:{
-        textDecorationLine:"underline",
-        fontSize: 22,
-        fontWeight: 'bold',
-        color: "#1EA584",
-        alignSelf:"center"
-    },
-    textMes:{
-        textDecorationLine:"underline",
-        fontSize: 22,
-        fontWeight: 'bold',
-        color: "#1EA584",
-        alignSelf:"center",
-        marginTop:"3%",
-        marginBottom:"7%"
     },
     picker:{
         backgroundColor: "#B8E6DA",
@@ -146,10 +87,10 @@ const styles = StyleSheet.create({
         alignSelf:"center"
     },
     btnAjout: {
-        width: "80%",
+        width: "45%",
         flexDirection:"row",
         borderRadius: 25,
-        height: "50%",
+        height: "45%",
         alignItems: "center",
         justifyContent: "space-evenly",
         backgroundColor: "#1EA584",
@@ -217,7 +158,7 @@ const styles = StyleSheet.create({
     },
     titre:{
         alignSelf:"center",
-        marginBottom:"10%",
+        margin:"10%",
         color:"#000",
 
     },

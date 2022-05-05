@@ -6,15 +6,21 @@ function getStyle(color)
 {
     return {color: color};
 }
+function getFontSize(size = 25){
+    return {fontSize : size};
+}
 
+function getInputSize(width = "70%", height = undefined){
+    return {width:width, height:height};
+}
 
 const FormField = (props) => {
 
     return(
         <View style={style.container}>
-            <Text style={[style.text,getStyle(props.color)]}> {props.label} </Text>
+            <Text style={[style.text,getStyle(props.color),getFontSize(props.sizeFont)]}> {props.label} </Text>
             <TextInput
-                style={style.input}
+                style={[style.input,getInputSize(props.inputWidth, props.inputHeight)]}
                 value={props.field}
                 placeholder={props.placeholder}
                 onChangeText={props.setField}
@@ -40,6 +46,7 @@ const style = StyleSheet.create({
         alignItems:"center",
         marginBottom:20,
     },
+
     input:{
         borderStyle:"solid",
         width:"70%",
@@ -49,7 +56,6 @@ const style = StyleSheet.create({
         borderWidth:5,
     },
     text:{
-        fontSize:25,
         fontWeight:"bold",
     }
 });
