@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Header from "../Util/Header";
 
 const InscrDosMed =({route,navigation})=>{
     const{prenom,nom}= route.params;
@@ -13,8 +14,11 @@ const InscrDosMed =({route,navigation})=>{
     const [age, setAge] = useState('');
     const [idMetriqueTaille,setIdMetriqueTaille]=useState('');
     const [idMetriquePoids,setIdMetriquePoids]=useState('');
-    const [bouton, setBouton] = useState(false);
     const [date, setDate] = useState(new Date());
+    const [Bdate, setBDate] = useState(false);
+    const [Bpoids, setBPoids] = useState(false);
+    const [Btaille, setBTaille] = useState(false);
+
     const dateAjd =useState(new Date())
     const [dateAjdFormate,setDateAjdFormate]=useState('')
     const [dateFormate,setDateFormate]=useState('')
@@ -35,6 +39,7 @@ const InscrDosMed =({route,navigation})=>{
        };
        const handleConfirm = (date) => {
          setDate(date);
+         setBDate(true);
          var dd = date.getDate();
          var mm = date.getMonth() + 1; //January is 0!
          var yyyy = date.getFullYear();
@@ -251,17 +256,7 @@ const InscrDosMed =({route,navigation})=>{
 
     return (
         <View style={styles.container}>
-            <View style={styles.headerBtn}>
-                <Text style={styles.text2}>
-                    
-                </Text>
-                <TouchableOpacity>
-                    <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
-                        prenom: prenom,
-                        nom: nom,
-                    })}/>
-                </TouchableOpacity>
-            </View>
+            <Header navigation={navigation} title = {"Tutoriel"} color={"#1EA584"}/>
             <View style={{alignItems:"center"}}>
                     <Text style={styles.text1}>
                         Bonjour, {prenom} {nom} 
@@ -278,7 +273,7 @@ const InscrDosMed =({route,navigation})=>{
                         placeholder="Saisissez votre Taille en cm"
                         placeholderTextColor="#003f5c"
                         onChangeText={(taille) => setTaille(taille)}
-                        onChange={()=>setBouton(true)}
+                        onChange={()=>setBTaille(true)}
                         keyboardType="numeric"
                     />
                 </View>
@@ -288,7 +283,7 @@ const InscrDosMed =({route,navigation})=>{
                     placeholder="Saisissez votre Poids en Kg"
                     placeholderTextColor="#003f5c"
                     onChangeText={(poids) => setPoids(poids)}
-                    onChange={()=>setBouton(true)}
+                    onChange={()=>setBPoids(true)}
                     keyboardType="numeric"
 
                 />
@@ -301,31 +296,20 @@ const InscrDosMed =({route,navigation})=>{
                     </Text>
                     
                 </TouchableOpacity>
-                
-                
                   <DateTimePickerModal
                     isVisible={isDatePickerVisible}
                     mode="date"
                     locale="fr"
-                    display={Platform.OS === 'ios' ? 'spinner' : 'spinner'}
                     onConfirm={handleConfirm}
                     onCancel={hideDatePicker}
                   />
                 
                  </View>
                 
-                <TouchableOpacity style={styles.loginBtn} onPress={() =>submitMetriqueTaille()}>
-
-                <Button
-                    title="Suivant"
-                    color={"#003f5c"}
-                    disabled={!bouton}
-
-                />
+                <TouchableOpacity disabled={!(Bpoids&&Bdate&&Btaille)} style={styles.loginBtn} onPress={() =>submitMetriqueTaille()}>
+                    <Text style={styles.text3}>Suivant</Text>
             </TouchableOpacity>
             </View>
-
-
         </View>
 
 
@@ -361,25 +345,6 @@ const styles = StyleSheet.create({
         fontSize:20,
         textAlign:'center',
         alignSelf:'center'
-    },
-    
-    profil:{
-        marginTop:"10%",
-        marginBottom:"5%",
-        flexDirection:"row",
-        justifyContent : "space-evenly"
-    },
-    
-    
-    headerBtn: {
-        width: "100%",
-        height: "11%",
-        display:"flex",
-        flexDirection:"row",
-        alignItems:"flex-end",
-        paddingBottom:20,
-        backgroundColor: "#1EA584"
-
     },
     container: {
         backgroundColor: '#1EA584',
