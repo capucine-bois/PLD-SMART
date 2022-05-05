@@ -85,12 +85,12 @@ const RDV2 =({route,navigation})=>{
           
     };
 
-    const deleteRDV= () => {
+    const deleteRDV= async () => {
         const params = {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json'},
         }
-        fetch(route.params.url+'/rendezvous/'+id,params)
+        await fetch(route.params.url + '/rendezvous/' + id, params)
             .then(navigation.navigate("RDV"))
     };
 
