@@ -49,6 +49,16 @@ public class MetricController {
         return new ResponseEntity<List<Metric>>(listMetric, HttpStatus.OK);
     }
 
+    @GetMapping("/metric/id/{metricid}")
+    @ResponseBody
+    public ResponseEntity<Metric> getMetricsByID(@PathVariable(value = "metricid") Long metricid){
+
+        Metric metric = metricRepository.findById(metricid)
+                .orElseThrow(() -> new MetricNotFoundException(metricid));
+
+        return new ResponseEntity<Metric>(metric, HttpStatus.OK);
+    }
+
     @GetMapping("/metric/name/{metricName}/token/{token}")
     @ResponseBody
     public ResponseEntity<Metric> getMetricsByName(@PathVariable(value = "metricName") String metricName, @PathVariable(value = "token") String token){
