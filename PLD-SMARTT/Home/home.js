@@ -74,15 +74,23 @@ const onPressMobileNumberClick = (number) => {
 
     useEffect(() => {
       if(isFocused){
-      //checkMedicalFile();
-        const name = AsyncStorage.getItem("name")
-            .then(result => {
-                setPrenom(result);
-            })
-        const surname = AsyncStorage.getItem("surname")
-            .then(result => {
-                setNom(result);
-            })
+          const params = {
+              method: 'GET',
+              headers: {'Content-Type': 'application/json'},
+          }
+          AsyncStorage.getItem('token')
+              .then((token) => {
+                  fetch(route.params.url+'/user/token/'+token,params)
+                      .then(response => response.json())
+                      .then(data => {
+                          setNom(data.surname.trim())
+                          setPrenom(data.name.trim())}
+                      )
+
+              })
+
+
+
           }
     }, [isFocused]);
 
