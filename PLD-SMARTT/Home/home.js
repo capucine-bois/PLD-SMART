@@ -23,86 +23,68 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import * as Print from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 
-
-const [listeAppareillage , setListeAppareillage] = useState("");
-const [listePathologie, setListePathologie] = useState("")";
-const [listeAllergie , setListeAllergie] = useState("");
-const [listeVaccins , setListeVaccins] = useState("") ;
-
 const htmlContent = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pdf Content/title>
-        <style>
-            body {
-                font-size: 16px;
-                color: rgb(255, 196, 0);
-            }            h1 {
-                text-align: center;
-            }
-        </style>
-    </head>
-    <body>
-        <h1 style="color: #5e9ca0;">Fiche r&eacute;capitulative</h1>
-        <hr />
-        <p><strong>Nom</strong> : Lemarchal</p>
-        <p><strong>Pr&eacute;nom</strong> : Gr&eacute;gory</p>
-        <hr />
-        <h2 style="color: #2e6c80;">Dossier M&eacute;dical</h2>
-        <table style="width: 100%; border-collapse: collapse;" border="0">
-            <tbody>
-            <tr>
-                <td style="width: 50%;"><strong>Taille</strong> : 1m 85</td>
-                <td style="width: 50%;">
-                    <p><strong>Poids</strong> : 84 kg</p>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <table style="width: 100%; border-collapse: collapse;">
-            <tbody>
-            <tr>
-                <td style="width: 50%;">
-                    <p><strong>Allergies</strong> :</p>
-                    <ul>
-                        {listeAllergie}
-                    </ul>
-                </td>
-                <td style="width: 50%;">
-                    <p><strong>Pathologies</strong> :</p>
-                    <ul>
-                        {listePathologie}
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 50%;">
-                    <p><strong>Vaccins :</strong></p>
-                    <ul>
-                        {listeVaccins}
-                    </ul>
-                    <p><strong>&nbsp;</strong></p>
-                </td>
-                <td style="width: 50%;">
-                    <p><strong>Appareillage :<br /></strong></p>
-                    <ul>
-                        {listeAppareillage}
-                    </ul>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <hr />
-        <h2 style="color: #2e6c80;">Traitements</h2>
-        <ul>
-            <li>Insuline</li>
-            <li>Dopamine</li>
-        </ul>
-    </body>
-    </html>
+
+<h1 style="color: #5e9ca0;">Fiche r&eacute;capitulative</h1>
+<hr />
+<p><strong>Nom</strong> : Lemarchal</p>
+<p><strong>Pr&eacute;nom</strong> : Gr&eacute;gory</p>
+<hr />
+<h2 style="color: #2e6c80;">Dossier M&eacute;dical</h2>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+    <tbody>
+    <tr>
+        <td style="width: 50%;"><strong>Taille</strong> : 1m 85</td>
+        <td style="width: 50%;">
+            <p><strong>Poids</strong> : 84 kg</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;">
+    <tbody>
+    <tr>
+        <td style="width: 50%;">
+            <p><strong>Allergies</strong> :</p>
+            <ul>
+                <li>Allergie au poils de chats</li>
+                <li>Allergie au durian</li>
+            </ul>
+        </td>
+        <td style="width: 50%;">
+            <p><strong>Pathologies</strong> :</p>
+            <ul>
+                <li>Insuffisance cardiaque</li>
+                <li>Asthme</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 50%;">
+            <p><strong>Vaccins :</strong></p>
+            <ul>
+                <li>Tuberculose</li>
+                <li>H&eacute;patite</li>
+                <li>Rougeole</li>
+            </ul>
+            <p><strong>&nbsp;</strong></p>
+        </td>
+        <td style="width: 50%;">
+            <p><strong>Appareillage :<br /></strong></p>
+            <ul>
+                <li>Proth&egrave;se auditive</li>
+                <li>Pacemaker</li>
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<hr />
+<h2 style="color: #2e6c80;">Traitements</h2>
+<ul>
+    <li>Insuline</li>
+    <li>Dopamine</li>
+</ul>
 `;
 
 const generateHtml = () => {
@@ -142,33 +124,14 @@ const onPressMobileNumberClick = (number) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [prenom, setPrenom] = useState("");
     const [nom, setNom] = useState("");
-    const [taille,setTaille]=useState('');
+
     
-    const [poids,setPoids]=useState('');
-    const [allergies,setAllergies]=useState([]);
-    const [pathologies,setPathologie]=useState(new Array());
-    const [vaccins, setVaccins]=useState(new Array());
-    const [appareillages,setAppareillages]=useState(new Array());
-
-    for (var j = 0; j < allergies.length; j++) {
-          listeAllergie = setListeAllergie(listeAllergie+"<li>"+allergies[j].name+"</li>");
-    }
-    for (var j = 0; j < vaccins.length; j++) {
-          listeVaccins = setListeVaccins(listeVaccins+"<li>"+allergies[j].name+"</li>");
-    }
-    for (var j = 0; j < appareillages.length; j++) {
-          listeAppareillage = setListeVaccins(listeAppareillage+"<li>"+allergies[j].name+"</li>");
-    }
-    for (var j = 0; j < pathologies.length; j++) {
-          listePathologie = setListeVaccins(listePathologie+"<li>"+allergies[j].name+"</li>");
-    }
-
     const [medicaleFile,setMedicaleFile]=useState('inscrDossierMedical');
     
     
    
 
-    const checkMedicalFile = () => {
+    const checkMedicalFile = (bool) => {
       const params = {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
@@ -176,8 +139,8 @@ const onPressMobileNumberClick = (number) => {
       AsyncStorage.getItem('token')
       .then((token) => {
            fetch(route.params.url+'/metric/name/taille/token/'+token,params)
-           .then(response => {if(response.ok){
-            
+           then(response => {if(response.ok){
+            if(bool=true){
                   navigation.navigate('DossierMedical', {
                     prenom: prenom,
                     nom: nom,
@@ -194,52 +157,10 @@ const onPressMobileNumberClick = (number) => {
               
             
                   }
-                
+                }else{
                   
-            })
+            }})
            
-        })
-    }
-
-    const checkMedicalFile2 = () => {
-      const params = {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json'},
-      }
-      AsyncStorage.getItem('token')
-      .then((token) => {
-           fetch(route.params.url+'/metric/name/taille/token/'+token,params)
-           .then(response => {if(response.ok){
-            
-                  getInfoUser()
-              
-            
-                  }
-                
-                  
-            })
-           
-        })
-    }
-
-    const getInfoUser = () => {
-      const params = {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json'},
-      }
-      AsyncStorage.getItem('token')
-      .then((token) => {
-           fetch(route.params.url+'/user/token/'+token,params)
-           .then(response => response.json())
-           .then(data => {
-              setAllergies(data.medicalFile.allergies)
-              setPathologie(data.medicalFile.pathologies)
-              setVaccins(data.medicalFile.vaccines)
-              setAppareillages(data.medicalFile.equipments)
-              createAndSavePDF()
-              console.log(listeAllergie)
-              
-           })
         })
     }
 
@@ -309,7 +230,7 @@ const onPressMobileNumberClick = (number) => {
           <Header navigation={navigation} title = {textHeader} color={"#5169A7"}/>
           <StatusBar style="auto" />
           <PopUp/>
-        <ButtonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={() => setModalVisible()} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
+        <ButtonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={() => setModalVisible(true)} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
 
         <ButtonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  checkMedicalFile()} text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
 
@@ -328,7 +249,7 @@ const onPressMobileNumberClick = (number) => {
             nom: nom,
             })} text="Mes rendez-vous" icone="calendar" styleIcone ={styles.iconRDV}/>
 
-        <ButtonMenu styleButton={styles.FicheBtn} styleText={styles.text} onPress={() =>  checkMedicalFile2()} text="Générer ma Fiche" icone="file" styleIcone ={styles.iconFiche}/>
+        <ButtonMenu styleButton={styles.FicheBtn} styleText={styles.text} onPress={() =>  createAndSavePDF()} text="Générer ma Fiche" icone="file" styleIcone ={styles.iconFiche}/>
         <ButtonMenu styleButton={styles.ParametreBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Parameters', {
             prenom: prenom,
             nom: nom,
