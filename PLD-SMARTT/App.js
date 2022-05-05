@@ -31,6 +31,7 @@ import DosMedAppareillages from './DossierMedical/dosMedAppareillages'
 import DosMedAppareillagesAj from './DossierMedical/dosMedAppareillagesAj'
 import DosMedPathologiesAj from './DossierMedical/dosMedPathologiesAj'
 import DosMedIndicateurPres from './DossierMedical/dosMedIndicateurPres'
+import DosMedIndicateurAjMes from './DossierMedical/dosMedIndicateurAjMes'
 
 import React, {useEffect} from "react"
 
@@ -40,7 +41,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
 
-const urlBack = "http://192.168.43.98:8080";
+const urlBack = "http://192.168.1.6:8080";
 
 export default function App() {
 
@@ -99,7 +100,7 @@ export default function App() {
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAppareillagesAj" component={DosMedAppareillagesAj}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedPathologiesAj" component={DosMedPathologiesAj}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedIndicateurPres" component={DosMedIndicateurPres}   />
-
+        <Stack.Screen initialParams={{'url':urlBack}} name="DosMedIndicateurAjMes" component={DosMedIndicateurAjMes}   />
 
       </Stack.Navigator>
 
