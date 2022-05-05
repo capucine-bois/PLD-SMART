@@ -42,7 +42,8 @@ const InscrDosMed2 =({route,navigation})=>{
             fetch(route.params.url+'/allergy/'+token,params)
                 .then(response => {
                     if(response.ok) {
-                       setTitre('')
+                        console.log("paassee")
+                       setTitre("")
                        setNote('')
                     }
                 });
@@ -85,9 +86,11 @@ const InscrDosMed2 =({route,navigation})=>{
                 </View>
 
                 <View style={{height:"20%", marginHorizontal:"10%", marginTop:"5%", flexDirection:"row", justifyContent:"space-between"}}>
-                    <Bouton styleButton={styles.btnAjout} styleText={styles.textBtn} onPress={() =>  submitAllergie()} text="Ajouter"/>
                     <Bouton styleButton={styles.btnAjout} styleText={styles.textBtn} onPress={() =>  navigation.navigate('inscrDossierMedical4', {prenom: prenom,
                         nom:nom,})} text="Passer"/>
+                    <Bouton styleButton={styles.btnAjout} styleText={styles.textBtn} onPress={() =>
+                        submitAllergie()} text="Ajouter"/>
+
                 </View>
                 
             </View>

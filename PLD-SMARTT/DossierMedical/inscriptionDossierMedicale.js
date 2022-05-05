@@ -301,13 +301,10 @@ const InscrDosMed =({route,navigation})=>{
                     </Text>
                     
                 </TouchableOpacity>
-                
-                
                   <DateTimePickerModal
                     isVisible={isDatePickerVisible}
                     mode="date"
                     locale="fr"
-                    display={Platform.OS === 'ios' ? 'spinner' : 'spinner'}
                     onConfirm={handleConfirm}
                     onCancel={hideDatePicker}
                   />
