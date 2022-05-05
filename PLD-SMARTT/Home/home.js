@@ -38,16 +38,11 @@ const onPressMobileNumberClick = (number) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [prenom, setPrenom] = useState("");
     const [nom, setNom] = useState("");
-    const[tailleTableau,setTailleTableau]=useState(0);
+    
     const [medicaleFile,setMedicaleFile]=useState('inscrDossierMedical');
-    const [taille,setTaille]=useState('')
-    const [age,setAge]=useState('');
-    const [poids,setPoids]=useState('')
-    const [allergies,setAllergies]=useState('')
-    const [pathologies,setPathologie]=useState('')
-    const [vaccins, setVaccins]=useState('')
-    const [appareillages,setAppareillages]=useState('')
-    const [indicateurs,setIndicateurs]=useState('')
+    
+    
+   
 
     const checkMedicalFile = () => {
       const params = {
@@ -56,35 +51,21 @@ const onPressMobileNumberClick = (number) => {
       }
       AsyncStorage.getItem('token')
       .then((token) => {
-           fetch(route.params.url+'/user/token/'+token,params)
-           .then(response => response.json())
-           .then(data => {
-             /*
-              if(data.medicalFile.height.length != 0){
-                setMedicaleFile('DossierMedical');
-              }else{
-                setMedicaleFile('inscrDossierMedical');
-              }
-              */
-              //setTailleTableau(data.medicalFile.weight.length -1);
-              //setPoids(data.medicalFile.weight[tailleTableau].value)
-              //setMedicaleFile('DossierMedical');
-              setAllergies(data.medicalFile.allergies)
-              setPathologie(data.medicalFile.pathologies)
-              setVaccins(data.medicalFile.vaccines)
-              setAppareillages(data.medicalFile.equipments)
-              //setTailleTableau(data.medicalFile.height.length -1);
-              //setTaille(data.medicalFile.height[tailleTableau].value)
-              
-              console.log(data)
-              //console.log(data.medicalFile.metrics)
-           })
+           fetch(route.params.url+'/metric/name/taille/token/'+token,params)
+           .then(response => {if(response.ok){
+            
+              setMedicaleFile('DossierMedical');
+            }else{
+              setMedicaleFile('inscrDossierMedical');
+            
+           }})
+           
         })
     }
 
     useEffect(() => {
       if(isFocused){
-      //checkMedicalFile();
+      checkMedicalFile();
         const name = AsyncStorage.getItem("name")
             .then(result => {
                 setPrenom(result);
@@ -143,12 +124,7 @@ const onPressMobileNumberClick = (number) => {
         <ButtonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  navigation.navigate("DossierMedical", {
             prenom: prenom,
             nom: nom,
-            poids: poids,
-            taille: taille,
-            allergies:allergies,
-            pathologies:pathologies,
-            vaccins:vaccins,
-            appareillages:appareillages,
+           
             })} text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
 
         <ButtonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Traitements', {

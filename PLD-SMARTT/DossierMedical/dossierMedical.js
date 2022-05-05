@@ -19,19 +19,88 @@ function Bouton(props){
 function DossierMedical({route,navigation}) {
     const {prenom,nom} = route.params;
     
-    const dateNaissance = "10/04/1947"
+    const [dateNaissance,setDateDeNaissance] = useState('')
     
 
     const[tailleTableau,setTailleTableau]=useState(0);
     const [taille,setTaille]=useState('')
     const [age,setAge]=useState('');
     const [poids,setPoids]=useState('')
-    const [allergies,setAllergies]=useState(new Array())
+    const [allergies,setAllergies]=useState([])
     const [pathologies,setPathologie]=useState(new Array())
     const [vaccins, setVaccins]=useState(new Array())
     const [appareillages,setAppareillages]=useState(new Array())
     const [indicateurs,setIndicateurs]=useState(new Array())
+   
+   
+   
     const isFocused = useIsFocused();
+
+
+    const getTaille = () => {
+        const params = {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/metric/name/taille/token/'+token,params)
+             .then(response => response.json())
+             .then(data => {
+                 setTailleTableau(data.measure.length-1)
+                 setTaille(data.measure[tailleTableau].value)
+                 
+             })
+             
+          })
+      }
+
+      const getPoids = () => {
+        const params = {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/metric/name/Poids/token/'+token,params)
+             .then(response => response.json())
+             .then(data => {
+                setTailleTableau(data.measure.length-1)
+                 setPoids(data.measure[tailleTableau].value)
+                
+             })
+             
+          })
+      }
+
+      const getBirthDate = () => {
+        const params = {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/user/birthdate/token/'+token,params)
+             .then(response => response.json())
+             .then(data => {
+                var mois = data.slice(5,7);
+                var jour  = data.slice(8,10);
+                var year = data.slice(0,4);
+                var dateFormat = jour+"/"+mois+"/"+year;
+                var today = new Date();
+                var age = today.getFullYear() - year;
+                if (today.getMonth() < mois || (today.getMonth() == mois && today.getDate() < jour)) {
+                    age--;
+                }
+                setAge(age)
+                setDateDeNaissance(dateFormat)
+                
+             })
+             
+          })
+      }
+
+
     const checkMedicalFile = () => {
         const params = {
           method: 'GET',
@@ -42,29 +111,23 @@ function DossierMedical({route,navigation}) {
              fetch(route.params.url+'/user/token/'+token,params)
              .then(response => response.json())
              .then(data => {
-               /*
-                
-                */
-                //setTailleTableau(data.medicalFile.weight.length -1);
-                //setPoids(data.medicalFile.weight[tailleTableau].value)
-                //setMedicaleFile('DossierMedical');
                 setAllergies(data.medicalFile.allergies)
                 setPathologie(data.medicalFile.pathologies)
                 setVaccins(data.medicalFile.vaccines)
                 setAppareillages(data.medicalFile.equipments)
-                //setTailleTableau(data.medicalFile.height.length -1);
-                //setTaille(data.medicalFile.height[tailleTableau].value)
-                
-                console.log(allergies)
-                //console.log(data.medicalFile.metrics)
                 
              })
           })
       }
+
+
     
       useEffect(() => {
         if(isFocused){
         checkMedicalFile();
+        getTaille();
+        getPoids();
+        getBirthDate()
         }
       }, [isFocused]);
 
@@ -95,9 +158,11 @@ function DossierMedical({route,navigation}) {
             </View>
             <View style={styles.mensurations}>
                 <Text style={styles.text}>Poids : {poids} kg</Text>
-                <Text style={styles.text}>Taille : {taille}</Text>
+                <Text style={styles.text}>Taille : {taille} cm</Text>
             </View>
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies', {
+                    prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
+                })}
                     text="Allergies" />
                 
                     
@@ -111,7 +176,7 @@ function DossierMedical({route,navigation}) {
                             })}
                 </View>
                 
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedPathologies')}
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedPathologies',{prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies})}
                     text="Pathologies" />
                     
                 <View >
@@ -125,7 +190,7 @@ function DossierMedical({route,navigation}) {
                 </View>
                 
 
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedVaccins')}
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedVaccins',{prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies})}
                     text="Vaccins" />
                     
                 <View >
@@ -138,7 +203,7 @@ function DossierMedical({route,navigation}) {
                             })}
                 </View>
            
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAppareillages',{prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies})}
                     text="Appareillages" />
                 
                 <View >
