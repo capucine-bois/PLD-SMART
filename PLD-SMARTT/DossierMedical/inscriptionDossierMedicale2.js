@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
         borderColor:"grey",
         borderRadius:15,
     },
-    
+
     picker:{
         width: "80%",
         color: "#000000",
