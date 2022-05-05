@@ -76,14 +76,9 @@ const InscrDosMed =({route,navigation})=>{
         
             const response = await fetch(route.params.url+'/metric/'+token,params)
             const data = await response.json()
-                
-                        
                     console.log(data)
                     setIdMetriqueTaille(data.id)
                     submitTaille(data.id)
-                    
-
-                
         
     } catch (error) {
         console.error(error);
@@ -280,15 +275,15 @@ const InscrDosMed =({route,navigation})=>{
                     </Text>
                     </View>
 
-                    <View style={styles.inputView}>
-                <TextInput
-                    style={styles.TextInput}
-
-                    placeholder="Saisissez votre Taille en cm"
-                    placeholderTextColor="#003f5c"
-                    onChangeText={(taille) => setTaille(taille)}
-                    onChange={()=>setBouton(true)}
-                />
+                <View style={styles.inputView}>
+                    <TextInput
+                        style={styles.TextInput}
+                        placeholder="Saisissez votre Taille en cm"
+                        placeholderTextColor="#003f5c"
+                        onChangeText={(taille) => setTaille(taille)}
+                        onChange={()=>setBouton(true)}
+                        keyboardType="numeric"
+                    />
                 </View>
                 <View style={styles.inputView}>
                 <TextInput
@@ -302,9 +297,6 @@ const InscrDosMed =({route,navigation})=>{
                 </View>
 
                 <View style={styles.inputView}>
-                <Text style={styles.text3}>
-                    Date
-                </Text>
                 <TouchableOpacity style={styles.DateInput}  onPress={showDatePicker}  >
                     <Text style={styles.TextInput}>
                        {dateFormate2}
@@ -324,15 +316,13 @@ const InscrDosMed =({route,navigation})=>{
                 
                  </View>
                 
-                <TouchableOpacity style={styles.loginBtn}>
+                <TouchableOpacity style={styles.loginBtn} onPress={() =>submitMetriqueTaille()}>
 
                 <Button
                     title="Suivant"
+                    color={"#003f5c"}
                     disabled={!bouton}
-                    onPress={() =>
-                        /* 1. Navigate to the Details route with params */
-                        submitMetriqueTaille()
-                    }
+
                 />
             </TouchableOpacity>
             </View>
@@ -363,16 +353,13 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         width: "80%",
         height: 70,
-        
-
         alignItems: "center",
     },
     TextInput: {
         height: 30,
         flex: 1,
-        padding: 10,
-        marginLeft: 20,
-        color: "#000000",
+        padding:"6%",
+        color: "#003f5c",
         fontSize:20,
         textAlign:'center',
         alignSelf:'center'
@@ -418,7 +405,6 @@ const styles = StyleSheet.create({
     },
     text3: {
         fontSize: 20,
-        
         textAlign:"center",
         fontWeight: 'bold',
         color: "#fff",
@@ -430,13 +416,13 @@ const styles = StyleSheet.create({
 
     },
     loginBtn: {
-        width: "80%",
+        width: "60%",
         borderRadius: 25,
         height: 50,
         alignItems: "center",
         justifyContent: "center",
         marginTop: 50,
-        backgroundColor: "#FFFF",
+        backgroundColor: "#003f5c",
         
     },
 
