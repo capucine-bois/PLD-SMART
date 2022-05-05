@@ -23,6 +23,12 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import * as Print from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 
+
+const [listeAppareillage , setListeAppareillage] = useState("");
+const [listePathologie, setListePathologie] = useState("")";
+const [listeAllergie , setListeAllergie] = useState("");
+const [listeVaccins , setListeVaccins] = useState("") ;
+
 const htmlContent = `
     <!DOCTYPE html>
     <html lang="en">
@@ -62,15 +68,13 @@ const htmlContent = `
                 <td style="width: 50%;">
                     <p><strong>Allergies</strong> :</p>
                     <ul>
-                        <li>Allergie au poils de chats</li>
-                        <li>Allergie au durian</li>
+                        {listeAllergie}
                     </ul>
                 </td>
                 <td style="width: 50%;">
                     <p><strong>Pathologies</strong> :</p>
                     <ul>
-                        <li>Insuffisance cardiaque</li>
-                        <li>Asthme</li>
+                        {listePathologie}
                     </ul>
                 </td>
             </tr>
@@ -78,17 +82,14 @@ const htmlContent = `
                 <td style="width: 50%;">
                     <p><strong>Vaccins :</strong></p>
                     <ul>
-                        <li>Tuberculose</li>
-                        <li>H&eacute;patite</li>
-                        <li>Rougeole</li>
+                        {listeVaccins}
                     </ul>
                     <p><strong>&nbsp;</strong></p>
                 </td>
                 <td style="width: 50%;">
                     <p><strong>Appareillage :<br /></strong></p>
                     <ul>
-                        <li>Proth&egrave;se auditive</li>
-                        <li>Pacemaker</li>
+                        {listeAppareillage}
                     </ul>
                 </td>
             </tr>
@@ -141,15 +142,27 @@ const onPressMobileNumberClick = (number) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [prenom, setPrenom] = useState("");
     const [nom, setNom] = useState("");
-    const [taille,setTaille]=useState('')
+    const [taille,setTaille]=useState('');
     
-    const [poids,setPoids]=useState('')
-    const [allergies,setAllergies]=useState([])
-    const [pathologies,setPathologie]=useState(new Array())
-    const [vaccins, setVaccins]=useState(new Array())
-    const [appareillages,setAppareillages]=useState(new Array())
+    const [poids,setPoids]=useState('');
+    const [allergies,setAllergies]=useState([]);
+    const [pathologies,setPathologie]=useState(new Array());
+    const [vaccins, setVaccins]=useState(new Array());
+    const [appareillages,setAppareillages]=useState(new Array());
 
-    
+    for (var j = 0; j < allergies.length; j++) {
+          listeAllergie = setListeAllergie(listeAllergie+"<li>"+allergies[j].name+"</li>");
+    }
+    for (var j = 0; j < vaccins.length; j++) {
+          listeVaccins = setListeVaccins(listeVaccins+"<li>"+allergies[j].name+"</li>");
+    }
+    for (var j = 0; j < appareillages.length; j++) {
+          listeAppareillage = setListeVaccins(listeAppareillage+"<li>"+allergies[j].name+"</li>");
+    }
+    for (var j = 0; j < pathologies.length; j++) {
+          listePathologie = setListeVaccins(listePathologie+"<li>"+allergies[j].name+"</li>");
+    }
+
     const [medicaleFile,setMedicaleFile]=useState('inscrDossierMedical');
     
     
@@ -224,6 +237,7 @@ const onPressMobileNumberClick = (number) => {
               setVaccins(data.medicalFile.vaccines)
               setAppareillages(data.medicalFile.equipments)
               createAndSavePDF()
+              console.log(listeAllergie)
               
            })
         })
