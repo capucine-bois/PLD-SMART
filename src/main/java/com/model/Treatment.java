@@ -2,6 +2,7 @@ package com.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.model.User;
@@ -27,28 +28,26 @@ public class Treatment {
     private String remark;
 
     @OneToMany(mappedBy = "treatment")
-    @JsonManagedReference
     private List<Medication> medications;
+
     @ManyToOne
     @JoinColumn(name="id_user",nullable=false, referencedColumnName = "id_user")
     @JsonBackReference(value="user-treatment")
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "id_pathology", referencedColumnName = "id_pathology")
-    @JsonBackReference
-    private Pathology pathology;
+
 
     public Treatment() {
 
     }
 
-    public Treatment(String name, String remark, List<Medication> medications, User user) {
+
+    public Treatment(long id, String name, String remark, List<Medication> medications, User user) {
+        this.id = id;
         this.name = name;
         this.remark = remark;
         this.medications = medications;
         this.user = user;
-        this.pathology = pathology;
     }
 
     public long getId() {
@@ -90,14 +89,5 @@ public class Treatment {
     public void setUser(User user) {
         this.user = user;
     }
-
-    public Pathology getPathology() {
-        return pathology;
-    }
-
-    public void setPathology(Pathology pathology) {
-        this.pathology = pathology;
-    }
-
 
 }
