@@ -1,6 +1,6 @@
 
 import React, { Component, useState,useEffect } from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput, Button, Platform} from 'react-native';
+import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput, Button, Platform,Keyboard,Pressable} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -256,6 +256,7 @@ const InscrDosMed =({route,navigation})=>{
 
     return (
         <View style={styles.container}>
+            <Pressable onPress={()=>Keyboard.dismiss()}>
             <Header navigation={navigation} title = {"Tutoriel"} color={"#1EA584"}/>
             <View style={{alignItems:"center"}}>
                     <Text style={styles.text1}>
@@ -310,6 +311,7 @@ const InscrDosMed =({route,navigation})=>{
                     <Text style={styles.text3}>Suivant</Text>
             </TouchableOpacity>
             </View>
+            </Pressable>
         </View>
 
 
