@@ -143,7 +143,7 @@ function DosMedPathologies({navigation,route}) {
                                 <View style={styles.containerPathologie}>
                                     <View style={styles.elementsView}>
                                         <Text style={styles.text3}>
-                                            {item.name}
+                                            {item.name.trim()}
                                         </Text>
                                     </View>
                                     <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true),setIdItemSelectionne(item.id)}}/>
@@ -176,6 +176,7 @@ const styles = StyleSheet.create({
     containerPathologie:{
         flexDirection:"row",
         justifyContent:"space-between",
+        marginLeft:"8%"
     },
     elementsView:{
         borderRadius: 10,

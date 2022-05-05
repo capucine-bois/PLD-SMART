@@ -139,7 +139,7 @@ function DosMedAppareillages({navigation,route}) {
                                 <View style={styles.containerAppareillage}>
                                     <View style={styles.elementsView}>
                                         <Text style={styles.text3}>
-                                            {item.name}
+                                            {item.name.trim()}
                                         </Text>
                                     </View>
                                     <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true),setIdItemSelectionne(item.id) }}/>
