@@ -53,10 +53,19 @@ const onPressMobileNumberClick = (number) => {
       .then((token) => {
            fetch(route.params.url+'/metric/name/taille/token/'+token,params)
            .then(response => {if(response.ok){
-            
-              setMedicaleFile('DossierMedical');
+            navigation.navigate('DossierMedical', {
+              prenom: prenom,
+              nom: nom,
+             
+              })
+              
             }else{
-              setMedicaleFile('inscrDossierMedical');
+              navigation.navigate('inscrDossierMedical', {
+                prenom: prenom,
+                nom: nom,
+               
+                })
+              
             
            }})
            
@@ -65,7 +74,7 @@ const onPressMobileNumberClick = (number) => {
 
     useEffect(() => {
       if(isFocused){
-      checkMedicalFile();
+      //checkMedicalFile();
         const name = AsyncStorage.getItem("name")
             .then(result => {
                 setPrenom(result);
@@ -121,11 +130,7 @@ const onPressMobileNumberClick = (number) => {
           <PopUp/>
         <ButtonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={() => setModalVisible(true)} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
 
-        <ButtonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  navigation.navigate(medicaleFile, {
-            prenom: prenom,
-            nom: nom,
-           
-            })} text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
+        <ButtonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  checkMedicalFile() } text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
 
         <ButtonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Traitements', {
             prenom: prenom,

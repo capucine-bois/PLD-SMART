@@ -56,6 +56,13 @@ export default function App() {
                 setToken(result);
             })
 
+
+/*
+            AsyncStorage.removeItem('nom')
+            AsyncStorage.removeItem('token')
+            AsyncStorage.removeItem('prenom')
+            */
+
     }, []);
 
 
