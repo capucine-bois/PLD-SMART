@@ -17,6 +17,9 @@ import InscrDosMed5 from './DossierMedical/inscriptionDossierMedicale5';
 import InscrDosMed6 from './DossierMedical/inscriptionDossierMedicale6';
 import RDV from './RDV/RDV'
 import RDV2 from './RDV/RDV2'
+import Parameters from './Parameters/Parameters'
+import ParametersNotification from './Parameters/Notifications'
+import ParametersUrgencyCall from './Parameters/UrgencyCall'
 import DosMedAllergies from './DossierMedical/dosMedAllergies'
 import DosMedAllergiesAj from './DossierMedical/dosMedAllergiesAj'
 import DosMedIndicateurs from './DossierMedical/dosMedIndicateurs'
@@ -24,7 +27,11 @@ import DosMedIndicateursAj from './DossierMedical/dosMedIndicateursAj'
 import DosMedPathologies from './DossierMedical/dosMedPathologies'
 import DosMedVaccins from './DossierMedical/dosMedVaccins'
 import DosMedVaccinsAj from './DossierMedical/dosMedVaccinsAj'
-
+import DosMedAppareillages from './DossierMedical/dosMedAppareillages'
+import DosMedAppareillagesAj from './DossierMedical/dosMedAppareillagesAj'
+import DosMedPathologiesAj from './DossierMedical/dosMedPathologiesAj'
+import DosMedIndicateurPres from './DossierMedical/dosMedIndicateurPres'
+import DosMedIndicateurAjMes from './DossierMedical/dosMedIndicateurAjMes'
 
 import React, {useEffect} from "react"
 
@@ -48,7 +55,10 @@ export default function App() {
             .then(result => {
                 setToken(result);
             })
+
     }, []);
+
+
 
   return (
       <NavigationContainer style={styles.container} >
@@ -76,6 +86,9 @@ export default function App() {
         <Stack.Screen initialParams={{'url':urlBack}} name="inscrDossierMedical6" component={InscrDosMed6}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="RDV" component={RDV}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="RDV2" component={RDV2}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="Parameters" component={Parameters}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="ParametersUrgencyCall" component={ParametersUrgencyCall}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="ParametersNotification" component={ParametersNotification}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="Traitements" component={Traitements}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="TreatmentCameraSave" component={TreatmentCameraSave}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="Traitements2" component={AddTreatmentForm}   />
@@ -87,6 +100,11 @@ export default function App() {
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedPathologies" component={DosMedPathologies}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedVaccins" component={DosMedVaccins}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedVaccinsAj" component={DosMedVaccinsAj}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAppareillages" component={DosMedAppareillages}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAppareillagesAj" component={DosMedAppareillagesAj}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="DosMedPathologiesAj" component={DosMedPathologiesAj}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="DosMedIndicateurPres" component={DosMedIndicateurPres}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="DosMedIndicateurAjMes" component={DosMedIndicateurAjMes}   />
 
       </Stack.Navigator>
 

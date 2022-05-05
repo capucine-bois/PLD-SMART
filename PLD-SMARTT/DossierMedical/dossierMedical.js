@@ -1,9 +1,10 @@
-import React from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity} from 'react-native';
+import {useIsFocused} from "@react-navigation/native";
+import {FlatList,StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
-
+import { ScrollView } from 'react-native-virtualized-view'
+import React, { useEffect,Component, useState } from 'react';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function Bouton(props){
     return (
         <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
@@ -15,13 +16,122 @@ function Bouton(props){
     )
 }
 
-function DossierMedical({navigation}) {
-    const prenom = "Gérard"
-    const nom = "Dupont".toUpperCase()
-    const dateNaissance = "10/04/1947"
-    const age = 75
-    const poids = 67
-    const taille = "1m71"
+function DossierMedical({route,navigation}) {
+    const {prenom,nom} = route.params;
+    
+    const [dateNaissance,setDateDeNaissance] = useState('')
+    
+
+    const[tailleTableau,setTailleTableau]=useState(0);
+    const [taille,setTaille]=useState('')
+    const [age,setAge]=useState('');
+    const [poids,setPoids]=useState('')
+    const [allergies,setAllergies]=useState([])
+    const [pathologies,setPathologie]=useState(new Array())
+    const [vaccins, setVaccins]=useState(new Array())
+    const [appareillages,setAppareillages]=useState(new Array())
+    const [indicateurs,setIndicateurs]=useState(new Array())
+   
+   
+   
+    const isFocused = useIsFocused();
+
+
+    const getTaille = () => {
+        const params = {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/metric/name/taille/token/'+token,params)
+             .then(response => response.json())
+             .then(data => {
+                 setTailleTableau(data.measure.length-1)
+                 setTaille(data.measure[tailleTableau].value)
+                 
+             })
+             
+          })
+      }
+
+      const getPoids = () => {
+        const params = {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/metric/name/Poids/token/'+token,params)
+             .then(response => response.json())
+             .then(data => {
+                setTailleTableau(data.measure.length-1)
+                 setPoids(data.measure[tailleTableau].value)
+                
+             })
+             
+          })
+      }
+
+      const getBirthDate = () => {
+        const params = {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/user/birthdate/token/'+token,params)
+             .then(response => response.json())
+             .then(data => {
+                var mois = data.slice(5,7);
+                var jour  = data.slice(8,10);
+                var year = data.slice(0,4);
+                var dateFormat = jour+"/"+mois+"/"+year;
+                var today = new Date();
+                var age = today.getFullYear() - year;
+                if (today.getMonth() < mois || (today.getMonth() == mois && today.getDate() < jour)) {
+                    age--;
+                }
+                setAge(age)
+                setDateDeNaissance(dateFormat)
+                
+             })
+             
+          })
+      }
+
+
+    const checkMedicalFile = () => {
+        const params = {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+             fetch(route.params.url+'/user/token/'+token,params)
+             .then(response => response.json())
+             .then(data => {
+                setAllergies(data.medicalFile.allergies)
+                setPathologie(data.medicalFile.pathologies)
+                setVaccins(data.medicalFile.vaccines)
+                setAppareillages(data.medicalFile.equipments)
+                
+             })
+          })
+      }
+
+
+    
+      useEffect(() => {
+        if(isFocused){
+        checkMedicalFile();
+        getTaille();
+        getPoids();
+        getBirthDate()
+        }
+      }, [isFocused]);
+
+
 	return (
 
     <View style={styles.container}>
@@ -48,25 +158,64 @@ function DossierMedical({navigation}) {
             </View>
             <View style={styles.mensurations}>
                 <Text style={styles.text}>Poids : {poids} kg</Text>
-                <Text style={styles.text}>Taille : {taille}</Text>
+                <Text style={styles.text}>Taille : {taille} cm</Text>
             </View>
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies', {
+                    prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
+                })}
                     text="Allergies" />
-            <Text style={styles.textContenuEtiquette}>Rhume des foins</Text>
-            <Text style={styles.textContenuEtiquette}>Acariens</Text>
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedPathologies')}
-                    text="Pathologies" />
-            <Text style={styles.textContenuEtiquette}>Hypertension artérielle</Text>
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedVaccins')}
-                    text="Vaccins" />
-            <View>
-            </View>
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAllergies')}
-                    text="Appareillages" />
-                <View>
-                    <Text style={styles.textContenuEtiquette}>Prothèses auditives</Text>
-                    <Text style={styles.textContenuEtiquette}>Lunettes</Text>
+                
+                    
+                <View >
+                        {allergies.map((item) => {
+                         return (
+                        <View key={item.allergyId}>
+                        <Text style={styles.textContenuEtiquette} >{item.name}</Text>
+                        </View>
+                             );
+                            })}
                 </View>
+                
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedPathologies',{prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies})}
+                    text="Pathologies" />
+                    
+                <View >
+                        {pathologies.map((item) => {
+                         return (
+                        <View key={item.id}>
+                        <Text style={styles.textContenuEtiquette} >{item.name}</Text>
+                        </View>
+                             );
+                            })}
+                </View>
+                
+
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedVaccins',{prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies})}
+                    text="Vaccins" />
+                    
+                <View >
+                        {vaccins.map((item) => {
+                         return (
+                        <View key={item.id}>
+                        <Text  style={styles.textContenuEtiquette} >{item.name.trim()}   {item.lastBooster}</Text>
+                        </View>
+                             );
+                            })}
+                </View>
+           
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedAppareillages',{prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies})}
+                    text="Appareillages" />
+                
+                <View >
+                        {appareillages.map((item) => {
+                         return (
+                        <View key={item.id}>
+                        <Text style={styles.textContenuEtiquette} >{item.name}   </Text>
+                        </View>
+                             );
+                            })}
+                </View>
+
             <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedIndicateurs')}
                     text="Indicateurs" />
         </ScrollView>

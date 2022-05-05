@@ -4,7 +4,7 @@ import {StyleSheet,Picker, Text, ScrollView, View, TouchableOpacity, TextInput,B
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function Bouton(props){
     return (
         <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
@@ -26,6 +26,7 @@ const InscrDosMed6 =({route,navigation})=>{
     const [dateFormate,setDateFormate]=useState('')
     const [dateFormate2,setDateFormate2]=useState( 'Entrer la date de début')
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -63,6 +64,36 @@ const InscrDosMed6 =({route,navigation})=>{
          setDateFormate2( dd+"/"+mm+"/"+yyyy+' à ' + hh+":"+min);
          hideDatePicker();
        };
+
+       const submitAppareillage= () => {
+        console.log(note)
+     const params = {
+         method: 'PUT',
+         headers: {'Content-Type': 'application/json'},
+         body: JSON.stringify({
+             "name":titre,
+             "startDate":dateFormate,
+             "description":note,
+
+             
+         })
+     }
+     AsyncStorage.getItem('token')
+     .then((token) => {
+         fetch(route.params.url+'/equipment/'+token,params)
+             .then(response => {
+                 if(response.ok) {
+                    setTitre('')
+                    setNote('')
+                    
+                 }
+             });
+     });
+         
+   };
+
+  
+ 
     
 
     return (
@@ -141,9 +172,7 @@ const InscrDosMed6 =({route,navigation})=>{
             </View>
 
             <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
-                <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('inscrDossierMedical6', {
-                prenom: prenom,
-                nom:nom,})} text="Ajouter"/>
+                <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  submitAppareillage()} text="Ajouter"/>
                 <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DossierMedical', {
                 prenom: prenom,
                 nom:nom,})} text="Passer"/>

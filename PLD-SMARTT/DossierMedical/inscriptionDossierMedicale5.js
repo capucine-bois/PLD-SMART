@@ -4,6 +4,7 @@ import {StyleSheet,Picker, Text, ScrollView, View, TouchableOpacity, TextInput,B
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Bouton(props){
     return (
@@ -63,6 +64,33 @@ const InscrDosMed5 =({route,navigation})=>{
          setDateFormate2( dd+"/"+mm+"/"+yyyy+' à ' + hh+":"+min);
          hideDatePicker();
        };
+
+       const submitVaccin= () => {
+           console.log(note)
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "name":selectedValue,
+                "lot":note,
+                "lastBooster":dateFormate,
+
+                
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/vaccine/'+token,params)
+                .then(response => {
+                    if(response.ok) {
+                       setTitre('')
+                       setNote('')
+                       
+                    }
+                });
+        });
+            
+      };
     
 
     return (
@@ -143,7 +171,7 @@ const InscrDosMed5 =({route,navigation})=>{
                 <ScrollView style={styles.scrollView}>
                     <TextInput
                         style={styles.TextInput2}
-                        multiline={true}
+                        
                         placeholderTextColor="#000"
                         onChangeText={(note) => setNote(note)}
                     />
@@ -151,9 +179,7 @@ const InscrDosMed5 =({route,navigation})=>{
             </View>
 
             <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
-                <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('inscrDossierMedical5', {
-                prenom: prenom,
-                nom:nom,})} text="Ajouter"/>
+                <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  submitVaccin()} text="Ajouter"/>
                 <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('inscrDossierMedical6', {
                 prenom: prenom,
                 nom:nom,})} text="Passer"/>

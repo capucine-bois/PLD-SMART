@@ -4,6 +4,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {StatusBar} from "expo-status-bar";
 import FormField from "../Util/FormField";
 import Header from "../Util/Header";
+import DateCompletion from "../Util/DateCompletion";
 
 function Bouton(props){
     return (
@@ -15,13 +16,11 @@ function Bouton(props){
     )
 }
 
-function DosMedIndicateursAj({navigation}) {
-    //const prenom = "Gérard"
-    //const nom = "Dupont".toUpperCase()
-
-    const {prenom,nom,appareillages,allergies,pathologies,vaccins}=route.params
+function DosMedIndicateurAjMes({navigation}) {
+    const prenom = "Gérard"
+    const nom = "Dupont".toUpperCase()
     const[title,setTitle]=useState('');
-    const [remark, setRemark] = useState("");
+    const [date, setDate] = useState("");
 
     return(
         <View style={styles.container}>
@@ -30,17 +29,17 @@ function DosMedIndicateursAj({navigation}) {
                 <StatusBar style="auto" />
                 <View style = {styles.titre}>
                     <Text style={styles.text}>
-                        Nouvel indicateur
+                        Nouvelle mesure
                     </Text>
                 </View>
                 <View style={{height:"75%", marginTop:"20%"}}>
-                    <FormField label = {"Nom"} color={"#1EA584"} field={title} setField={setTitle}/>
-                    <FormField label = {"Unité"} color={"#1EA584"} field={title} setField={setTitle}/>
+                    <FormField label = {"Valeur"} color={"#1EA584"} field={title} setField={setTitle}/>
+                    <DateCompletion label = {"Date"} color={"#1EA584"} field={date} setField={setDate} keyboardType={'numeric'}/>
 
                     <View style={{height:"15%", marginHorizontal:"15%", marginTop:"20%", flexDirection:"row", justifyContent:"space-between"}}>
-                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
+                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {
                         })} text="Ajouter"/>
-                        <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
+                        <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {
                         })} text="Annuler"/>
                     </View>
                 </View>
@@ -50,7 +49,7 @@ function DosMedIndicateursAj({navigation}) {
 
 }
 
-export default DosMedIndicateursAj
+export default DosMedIndicateurAjMes
 
 const styles = StyleSheet.create({
     iconDossier: {

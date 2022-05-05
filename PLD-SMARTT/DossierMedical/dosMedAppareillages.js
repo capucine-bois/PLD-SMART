@@ -1,10 +1,22 @@
 import React, {useState,useEffect} from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TouchableHighlight, Modal} from 'react-native';
+import {useIsFocused} from "@react-navigation/native";
+import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TouchableHighlight, Modal, Keyboard} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
 import Header from "../Util/Header";
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {useIsFocused} from "@react-navigation/native";
+function Bouton(props){
+    return (
+        <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
+            <Text style={props.styleText}>
+                {props.text}
+            </Text>
+            <MaterialCommunityIcons style= {props.styleIcone} name={props.icone} color="#fff" size={45}/>
+        </TouchableOpacity>
+    )
+}
+
 function PopUp(props) {
     return (
         <View style={styles.centeredView}>
@@ -40,20 +52,12 @@ function PopUp(props) {
     )
 }
 
-function Bouton(props){
-    return (
-        <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
-            <Text style={props.styleText}>
-                {props.text}
-            </Text>
-            <MaterialCommunityIcons style= {props.styleIcone} name={props.icone} color="#fff" size={45}/>
-        </TouchableOpacity>
-    )
-}
 
-function DosMedVaccins({navigation,route}) {
-    //const pathologies =["Bipolarité","Sida","test","test2","test3","test4","test5","test6","test7","test8"]
+function DosMedAppareillages({navigation,route}) {
+    //const appareillages =["Prothèses auditives","Lunettes","test","test2","test3","test4","test5","test6","test7","test8"]
     //const prenom = "Gérard"
+    //const nom = "Dupont".toUpperCase()
+
     const {prenom,nom}=route.params
     const [allergies,setAllergies]=useState([])
     const [pathologies,setPathologie]=useState(route.params.pathologies)
@@ -68,9 +72,10 @@ function DosMedVaccins({navigation,route}) {
     }
 
     const toggleModalVisible2 = (id) => {
-        deleteVaccin(id)
-        //setModalVisible(false);
+        deleteAppareillage(id)
+        setModalVisible(false);
     }
+
     const checkMedicalFile = () => {
         const params = {
           method: 'GET',
@@ -90,17 +95,17 @@ function DosMedVaccins({navigation,route}) {
           })
       }
 
-      const deleteVaccin = (id) => {
+      const deleteAppareillage = (id) => {
         const params = {
           method: 'DELETE',
           headers: {'Content-Type': 'application/json'},
         }
         AsyncStorage.getItem('token')
         .then((token) => {
-             fetch(route.params.url+'/vaccine/'+id,params)
+             fetch(route.params.url+'/equipment/'+id,params)
              .then(response => {
                 if(response.ok){
-                    setModalVisible(false)
+                    
                     checkMedicalFile()
                 }});
              
@@ -108,66 +113,59 @@ function DosMedVaccins({navigation,route}) {
       }
 
 
-    useEffect(() => {
+    
+      useEffect(() => {
         if(isFocused){
         checkMedicalFile();
         }
       }, [isFocused]);
+
     return(
         <View style={styles.container}>
-            <Header navigation={navigation} title = {"Dossier Médical"} color={"#1EA584"}/>
-            <View style = {styles.titre}>
-                <Text style={styles.text}>
-                    VACCINS
-                </Text>
-            </View>
-            <PopUp modalVisibility={modalVisible} annuler={()=>toggleModalVisible()} valider={()=>toggleModalVisible2(idItemSelectionne)} />
-            <ScrollView style={{height:"63%"}}>
-                <StatusBar style="auto" />
-                {vaccins.map((item) => {
+            <Pressable onPress={()=>Keyboard.dismiss()}>
+                <Header navigation={navigation} title = {"Dossier Médical"} color={"#1EA584"}/>
+                <View style = {styles.titre}>
+                    <Text style={styles.text}>
+                        APPAREILLAGES
+                    </Text>
+                </View>
+                <PopUp modalVisibility={modalVisible} annuler={()=>toggleModalVisible()} valider={()=>toggleModalVisible2(idItemSelectionne)} />
+                <ScrollView style={{height:"63%"}}>
+                    <StatusBar style="auto" />
+                    {appareillages.map((item) => {
+                        
                             return(
-                            <TouchableHighlight key={item.id} style={styles.vaccin} underlayColor="white">
-                                <View style={styles.containerVaccin}>
+                            <TouchableHighlight key={item.id} style={styles.appareillage} underlayColor="white">
+                                <View style={styles.containerAppareillage}>
                                     <View style={styles.elementsView}>
                                         <Text style={styles.text3}>
                                             {item.name}
                                         </Text>
                                     </View>
-                                    <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true),setIdItemSelectionne(item.id)}}/>
+                                    <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true),setIdItemSelectionne(item.id) }}/>
                                 </View>
                             </TouchableHighlight>
                             );
                         })}
-            </ScrollView>
-
-            <View style={{height:"15%"}}>
-                <Bouton styleButton={styles.nouveauVaccinBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedVaccinsAj', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
-                })} text="Ajouter un vaccin" icone="plus" styleIcone ={styles.iconDossier}/>
-            </View>
+                </ScrollView>
+                <View style={{height:"15%"}}>
+                    <Bouton styleButton={styles.nouvelAppareillageBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedAppareillagesAj', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
+                    })} text="Ajouter un appareillage" icone="plus" styleIcone ={styles.iconDossier}/>
+                </View>
+            </Pressable>
         </View>
     )
 
 }
 
-export default DosMedVaccins
+export default DosMedAppareillages
 
 const styles = StyleSheet.create({
-    vaccin:{
+    appareillage:{
         backgroundColor: "#ffffff",
         width:"80%",
         alignSelf:"center",
         margin:"2%",
-    },
-    containerVaccin:{
-        flexDirection:"row",
-        justifyContent:"space-between",
-    },
-    elementsView:{
-        borderRadius: 10,
-        borderWidth : 3,
-        width:"80%",
-        borderColor: "#1EA584",
-        alignItems:"center"
     },
     titre:{
         backgroundColor: "#1EA584",
@@ -177,7 +175,7 @@ const styles = StyleSheet.create({
         alignSelf:"center",
         margin:"5%",
     },
-    nouveauVaccinBtn: {
+    nouvelAppareillageBtn: {
         width: "80%",
         flexDirection:"row",
         borderRadius: 25,
@@ -189,7 +187,7 @@ const styles = StyleSheet.create({
         marginTop:"6%"
     },
     text: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: 'bold',
         color: "#fff",
         alignSelf:"center"
@@ -197,26 +195,19 @@ const styles = StyleSheet.create({
     iconDossier: {
         marginRight:"5%"
     },
-    headerBtn: {
-        width: "100%",
-        height: "11%",
-        display:"flex",
-        flexDirection:"row",
-        alignItems:"flex-end",
-        paddingBottom:20,
-        backgroundColor: "#1EA584"
-
-    },
     container: {
         backgroundColor: '#ffffff'
     },
-    text2: {
-        fontSize: 20,
-        textAlign:"center",
-        fontWeight: 'bold',
-        color: "#fff",
-        flex: 1,
-
+    containerAppareillage:{
+        flexDirection:"row",
+        justifyContent:"space-between",
+    },
+    elementsView:{
+        borderRadius: 10,
+        borderWidth : 3,
+        width:"80%",
+        borderColor: "#1EA584",
+        alignItems:"center"
     },
     text3: {
         fontSize: 25,

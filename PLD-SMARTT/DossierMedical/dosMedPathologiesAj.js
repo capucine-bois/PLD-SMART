@@ -4,6 +4,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {StatusBar} from "expo-status-bar";
 import FormField from "../Util/FormField";
 import Header from "../Util/Header";
+import DateCompletion from "../Util/DateCompletion";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Bouton(props){
     return (
@@ -15,13 +17,47 @@ function Bouton(props){
     )
 }
 
-function DosMedIndicateursAj({navigation}) {
+function DosMedPathologiesAj({navigation,route}) {
     //const prenom = "Gérard"
     //const nom = "Dupont".toUpperCase()
-
     const {prenom,nom,appareillages,allergies,pathologies,vaccins}=route.params
+
     const[title,setTitle]=useState('');
     const [remark, setRemark] = useState("");
+    const[dateDeb,setDateDeb]=useState('');
+    const[dateFin,setDateFin]=useState('');
+
+
+
+    const addPathologie= () => {
+
+        var moisDeb= dateDeb.slice(3,5);
+        var jourDeb = dateDeb.slice(0,2);
+        var yearDeb = dateDeb.slice(6,10);
+        var dateDebFormate = yearDeb + '-'+moisDeb+'-'+jourDeb ;
+
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "name":title,
+                "description": remark ,
+                "startDate":dateDebFormate,
+                
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/pathology/'+token,params)
+                .then(response => {
+                    if(response.ok) {
+                        navigation.navigate('DosMedPathologies', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
+                        })
+                    }
+                });
+        });
+            
+      };
 
     return(
         <View style={styles.container}>
@@ -30,17 +66,22 @@ function DosMedIndicateursAj({navigation}) {
                 <StatusBar style="auto" />
                 <View style = {styles.titre}>
                     <Text style={styles.text}>
-                        Nouvel indicateur
+                        Nouvelle pathologie
                     </Text>
                 </View>
-                <View style={{height:"75%", marginTop:"20%"}}>
-                    <FormField label = {"Nom"} color={"#1EA584"} field={title} setField={setTitle}/>
-                    <FormField label = {"Unité"} color={"#1EA584"} field={title} setField={setTitle}/>
-
-                    <View style={{height:"15%", marginHorizontal:"15%", marginTop:"20%", flexDirection:"row", justifyContent:"space-between"}}>
-                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
-                        })} text="Ajouter"/>
-                        <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
+                <View style={{height:"80%"}}>
+                    <FormField label = {"Titre"} color={"#1EA584"} field={title} setField={setTitle}/>
+                    <DateCompletion label = {"Date de début"} color={"#1EA584"} field={dateDeb} setField={setDateDeb} keyboardType={'numeric'}/>
+                    <Text style={styles.title2}> Descriptif </Text>
+                    <TextInput
+                        style={styles.remarkInput}
+                        value={remark}
+                        multiline={true}
+                        onChangeText={setRemark}
+                    />
+                    <View style={{height:"15%", marginHorizontal:"15%", marginTop:"10%", flexDirection:"row", justifyContent:"space-between"}}>
+                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  addPathologie()} text="Ajouter"/>
+                        <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedPathologies', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                         })} text="Annuler"/>
                     </View>
                 </View>
@@ -50,7 +91,7 @@ function DosMedIndicateursAj({navigation}) {
 
 }
 
-export default DosMedIndicateursAj
+export default DosMedPathologiesAj
 
 const styles = StyleSheet.create({
     iconDossier: {
@@ -95,7 +136,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-evenly",
         backgroundColor: "#1EA584",
-        marginTop:"10%"
     },
     btnAnnuler: {
         width: "45%",
@@ -105,7 +145,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-evenly",
         backgroundColor: "#695353",
-        marginTop:"10%"
     },
     text4:{
         color:"#1EA584",
@@ -113,15 +152,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginTop:"5%",
         marginBottom:"2%"
-    },
-    headerBtn: {
-        width: "100%",
-        height: "11%",
-        display:"flex",
-        flexDirection:"row",
-        alignItems:"flex-end",
-        paddingBottom:20,
-        backgroundColor: "#1EA584"
     },
     container: {
         backgroundColor: '#ffffff'
@@ -133,43 +163,17 @@ const styles = StyleSheet.create({
         color: "#fff",
         flex: 1
     },
-    TextInput: {
-        backgroundColor: "#B8E6DA",
-        borderRadius: 30,
-        width: "60%",
-        height: "100%",
-        textAlign:"center",
-        paddingHorizontal:"5%",
-        color: "#000000",
-        alignSelf:"center"
-    },
-    TextInput2: {
-        width: "100%",
-        padding:"5%",
-        color: "#000000",
-        fontSize:17,
-        textAlignVertical:"top"
-    },
-    inputView: {
-        flexDirection:"row",
-        justifyContent:"space-between",
-        paddingHorizontal:"10%",
-        marginTop:"5%"
-
-    },
     titre:{
         alignSelf:"center",
-        margin:"10%",
+        marginBottom: "10%",
         color:"#000",
 
     },
-
     title2:{
         fontSize:25,
         color:"#1EA584",
         fontWeight:"bold",
         marginLeft:20,
-        marginTop:"10%"
     },
     remarkInput:{
         width:"95%",

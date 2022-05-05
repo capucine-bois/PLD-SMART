@@ -5,6 +5,7 @@ import {StatusBar} from "expo-status-bar";
 import FormField from "../Util/FormField";
 import DateCompletion from "../Util/DateCompletion";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function Bouton(props){
     return (
         <TouchableOpacity style={props.styleButton} onPress={props.onPress}>
@@ -15,12 +16,43 @@ function Bouton(props){
     )
 }
 
-function DosMedVaccinsAj({navigation}) {
-    const prenom = "Gérard"
-    const nom = "Dupont".toUpperCase()
+function DosMedVaccinsAj({navigation,route}) {
+    //const prenom = "Gérard"
+    //const nom = "Dupont".toUpperCase()
+
+    const {prenom,nom,appareillages,allergies,pathologies,vaccins}=route.params
     const[title,setTitle]=useState('');
     const[date,setDate]=useState('');
     const[lot,setLot]=useState('');
+
+
+    const addVaccin= () => {
+        var moisDeb= date.slice(3,5);
+        var jourDeb = date.slice(0,2);
+        var yearDeb = date.slice(6,10);
+        var dateDebFormate = yearDeb + '-'+moisDeb+'-'+jourDeb ;
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "name":title,
+                "lot": lot ,
+                "lastBooster":dateDebFormate,
+                
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/vaccine/'+token,params)
+                .then(response => {
+                    if(response.ok) {
+                        navigation.navigate('DosMedVaccins', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
+                        })
+                    }
+                });
+        });
+            
+      };
 
     return(
         <View style={styles.container}>
@@ -49,9 +81,8 @@ function DosMedVaccinsAj({navigation}) {
                         <FormField label = {"Lot"} color={"#1EA584"} field={lot} setField={setLot}/>
                     </View>
                 <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
-                    <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedVaccins', {
-                    })} text="Ajouter"/>
-                    <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedVaccins', {
+                    <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  addVaccin()} text="Ajouter"/>
+                    <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedVaccins', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                     })} text="Annuler"/>
                 </View>
                 </KeyboardAvoidingView>

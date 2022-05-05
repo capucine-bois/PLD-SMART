@@ -3,13 +3,241 @@ import React, { Component, useState } from 'react';
 import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput,Button} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const InscrDosMed =({route,navigation})=>{
     const{prenom,nom}= route.params;
     const [taille, setTaille] = useState('');
     const [poids, setPoids] = useState('');
     const [age, setAge] = useState('');
+    const [idMetriqueTaille,setIdMetriqueTaille]=useState('');
+    const [idMetriquePoids,setIdMetriquePoids]=useState('');
     const [bouton, setBouton] = useState(false);
+    const [date, setDate] = useState(new Date());
+    const dateAjd =useState(new Date())
+    const [dateAjdFormate,setDateAjdFormate]=useState('')
+    const [dateFormate,setDateFormate]=useState('')
+    const [dateFormate2,setDateFormate2]=useState( 'Entrez votre date de naissance')
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+       };
+       const showHourPicker = () => {
+         setHourPickerVisibility(true);
+       };
+       const hideDatePicker = () => {
+         setDatePickerVisibility(false);
+       };
+       const hideHourPicker = () => {
+         setHourPickerVisibility(false);
+       };
+       const handleConfirm = (date) => {
+         setDate(date);
+         var dd = date.getDate();
+         var mm = date.getMonth() + 1; //January is 0!
+         var yyyy = date.getFullYear();
+
+         
+       
+         if (dd < 10) {
+             dd = '0' + dd;
+         }
+         if (mm < 10) {
+             mm = '0' + mm;
+         }
+         
+         setDateFormate(  yyyy + "-" + mm + "-" + dd);
+         setDateFormate2( dd+"/"+mm+"/"+yyyy);
+         hideDatePicker();
+       };
+       
+
+       
+
+
+    const submitMetriqueTaille= () => {
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "name":'taille',
+                "unit":'cm',
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/metric/'+token,params)
+                .then(response => 
+                  
+                    response.json()
+                )
+                .then(data =>{
+                    console.log(data)
+                    setIdMetriqueTaille(data.id)
+                    submitTaille(data.id)
+
+                })
+        });
+            
+      };
+    
+    const submitTaille= (id) => {
+        var dd = dateAjd[0].getDate();
+        var mm = dateAjd[0].getMonth() + 1; //January is 0!
+        var yyyy = dateAjd[0].getFullYear();
+        
+      
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        
+        setDateAjdFormate(  yyyy + "-" + mm + "-" + dd);
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "value":taille,
+                "date":dateAjdFormate
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/measure/'+id,params)
+                .then(response => response.json()
+                )
+                .then(data => {
+                    console.log(data)
+                    submitMetriquePoids()
+                })
+        });
+            
+      };
+
+      const submitMetriquePoids= () => {
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "name":'Poids',
+                "unit":'kg',
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/metric/'+token,params)
+                .then(response => 
+                  
+                    response.json()
+                )
+                .then(data =>{
+                    console.log(data)
+                    setIdMetriquePoids(data.id)
+                    submitPoids(data.id)
+                    
+                })
+        });
+            
+      };
+    
+    const submitPoids= (id) => {
+        var dd = dateAjd[0].getDate();
+        var mm = dateAjd[0].getMonth() + 1; //January is 0!
+        var yyyy = dateAjd[0].getFullYear();
+        
+      
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        
+        setDateAjdFormate(  yyyy + "-" + mm + "-" + dd);
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "value":poids,
+                "date":dateAjdFormate
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/measure/'+id,params)
+                .then(response => response.json()
+                )
+                .then(data => {console.log(data)
+                    submitBirthDate()
+                    })
+        });
+            
+      };
+
+      const submitBirthDate= () => {
+        
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "birthDate":dateFormate,
+               
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/user/'+token,params)
+                .then(response => response.json()
+                )
+                .then(data => {console.log(data)
+                    navigation.navigate('inscrDossierMedical2', {
+                        prenom: prenom,
+                        nom:nom,
+                        taille:taille,
+                        poids:poids,
+                        age:age,
+                        
+                    })})
+        });
+            
+      };
+
+      const submitPoids2= () => {
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "value":poids,
+                
+            })
+        }
+        AsyncStorage.getItem('token')
+        .then((token) => {
+            fetch(route.params.url+'/weight/'+token,params)
+                .then(response => {
+                
+                    if(response.ok) {
+                        
+                        navigation.navigate('inscrDossierMedical2', {
+                            prenom: prenom,
+                            nom:nom,
+                            taille:taille,
+                            poids:poids,
+                            age:age,
+                            
+                        })
+                    }
+                   
+                
+                
+            });
+        });
+            
+      };
 
 
     return (
@@ -42,7 +270,7 @@ const InscrDosMed =({route,navigation})=>{
                 <TextInput
                     style={styles.TextInput}
 
-                    placeholder="Saisissez votre Taille"
+                    placeholder="Saisissez votre Taille en cm"
                     placeholderTextColor="#003f5c"
                     onChangeText={(taille) => setTaille(taille)}
                     onChange={()=>setBouton(true)}
@@ -52,23 +280,36 @@ const InscrDosMed =({route,navigation})=>{
                 <TextInput
                     style={styles.TextInput}
 
-                    placeholder="Saisissez votre Poids"
+                    placeholder="Saisissez votre Poids en Kg"
                     placeholderTextColor="#003f5c"
                     onChangeText={(poids) => setPoids(poids)}
                     onChange={()=>setBouton(true)}
                 />
                 </View>
+
                 <View style={styles.inputView}>
-                <TextInput
-                    style={styles.TextInput}
-
-                    placeholder="Saisissez votre Âge"
-                    placeholderTextColor="#003f5c"
-                    onChangeText={(age) => setAge(age)}
-                    onChange={()=>setBouton(true)}
-                />
-                </View>
-
+                <Text style={styles.text3}>
+                    Date
+                </Text>
+                <TouchableOpacity style={styles.DateInput}  onPress={showDatePicker}  >
+                    <Text style={styles.TextInput}>
+                       {dateFormate2}
+                    </Text>
+                    
+                </TouchableOpacity>
+                
+                
+                  <DateTimePickerModal
+                  
+                    isVisible={isDatePickerVisible}
+                    mode="date"
+                    locale="fr"
+                    onConfirm={handleConfirm}
+                    onCancel={hideDatePicker}
+                  />
+                
+                 </View>
+                
                 <TouchableOpacity style={styles.loginBtn}>
 
                 <Button
@@ -76,14 +317,7 @@ const InscrDosMed =({route,navigation})=>{
                     disabled={!bouton}
                     onPress={() =>
                         /* 1. Navigate to the Details route with params */
-                        navigation.navigate('inscrDossierMedical2', {
-                            prenom: prenom,
-                            nom:nom,
-                            taille:taille,
-                            poids:poids,
-                            age:age,
-
-                        })
+                        submitMetriqueTaille()
                     }
                 />
             </TouchableOpacity>
@@ -120,12 +354,14 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     TextInput: {
-        height: 50,
+        height: 30,
         flex: 1,
         padding: 10,
         marginLeft: 20,
         color: "#000000",
-        fontSize:25,
+        fontSize:20,
+        textAlign:'center',
+        alignSelf:'center'
     },
     
     profil:{
