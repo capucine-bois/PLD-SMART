@@ -41,12 +41,12 @@ public class MedicationController {
 
 
         List<Medication> listMedication = medicationRepository.findByTreatment(treatment)
-                .orElseThrow(() -> new MedicationNotFoundException(treatment));
+                .orElseThrow(() -> new MedicationInTreatmentNotFoundException(treatment));
 
         return new ResponseEntity<List<Medication>>(listMedication, HttpStatus.OK);
     }
 
-    @PutMapping("/medication/{treatmentid}")
+    @PutMapping("/medication/treatment/{treatmentid}")
     @ResponseBody
     @Transactional
     public ResponseEntity<Medication> createMedication(@RequestBody Medication medication,@PathVariable(value = "treatmentid") Long treatmentid){
@@ -57,6 +57,15 @@ public class MedicationController {
         return new ResponseEntity<Medication>(medication, HttpStatus.OK);
     }
 
+    @PutMapping("/medication/{medicationid}")
+    public ResponseEntity<Medication> changeMedication(@RequestBody Medication medication,@PathVariable(value = "medicationid") Long medicationId){
+        Medication medic = medicationRepository.findById(medicationId)
+                .orElseThrow(() -> new MedicationNotFoundException(medicationId));
+        medic.setRemark(medication.getRemark());
+        medicationRepository.save(medic);
+        return new ResponseEntity<Medication>(medic, HttpStatus.OK);
+
+    }
     @DeleteMapping( "/medication/{medicationid}")
     @ResponseBody
     @Transactional
@@ -65,23 +74,5 @@ public class MedicationController {
         return new ResponseEntity<>(medicationid, HttpStatus.OK);
     }
 
-/*
-    @PostMapping("/rendezvous/{treatmentid}")
-    @ResponseBody
-    @JsonIgnoreProperties({"hibernateLazyInitializer"})
-    @Transactional
-    public ResponseEntity<Treatment> modifyTreatmentById (@RequestBody Treatment modifiedTreatment,@PathVariable(value = "treamentid") Long treatmentid) {
-        Treatment treatmentToModify = treatmentRepository.getById(treatmentid);
-        treatmentToModify.setName(modifiedTreatment.getName());
-        treatmentToModify.setStartDate(modifiedTreatment.getStartDate());
-        treatmentToModify.setEndDate(modifiedTreatment.getEndDate());
-        treatmentToModify.setNumFrequency(modifiedTreatment.getNumFrequency());
-        treatmentToModify.setQuantity(modifiedTreatment.getQuantity());
-        treatmentToModify.setRemark(modifiedTreatment.getRemark());
-        treatmentRepository.save(treatmentToModify);
-        return new ResponseEntity<Treatment>(treatmentToModify, HttpStatus.OK);
-    }
-
- */
 
 }

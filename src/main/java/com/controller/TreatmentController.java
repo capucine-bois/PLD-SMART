@@ -49,7 +49,7 @@ public class TreatmentController {
         return new ResponseEntity<List<Treatment>>(listTreatment, HttpStatus.OK);
     }
 
-    @PutMapping("/treatment/{usertoken}")
+    @PutMapping("/treatment/user/{usertoken}")
     @ResponseBody
     @Transactional
     public ResponseEntity<Treatment> createTreatment(@RequestBody Treatment treatment,@PathVariable(value = "usertoken") String usertoken){
@@ -60,7 +60,7 @@ public class TreatmentController {
         return new ResponseEntity<Treatment>(treatment, HttpStatus.OK);
     }
 
-    @DeleteMapping( "/treatment/{treatmentid}")
+    @DeleteMapping( "/treatment/id/{treatmentid}")
     @ResponseBody
     @Transactional
     public ResponseEntity<Long> deleteTreatmentById (@PathVariable(value = "treatmentid") Long treatmentid) {
