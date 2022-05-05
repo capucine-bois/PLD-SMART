@@ -103,6 +103,30 @@ public class UserController {
         return new ResponseEntity<Date>(birthDate, HttpStatus.OK);
     }
 
+    @GetMapping("/user/name/token/{token}")
+    @ResponseBody
+    public ResponseEntity<String> getNameByToken(@PathVariable(value = "token") String token){
+
+        User user = userRepository.findByToken(token)
+                .orElseThrow(() -> new UserNotFoundException(token));
+
+        String name = user.getName();
+
+        return new ResponseEntity<String>(name, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/surname/token/{token}")
+    @ResponseBody
+    public ResponseEntity<String> getSurnameByToken(@PathVariable(value = "token") String token){
+
+        User user = userRepository.findByToken(token)
+                .orElseThrow(() -> new UserNotFoundException(token));
+
+        String surname = user.getSurname();
+
+        return new ResponseEntity<String>(surname, HttpStatus.OK);
+    }
+
     @GetMapping("/user/name/{name}")
     @ResponseBody
     public ResponseEntity<User> getUserByName(@PathVariable(value = "name") String name){
