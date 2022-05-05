@@ -7,6 +7,7 @@ import styles from '../Style/styleHome'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RadioButton } from 'react-native-paper';
 import Radio from "./Radio";
+import {useIsFocused} from "@react-navigation/native";
 
 const Bouton = (props) =>{
 
@@ -27,8 +28,33 @@ const Notes =({route,navigation}) => {
     const[notes,setNotes] = useState([]);
     const[state, setState] = useState("all")
     const[date, setDate] = useState("all")
-    //Get all the notes
-    useEffect(() => {
+    const isFocused = useIsFocused();
+    const[realDate, setRealDate] = useState("all");
+
+
+    useEffect(()=>{
+        if(isFocused){
+            if(date != "all"){
+
+                if(date == "jour"){
+                    let d = new Date();
+                    d.setDate(d.getDate()-1)
+                    let str = d.toLocaleDateString().slice(0,9)
+                    setRealDate(str.slice(0,2)+"-"+str.slice(3,5)+"-"+str.slice(6,8));
+                }
+                if(date == "semaine"){
+                    let d = new Date();
+                    d.setDate(d.getDate()-7)
+                    let str = d.toLocaleDateString().slice(0,9)
+                    setRealDate(str.slice(0,2)+"-"+str.slice(3,5)+"-"+str.slice(6,8));
+                }
+            }
+
+            getNotes()
+        }
+
+    },[isFocused,date,state])
+    const getNotes = () => {
 
         const params = {
             method: 'GET',
@@ -38,19 +64,20 @@ const Notes =({route,navigation}) => {
 
         AsyncStorage.getItem('token')
             .then((token) => {
-                fetch(route.params.url+'/notes/user/'+token,params)
+                fetch(route.params.url+'/notes/user/'+token+'/state/'+state+'/date/'+realDate,params)
                     .then(response => response.json())
                     .then(data => {
                         for(let i in data){
                             data[i].author = data[i].author.trim();
                             data[i].title = data[i].title.trim();
                             data[i].note = data[i].note.trim();
+                            data[i].state = data[i].state.trim();
                         }
                         setNotes(data);
                     });
             });
 
-    })
+    }
 
     return(
         <View style={style.container}>
@@ -88,7 +115,7 @@ const Notes =({route,navigation}) => {
                     style={style.flatSummary}
                     data={notes}
                     renderItem={({item}) =>
-                        <NoteSummary navigation={navigation} note={item.note} date = {item.date} id={item.id} title={item.title} author={item.author} date={item.date}></NoteSummary>
+                        <NoteSummary state={item.state} navigation={navigation} note={item.note} date = {item.date} id={item.id} title={item.title} author={item.author} date={item.date}></NoteSummary>
                     }
                 />
             </View>
@@ -102,7 +129,7 @@ const Notes =({route,navigation}) => {
                     "title":"",
                     "note":"",
                     "date":"",
-                })} text="Nouvelle notes" icone="plus" styleIcone ={styles.iconDossier}/>
+                })} text="Nouvelle note" icone="plus" styleIcone ={styles.iconDossier}/>
             </View>
 
 

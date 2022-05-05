@@ -116,7 +116,7 @@ const InscrDosMed2 =({route,navigation})=>{
 export default InscrDosMed2;
 
 const styles = StyleSheet.create({
-    text: {
+    text:{
         fontSize: 20,
         fontWeight: 'bold'
     },
@@ -219,12 +219,7 @@ const styles = StyleSheet.create({
         borderColor:"grey",
         borderRadius:15,
     },
-    text:{
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: "grey",
-        alignSelf:"center"
-    },
+    
     picker:{
         width: "80%",
         color: "#000000",
@@ -233,13 +228,6 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         paddingHorizontal:"10%",
         
-    },
-
-    text3:{
-        color:"white",
-        fontSize: 22,
-        fontWeight: 'bold',
-        alignSelf:"center"
     },
     btnAjout: {
         width: "45%",
@@ -268,36 +256,14 @@ const styles = StyleSheet.create({
         marginTop:"5%",
         marginBottom:"2%"
     },
-    
-    
-    text2: {
-        fontSize: 20,
-        textAlign:"center",
-        fontWeight: 'bold',
-        color: "#fff",
-        flex: 1
-    },
-    TextInput: {
-        backgroundColor: "grey",
-        borderRadius: 30,
-        width: "60%",
-        height: "100%",
-        textAlign:"center",
-        paddingHorizontal:"5%",
-        color: "#000000",
-        alignSelf:"center"
-    },
+
     TextInput2: {
         width: "100%",
         padding:"5%",
         color: "#000000",
         fontSize:17
     },
-    inputView: {
-        flexDirection:"row",
-        paddingHorizontal:"10%",
-        marginTop:"1%"
-    },
+
     titre:{
         alignSelf:"center",
         marginTop:"10%",

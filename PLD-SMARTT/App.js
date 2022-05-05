@@ -31,9 +31,13 @@ import React, {useEffect} from "react"
 import { NavigationContainer } from '@react-navigation/native';
 import {createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Camera from "./Traitements/TreatmentCamera";
+import TreatmentCamera from "./Traitements/TreatmentCamera";
+import TreatmentCameraSave from "./Traitements/TreatmenCameraSave";
+import AddMedicationForm from "./Traitements/AddMedicationForm";
 
 const Stack = createNativeStackNavigator();
-const urlBack = "http://172.20.10.2:8080";
+const urlBack = "http://10.43.4.92:8080";
 export default function App() {
 
 
@@ -73,7 +77,9 @@ export default function App() {
         <Stack.Screen initialParams={{'url':urlBack}} name="RDV" component={RDV}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="RDV2" component={RDV2}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="Traitements" component={Traitements}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="TreatmentCameraSave" component={TreatmentCameraSave}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="Traitements2" component={AddTreatmentForm}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name="AddMedicationForm" component={AddMedicationForm} />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAllergies" component={DosMedAllergies}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAllergiesAj" component={DosMedAllergiesAj}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedIndicateurs" component={DosMedIndicateurs}   />
