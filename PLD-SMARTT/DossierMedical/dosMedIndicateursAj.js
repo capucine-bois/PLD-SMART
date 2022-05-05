@@ -4,6 +4,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {StatusBar} from "expo-status-bar";
 import FormField from "../Util/FormField";
 import Header from "../Util/Header";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Bouton(props){
     return (
@@ -15,13 +16,36 @@ function Bouton(props){
     )
 }
 
-function DosMedIndicateursAj({navigation}) {
+function DosMedIndicateursAj({navigation,route}) {
     //const prenom = "Gérard"
     //const nom = "Dupont".toUpperCase()
 
-    const {prenom,nom,appareillages,allergies,pathologies,vaccins}=route.params
+    const {prenom,nom,appareillages,allergies,pathologies,vaccins,indicateurs}=route.params
     const[title,setTitle]=useState('');
-    const [remark, setRemark] = useState("");
+    const [unit, setUnit] = useState("");
+
+    const addMetric= () => {
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "name":title,
+                "unit": unit ,
+
+            })
+        }
+        AsyncStorage.getItem('token')
+            .then((token) => {
+                fetch(route.params.url+'/metric/'+token,params)
+                    .then(response => {
+                        if(response.ok) {
+                            navigation.navigate('DosMedIndicateurs', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
+                            })
+                        }
+                    });
+            });
+
+    };
 
     return(
         <View style={styles.container}>
@@ -35,11 +59,10 @@ function DosMedIndicateursAj({navigation}) {
                 </View>
                 <View style={{height:"75%", marginTop:"20%"}}>
                     <FormField label = {"Nom"} color={"#1EA584"} field={title} setField={setTitle}/>
-                    <FormField label = {"Unité"} color={"#1EA584"} field={title} setField={setTitle}/>
+                    <FormField label = {"Unité"} color={"#1EA584"} field={unit} setField={setUnit}/>
 
                     <View style={{height:"15%", marginHorizontal:"15%", marginTop:"20%", flexDirection:"row", justifyContent:"space-between"}}>
-                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
-                        })} text="Ajouter"/>
+                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  addMetric()} text="Ajouter"/>
                         <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies
                         })} text="Annuler"/>
                     </View>
