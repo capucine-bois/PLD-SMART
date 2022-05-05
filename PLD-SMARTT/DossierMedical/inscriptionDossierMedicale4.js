@@ -91,9 +91,7 @@ const InscrDosMed4 =({route,navigation})=>{
                 fetch(route.params.url+'/pathology/'+token,params)
                     .then(response => {
                         if(response.ok) {
-                            setTitre('')
-                            setNote('')
-
+                            clearInput();
                         }
                     });
             });

@@ -92,8 +92,7 @@ const InscrDosMed5 =({route,navigation})=>{
                 fetch(route.params.url+'/vaccine/'+token,params)
                     .then(response => {
                         if(response.ok) {
-                            setTitre('')
-                            setNote('')
+                            clearInput();
 
                         }
                     });

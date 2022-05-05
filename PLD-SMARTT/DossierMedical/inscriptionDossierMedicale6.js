@@ -31,6 +31,7 @@ const InscrDosMed6 =({route,navigation})=>{
     const [Bdesc, setBDesc] = useState(false);
     const [valueAl, onChangeTextAl] = React.useState(''); // tracks the value of the text input.
     const [value, onChangeText] = React.useState(''); // tracks the value of the text input.
+    const clearInput = React.useCallback(empty);
 
     const empty= ()=>{
         onChangeText(''), [];
@@ -92,9 +93,7 @@ const InscrDosMed6 =({route,navigation})=>{
          fetch(route.params.url+'/equipment/'+token,params)
              .then(response => {
                  if(response.ok) {
-                    setTitre('')
-                    setNote('')
-                    
+                     clearInput();
                  }
              });
      });
