@@ -5,6 +5,8 @@ import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Picker} from "@react-native-picker/picker"
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import FormField from "../Util/FormField";
+import Header from "../Util/Header";
 
 function Bouton(props){
     return (
@@ -21,8 +23,18 @@ const InscrDosMed2 =({route,navigation})=>{
     const{prenom,nom,taille,poids,age}= route.params;
     const[titre,setTitre]=useState('');
     const[note,setNote]=useState('');
+    const [Bnom, setBNom] = useState(false);
+    const [Bdesc, setBDesc] = useState(false);
+
     const [selectedValue, setSelectedValue] = useState("type");
     const [bouton, setBouton] = useState(false);
+    const [value, onChangeText] = React.useState(''); // tracks the value of the text input.
+    const [valueAl, onChangeTextAl] = React.useState(''); // tracks the value of the text input.
+    const empty= ()=>{
+        onChangeText(''), [];
+        onChangeTextAl(''),[]
+    }
+    const clearInput = React.useCallback(empty);
 
     const submitAllergie= () => {
         const params = {
@@ -40,8 +52,7 @@ const InscrDosMed2 =({route,navigation})=>{
             fetch(route.params.url+'/allergy/'+token,params)
                 .then(response => {
                     if(response.ok) {
-                       setTitre('')
-                       setNote('')
+                       clearInput()
                     }
                 });
         });
@@ -49,86 +60,58 @@ const InscrDosMed2 =({route,navigation})=>{
       };
 
     return (
-        <ScrollView style={styles.container}>
-            <View style={styles.headerBtn}>
-                <Text style={styles.text2}>
-                    
+        <View style={styles.container}>
+            <Header navigation={navigation} title = {"Tutoriel"} color={"#1EA584"}/>
+            <View style={{alignItems:"center", height:"30%"}}>
+                <Text style={styles.text1}>
+                    Bonjour, {prenom} {nom}
                 </Text>
-                <TouchableOpacity>
-                    <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
-                        prenom: prenom,
-                        nom: nom,
-                    })}/>
-                </TouchableOpacity>
-
-
-
-            </View>
-            <View style={{alignItems:"center"}}>
-                    <Text style={styles.text1}>
-                        Bonjour, {prenom} {nom} 
-                    </Text>
-                    <View style={{marginTop:"2%",marginBottom:'5%'}}>
+                <View style={{marginTop:"2%",marginBottom:'5%'}}>
                     <Text style={styles.text3}>
-                        Avez-vous des allergies ? Si oui merci de les mentionner ci-dessous sinon cliquer sur passer :
+                        Avez-vous des allergies ? Si non, vous pouvez cliquer sur "passer". Si oui, merci de les mentionner ci-dessous et de les ajouter les unes après les autres en cliquant sur "ajouter". Une fois terminé, cliquez sur "passer"
                     </Text>
+                </View>
             </View>
 
-
-            <View style={styles.inputView}>
-                <Text style={styles.text3}>
-                    Titre
-                </Text>
-                <TextInput
-                    style={styles.TextInput}
-                    placeholderTextColor="#000"
-                    onChangeText={(titre) => setTitre(titre)}
-                />
-            </View>
-
-            <View style={styles.pickerView}>
-                <Text style={styles.text3}>
-                    Type
-                </Text>
-                <Picker
-                    selectedValue={selectedValue}
-                    style={styles.picker}
-                    onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-                >
-                    <Picker.Item label="Alimentaire" value="alim" />
-                    <Picker.Item label="Saisonnière" value="saison" />
-                    <Picker.Item label="Perannuelle" value="peran" />
-                    <Picker.Item label="Au venin" value="venin" />
-                </Picker>
-            </View>
-            <View style={styles.descriptif}>
-                <Text style={styles.text4}>
-                    Descriptif
-                </Text>
-                <ScrollView style={styles.scrollView}>
+            <View style={{height:"65%", alignItems:"center"}}>
+                <View style={styles.inputView}>
                     <TextInput
-                        style={styles.TextInput2}
-                        
-                        textAlignVertical='top'
-                        placeholderTextColor="#000"
-                        onChangeText={(note) => setNote(note)}
+                        style={styles.TextInput}
+                        placeholder="Nom de l'allergène"
+                        placeholderTextColor="#003f5c"
+                        onChangeText={(titre) => {setTitre(titre) ; onChangeTextAl(titre); setBNom(true)}}
+                        value={valueAl}
                     />
-                </ScrollView>
+                </View>
+
+                <View style={styles.inputView2}>
+                    <TextInput
+                        style={styles.TextInputDesc}
+                        placeholder="Descriptif"
+                        placeholderTextColor="#003f5c"
+                        onChangeText={(note) => {setNote(note) ; onChangeText(note) ; setBDesc(true)}}
+                        value={value}
+                        multiline={true}
+                    />
+                </View>
+
+                <View style={{height:"20%", marginHorizontal:"10%", marginTop:"5%", flexDirection:"row", justifyContent:"space-between"}}>
+                    <TouchableOpacity style={styles.btnPasser} onPress={() =>  navigation.navigate('inscrDossierMedical4', {prenom: prenom,
+                        nom:nom,})} text="Passer">
+                        <Text style={styles.textBtn2}>
+                            Passer
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity disabled={!(Bnom&&Bdesc)} style={styles.btnAjout} onPress={() =>  submitAllergie()} text="Ajouter">
+                        <Text style={styles.textBtn}>
+                            Ajouter
+                        </Text>
+                    </TouchableOpacity>
+
+
+                </View>
             </View>
-
-            <View style={{height:"15%", marginHorizontal:"15%", flexDirection:"row", justifyContent:"space-between"}}>
-                <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  submitAllergie()} text="Ajouter"/>
-                <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('inscrDossierMedical4', {
-                prenom: prenom,
-                nom:nom,})} text="Passer"/>
-
-            </View>
-
-                
-            </View>
-
-
-        </ScrollView>
+        </View>
 
 
 
@@ -139,50 +122,33 @@ const InscrDosMed2 =({route,navigation})=>{
 export default InscrDosMed2;
 
 const styles = StyleSheet.create({
-    text:{
-        fontSize: 20,
-        fontWeight: 'bold'
-    },
-    textProfil: {
-        fontSize: 26,
-        fontWeight: 'bold'
-    },
     inputView: {
-        marginTop:"10%",
         backgroundColor: "#FFFF",
         borderRadius: 30,
         width: "80%",
-        height: 70,
-        
-
+        height: "15%",
         alignItems: "center",
+    },
+    inputView2: {
+        marginTop:"10%",
+        backgroundColor: "#FFFF",
+        borderRadius: 20,
+        width: "80%",
+        height: "40%",
     },
     TextInput: {
         height: 50,
         flex: 1,
         padding: 10,
-        marginLeft: 20,
         color: "#000000",
-        fontSize:25,
+        fontSize:20,
     },
-    
-    profil:{
-        marginTop:"10%",
-        marginBottom:"5%",
-        flexDirection:"row",
-        justifyContent : "space-evenly"
-    },
-    
-    
-    headerBtn: {
-        width: "100%",
-        height: "11%",
-        display:"flex",
-        flexDirection:"row",
-        alignItems:"flex-end",
-        paddingBottom:20,
-        backgroundColor: "#1EA584"
-
+    TextInputDesc: {
+        padding:"5%",
+        marginLeft: "6%",
+        marginRight: "2%",
+        color: "#000000",
+        fontSize:20,
     },
     container: {
         backgroundColor: '#1EA584',
@@ -190,7 +156,6 @@ const styles = StyleSheet.create({
     },
     text1: {
         fontSize: 40,
-        
         textAlign:"center",
         fontWeight: 'bold',
         color:"#FFFFFF",
@@ -202,55 +167,26 @@ const styles = StyleSheet.create({
         textAlign:"center",
         fontWeight: 'bold',
         color: "grey",
-
+    },
+    textBtn:{
+        fontSize: 20,
+        textAlign:"center",
+        fontWeight: 'bold',
+        color: "#1EA584",
+        flex: 1
+    },
+    textBtn2:{
+        fontSize: 20,
+        textAlign:"center",
+        fontWeight: 'bold',
+        color: "white",
+        flex: 1
     },
     text3: {
         fontSize: 20,
-        
         textAlign:"center",
         fontWeight: 'bold',
         color: "#fff",
-
-    },
-    iconChevron: {
-        marginRight:"5%",
-        alignSelf:"center"
-
-    },
-    loginBtn: {
-        width: "80%",
-        borderRadius: 25,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        
-        backgroundColor: "#FFFF",
-        
-    },
-    iconDossier: {
-        marginRight:"5%"
-    },
-    descriptif:{
-        flexDirection:"column",
-        width: "80%",
-        height:"20%",
-        
-        alignSelf:"center",
-    },
-    scrollView:{
-        borderWidth: 5,
-        borderColor:"grey",
-        borderRadius:15,
-    },
-
-    picker:{
-        width: "80%",
-        color: "#000000",
-    },
-    pickerView:{
-        flexDirection:"row",
-        paddingHorizontal:"10%",
-        
     },
     btnAjout: {
         width: "45%",
@@ -258,35 +194,20 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         height: "45%",
         alignItems: "center",
-        justifyContent: "space-evenly",
-        backgroundColor: "grey",
-        marginTop:"10%"
+        backgroundColor: "#fff",
+        marginTop:"10%",
+        marginHorizontal:"5%"
     },
-    btnAnnuler: {
+    btnPasser: {
         width: "45%",
         flexDirection:"row",
         borderRadius: 25,
         height: "45%",
         alignItems: "center",
-        justifyContent: "space-evenly",
-        backgroundColor: "#695353",
-        marginTop:"10%"
+        backgroundColor: "#003f5c",
+        marginTop:"10%",
+        marginHorizontal:"5%"
     },
-    text4:{
-        color:"white",
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginTop:"5%",
-        marginBottom:"2%"
-    },
-
-    TextInput2: {
-        width: "100%",
-        padding:"5%",
-        color: "#000000",
-        fontSize:17
-    },
-
     titre:{
         alignSelf:"center",
         marginTop:"10%",

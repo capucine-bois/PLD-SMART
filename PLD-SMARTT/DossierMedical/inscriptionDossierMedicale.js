@@ -1,10 +1,11 @@
 
-import React, { Component, useState } from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput,Button} from 'react-native';
+import React, { Component, useState,useEffect } from 'react';
+import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput, Button, Platform} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Header from "../Util/Header";
 
 const InscrDosMed =({route,navigation})=>{
     const{prenom,nom}= route.params;
@@ -13,8 +14,11 @@ const InscrDosMed =({route,navigation})=>{
     const [age, setAge] = useState('');
     const [idMetriqueTaille,setIdMetriqueTaille]=useState('');
     const [idMetriquePoids,setIdMetriquePoids]=useState('');
-    const [bouton, setBouton] = useState(false);
     const [date, setDate] = useState(new Date());
+    const [Bdate, setBDate] = useState(false);
+    const [Bpoids, setBPoids] = useState(false);
+    const [Btaille, setBTaille] = useState(false);
+
     const dateAjd =useState(new Date())
     const [dateAjdFormate,setDateAjdFormate]=useState('')
     const [dateFormate,setDateFormate]=useState('')
@@ -35,6 +39,7 @@ const InscrDosMed =({route,navigation})=>{
        };
        const handleConfirm = (date) => {
          setDate(date);
+         setBDate(true);
          var dd = date.getDate();
          var mm = date.getMonth() + 1; //January is 0!
          var yyyy = date.getFullYear();
@@ -52,12 +57,19 @@ const InscrDosMed =({route,navigation})=>{
          setDateFormate2( dd+"/"+mm+"/"+yyyy);
          hideDatePicker();
        };
+
+       const [token, setToken] = React.useState(null);
+       const tok = AsyncStorage.getItem("token")
+            .then(result => {
+                setToken(result);
+            })
        
 
        
 
 
-    const submitMetriqueTaille= () => {
+    const submitMetriqueTaille= async () => {
+        try {
         const params = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
@@ -66,20 +78,16 @@ const InscrDosMed =({route,navigation})=>{
                 "unit":'cm',
             })
         }
-        AsyncStorage.getItem('token')
-        .then((token) => {
-            fetch(route.params.url+'/metric/'+token,params)
-                .then(response => 
-                  
-                    response.json()
-                )
-                .then(data =>{
+        
+            const response = await fetch(route.params.url+'/metric/'+token,params)
+            const data = await response.json()
                     console.log(data)
                     setIdMetriqueTaille(data.id)
                     submitTaille(data.id)
-
-                })
-        });
+        
+    } catch (error) {
+        console.error(error);
+      }
             
       };
     
@@ -97,6 +105,7 @@ const InscrDosMed =({route,navigation})=>{
         }
         
         setDateAjdFormate(  yyyy + "-" + mm + "-" + dd);
+        console.log(dateAjdFormate)
         const params = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
@@ -145,19 +154,7 @@ const InscrDosMed =({route,navigation})=>{
       };
     
     const submitPoids= (id) => {
-        var dd = dateAjd[0].getDate();
-        var mm = dateAjd[0].getMonth() + 1; //January is 0!
-        var yyyy = dateAjd[0].getFullYear();
         
-      
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        
-        setDateAjdFormate(  yyyy + "-" + mm + "-" + dd);
         const params = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
@@ -169,11 +166,11 @@ const InscrDosMed =({route,navigation})=>{
         AsyncStorage.getItem('token')
         .then((token) => {
             fetch(route.params.url+'/measure/'+id,params)
-                .then(response => response.json()
-                )
-                .then(data => {console.log(data)
+                .then(response => {
+                    if(response.ok){
+                
                     submitBirthDate()
-                    })
+                    }});
         });
             
       };
@@ -239,23 +236,27 @@ const InscrDosMed =({route,navigation})=>{
             
       };
 
+      useEffect(() => {
+        var dd = dateAjd[0].getDate();
+        var mm = dateAjd[0].getMonth() + 1; //January is 0!
+        var yyyy = dateAjd[0].getFullYear();
+        
+      
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        
+        setDateAjdFormate(  yyyy + "-" + mm + "-" + dd);
+
+    }, []);
+
 
     return (
         <View style={styles.container}>
-            <View style={styles.headerBtn}>
-                <Text style={styles.text2}>
-                    
-                </Text>
-                <TouchableOpacity>
-                    <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
-                        prenom: prenom,
-                        nom: nom,
-                    })}/>
-                </TouchableOpacity>
-
-
-
-            </View>
+            <Header navigation={navigation} title = {"Tutoriel"} color={"#1EA584"}/>
             <View style={{alignItems:"center"}}>
                     <Text style={styles.text1}>
                         Bonjour, {prenom} {nom} 
@@ -266,41 +267,36 @@ const InscrDosMed =({route,navigation})=>{
                     </Text>
                     </View>
 
-                    <View style={styles.inputView}>
-                <TextInput
-                    style={styles.TextInput}
-
-                    placeholder="Saisissez votre Taille en cm"
-                    placeholderTextColor="#003f5c"
-                    onChangeText={(taille) => setTaille(taille)}
-                    onChange={()=>setBouton(true)}
-                />
+                <View style={styles.inputView}>
+                    <TextInput
+                        style={styles.TextInput}
+                        placeholder="Saisissez votre Taille en cm"
+                        placeholderTextColor="#003f5c"
+                        onChangeText={(taille) => setTaille(taille)}
+                        onChange={()=>setBTaille(true)}
+                        keyboardType="numeric"
+                    />
                 </View>
                 <View style={styles.inputView}>
                 <TextInput
                     style={styles.TextInput}
-
                     placeholder="Saisissez votre Poids en Kg"
                     placeholderTextColor="#003f5c"
                     onChangeText={(poids) => setPoids(poids)}
-                    onChange={()=>setBouton(true)}
+                    onChange={()=>setBPoids(true)}
+                    keyboardType="numeric"
+
                 />
                 </View>
 
                 <View style={styles.inputView}>
-                <Text style={styles.text3}>
-                    Date
-                </Text>
                 <TouchableOpacity style={styles.DateInput}  onPress={showDatePicker}  >
                     <Text style={styles.TextInput}>
                        {dateFormate2}
                     </Text>
                     
                 </TouchableOpacity>
-                
-                
                   <DateTimePickerModal
-                  
                     isVisible={isDatePickerVisible}
                     mode="date"
                     locale="fr"
@@ -310,20 +306,10 @@ const InscrDosMed =({route,navigation})=>{
                 
                  </View>
                 
-                <TouchableOpacity style={styles.loginBtn}>
-
-                <Button
-                    title="Suivant"
-                    disabled={!bouton}
-                    onPress={() =>
-                        /* 1. Navigate to the Details route with params */
-                        submitMetriqueTaille()
-                    }
-                />
+                <TouchableOpacity disabled={!(Bpoids&&Bdate&&Btaille)} style={styles.loginBtn} onPress={() =>submitMetriqueTaille()}>
+                    <Text style={styles.text3}>Suivant</Text>
             </TouchableOpacity>
             </View>
-
-
         </View>
 
 
@@ -349,38 +335,16 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         width: "80%",
         height: 70,
-        
-
         alignItems: "center",
     },
     TextInput: {
         height: 30,
         flex: 1,
-        padding: 10,
-        marginLeft: 20,
-        color: "#000000",
+        padding:"6%",
+        color: "#003f5c",
         fontSize:20,
         textAlign:'center',
         alignSelf:'center'
-    },
-    
-    profil:{
-        marginTop:"10%",
-        marginBottom:"5%",
-        flexDirection:"row",
-        justifyContent : "space-evenly"
-    },
-    
-    
-    headerBtn: {
-        width: "100%",
-        height: "11%",
-        display:"flex",
-        flexDirection:"row",
-        alignItems:"flex-end",
-        paddingBottom:20,
-        backgroundColor: "#1EA584"
-
     },
     container: {
         backgroundColor: '#1EA584',
@@ -404,7 +368,6 @@ const styles = StyleSheet.create({
     },
     text3: {
         fontSize: 20,
-        
         textAlign:"center",
         fontWeight: 'bold',
         color: "#fff",
@@ -416,13 +379,13 @@ const styles = StyleSheet.create({
 
     },
     loginBtn: {
-        width: "80%",
+        width: "60%",
         borderRadius: 25,
         height: 50,
         alignItems: "center",
         justifyContent: "center",
         marginTop: 50,
-        backgroundColor: "#FFFF",
+        backgroundColor: "#003f5c",
         
     },
 

@@ -1,21 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import {
     Linking,
-    Image,
     Platform,
     Alert,
     Modal,
     Pressable,
-    TouchableOpacity,
-    StyleSheet,
     Text,
-    TouchableWithoutFeedbackBase,
     View,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useIsFocused} from "@react-navigation/native";
-import React, { useEffect,Component, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../Style/styleHome'
 import ButtonMenu from "../Util/ButtonMenu";
 import Header from "../Util/Header";

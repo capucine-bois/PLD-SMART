@@ -195,8 +195,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     DateInput: {
-        
-        
         backgroundColor: "grey",
         borderRadius: 30,
         width: "60%",
