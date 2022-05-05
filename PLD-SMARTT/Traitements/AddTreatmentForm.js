@@ -44,7 +44,9 @@ const AddTreatmentForm = ({route,navigation})=> {
                 method: 'DELETE',
                 headers: {'Content-Type': 'application/json'},
             }
-
+            if(route.params.idTreatment != null){
+                setId(route.params.idTreatment);
+            }
             fetch(route.params.url+'/treatment/id/'+id,params)
                 .then(response =>{
                     if(response.ok){
