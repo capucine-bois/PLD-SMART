@@ -29,7 +29,7 @@ const htmlContent = `
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pdf Content</title>
+        <title>Pdf Content/title>
         <style>
             body {
                 font-size: 16px;
@@ -40,7 +40,66 @@ const htmlContent = `
         </style>
     </head>
     <body>
-        <h1>Hello, UppLabs!</h1>
+        <h1 style="color: #5e9ca0;">Fiche r&eacute;capitulative</h1>
+        <hr />
+        <p><strong>Nom</strong> : Lemarchal</p>
+        <p><strong>Pr&eacute;nom</strong> : Gr&eacute;gory</p>
+        <hr />
+        <h2 style="color: #2e6c80;">Dossier M&eacute;dical</h2>
+        <table style="width: 100%; border-collapse: collapse;" border="0">
+            <tbody>
+            <tr>
+                <td style="width: 50%;"><strong>Taille</strong> : 1m 85</td>
+                <td style="width: 50%;">
+                    <p><strong>Poids</strong> : 84 kg</p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <p><strong>Allergies</strong> :</p>
+                    <ul>
+                        <li>Allergie au poils de chats</li>
+                        <li>Allergie au durian</li>
+                    </ul>
+                </td>
+                <td style="width: 50%;">
+                    <p><strong>Pathologies</strong> :</p>
+                    <ul>
+                        <li>Insuffisance cardiaque</li>
+                        <li>Asthme</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 50%;">
+                    <p><strong>Vaccins :</strong></p>
+                    <ul>
+                        <li>Tuberculose</li>
+                        <li>H&eacute;patite</li>
+                        <li>Rougeole</li>
+                    </ul>
+                    <p><strong>&nbsp;</strong></p>
+                </td>
+                <td style="width: 50%;">
+                    <p><strong>Appareillage :<br /></strong></p>
+                    <ul>
+                        <li>Proth&egrave;se auditive</li>
+                        <li>Pacemaker</li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <hr />
+        <h2 style="color: #2e6c80;">Traitements</h2>
+        <ul>
+            <li>Insuline</li>
+            <li>Dopamine</li>
+        </ul>
     </body>
     </html>
 `;
