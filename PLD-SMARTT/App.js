@@ -42,6 +42,8 @@ import Camera from "./Traitements/TreatmentCamera";
 import TreatmentCamera from "./Traitements/TreatmentCamera";
 import TreatmentCameraSave from "./Traitements/TreatmenCameraSave";
 import AddMedicationForm from "./Traitements/AddMedicationForm";
+import AddMedicationFormRemark from "./Traitements/AddMedicationFormRemark";
+import TestCam from "./Traitements/TestCam";
 
 const Stack = createNativeStackNavigator();
 const urlBack = "http://10.43.4.92:8080";
@@ -51,10 +53,11 @@ export default function App() {
   const [token, setToken] = React.useState(null);
 
     useEffect(() => {
-        const tok = AsyncStorage.getItem("token")
+      const tok = AsyncStorage.getItem("token")
             .then(result => {
                 setToken(result);
             })
+
 
     }, []);
 
@@ -90,9 +93,11 @@ export default function App() {
         <Stack.Screen initialParams={{'url':urlBack}} name="ParametersUrgencyCall" component={ParametersUrgencyCall}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="ParametersNotification" component={ParametersNotification}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="Traitements" component={Traitements}   />
+        <Stack.Screen initialParams={{'url':urlBack}} name={"TreatmentCamera"} component={TreatmentCamera} />
         <Stack.Screen initialParams={{'url':urlBack}} name="TreatmentCameraSave" component={TreatmentCameraSave}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="Traitements2" component={AddTreatmentForm}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="AddMedicationForm" component={AddMedicationForm} />
+        <Stack.Screen initialParams={{'url':urlBack}} name="AddMedicationFormRemark" component={AddMedicationFormRemark}/>
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAllergies" component={DosMedAllergies}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedAllergiesAj" component={DosMedAllergiesAj}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="DosMedIndicateurs" component={DosMedIndicateurs}   />
