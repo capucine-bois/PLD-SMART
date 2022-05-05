@@ -5,6 +5,7 @@ import {StatusBar} from "expo-status-bar";
 import FormField from "../Util/FormField";
 import Header from "../Util/Header";
 import DateCompletion from "../Util/DateCompletion";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Bouton(props){
     return (
@@ -16,11 +17,38 @@ function Bouton(props){
     )
 }
 
-function DosMedIndicateurAjMes({navigation}) {
-    const prenom = "Gérard"
-    const nom = "Dupont".toUpperCase()
+function DosMedIndicateurAjMes({navigation,route}) {
+    const {prenom,nom,indicateurs,id}=route.params
     const[title,setTitle]=useState('');
     const [date, setDate] = useState("");
+
+    const addMeasure= () => {
+        var mois= date.slice(3,5);
+        var jour = date.slice(0,2);
+        var year = date.slice(6,10);
+        var dateFormate = year + '-'+mois+'-'+jour ;
+        console.log(id)
+
+        const params = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "value":title,
+                "date": dateFormate ,
+            })
+        }
+        AsyncStorage.getItem('token')
+            .then((token) => {
+                fetch(route.params.url+'/measure/'+id,params)
+                    .then(response => {
+                        if(response.ok) {
+                            navigation.navigate('DosMedIndicateurPres', {prenom:prenom,nom:nom,indicateurs:indicateurs,id:id
+                            })
+                        }
+                    });
+            });
+
+    };
 
     return(
         <View style={styles.container}>
@@ -37,8 +65,7 @@ function DosMedIndicateurAjMes({navigation}) {
                     <DateCompletion label = {"Date"} color={"#1EA584"} field={date} setField={setDate} keyboardType={'numeric'}/>
 
                     <View style={{height:"15%", marginHorizontal:"15%", marginTop:"20%", flexDirection:"row", justifyContent:"space-between"}}>
-                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {
-                        })} text="Ajouter"/>
+                        <Bouton styleButton={styles.btnAjout} styleText={styles.text2} onPress={() => addMeasure() } text="Ajouter"/>
                         <Bouton styleButton={styles.btnAnnuler} styleText={styles.text2} onPress={() =>  navigation.navigate('DosMedIndicateurs', {
                         })} text="Annuler"/>
                     </View>

@@ -115,6 +115,9 @@ function DossierMedical({route,navigation}) {
                 setPathologie(data.medicalFile.pathologies)
                 setVaccins(data.medicalFile.vaccines)
                 setAppareillages(data.medicalFile.equipments)
+
+                 setIndicateurs(data.medicalFile.metrics)
+
                 
              })
           })
@@ -216,7 +219,7 @@ function DossierMedical({route,navigation}) {
                             })}
                 </View>
 
-            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedIndicateurs')}
+            <Bouton styleButton={styles.etiquette}  styleText={styles.textEtiquette} onPress={() =>  navigation.navigate('DosMedIndicateurs',{prenom:prenom,nom:nom,appareillages:appareillages,pathologies:pathologies,vaccins:vaccins,allergies:allergies,indicateurs:indicateurs})}
                     text="Indicateurs" />
         </ScrollView>
     </View>)

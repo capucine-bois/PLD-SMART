@@ -1,9 +1,12 @@
-import {React,useState} from 'react';
+import {React, useEffect, useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, FlatList, Pressable, Keyboard} from 'react-native';
 import {StatusBar} from "expo-status-bar";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Header from "../Util/Header";
 import PureChart from "react-native-pure-chart";
+import {useIsFocused} from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 
 function Bouton(props){
@@ -17,23 +20,69 @@ function Bouton(props){
     )
 }
 
-function DosMedIndicateurPres({navigation}) {
-    const prenom = "Gérard"
-    const nom = "Dupont".toUpperCase()
-    let mesures =  [
-        {key: '01/02/2022 : 1m75'},
-        {key: '22/06/2022 : 1m74'},
-        {key: '19/11/2022 : 1m73,5'},
-        {key: '03/08/2023 : 1m72'},
-        {key: '11/12/2023 : 1m71'}]
+function DosMedIndicateurPres({navigation,route}) {
+    const {prenom,nom,indicateurs,id}=route.params
 
-    let sampleData = [
-        {x: '01/02/2022', y: 175},
-        {x: '22/06/2022', y: 174},
-        {x: '19/11/2022', y: 173.5},
-        {x: '03/08/2023', y: 172},
-        {x: '11/12/2023', y: 171},
-    ]
+    const [name,setName]=useState([])
+    const [unit,setUnit]=useState([])
+    const [measure,setMeasure]=useState([])
+    const [graphe,setGraphe]=useState([])
+    const isFocused = useIsFocused();
+
+
+    const displayGraphics = () =>{
+        return(
+        <View style={{height:"80%"}}>
+            <Text style={styles.textCourbe}>
+                Courbe
+            </Text>
+            <View style={{height:"37%", marginTop:"5%", paddingVertical:"5%", borderWidth:5, borderColor:"#1EA584", borderRadius:20}}>
+                <PureChart data={graphe} type='line' style={{alignSelf:"center"}}/>
+            </View >
+            <View style={{height:"30%",margin:"5%"}}>
+                <Text style={styles.textMes}>Mesures</Text>
+                <FlatList
+                    data={measure}
+                    renderItem={({item}) => <View style={{flexDirection:"row"}}><MaterialCommunityIcons style= {{alignSelf:"center"}} name={"square-small"} color="#000" size={45}/><Text style={styles.item}>{item.date.slice(8,10)}/{item.date.slice(5,7)}/{item.date.slice(0,4)} : {item.value} {unit}</Text></View>}
+                />
+            </View>
+        </View>
+        )
+    }
+
+    const checkMetric = () => {
+        const params = {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+            .then((token) => {
+                fetch(route.params.url+'/metric/id/'+id,params)
+                    .then(response => response.json())
+                    .then(data => {
+                        setName(data.name.trim())
+                        setUnit(data.unit.trim())
+                        setMeasure(data.measure)
+
+                        let array = new Array();
+                        for(let i in data.measure){
+                            console.log(data.measure[i].date)
+                            var mois= data.measure[i].date.slice(5,7);
+                            var jour = data.measure[i].date.slice(8,10);
+                            var year = data.measure[i].date.slice(0,4);
+                            var dateFormate = jour + '/'+mois+'/'+year ;
+                            array[i]={x: dateFormate, y: data.measure[i].value}
+                        }
+                        setGraphe(array)
+                    })
+            })
+    }
+
+    useEffect(() => {
+        if(isFocused){
+            checkMetric();
+        }
+    }, [isFocused]);
 
     return(
         <View style={styles.container}>
@@ -41,26 +90,12 @@ function DosMedIndicateurPres({navigation}) {
                 <Header navigation={navigation} title = {"Dosser Médical"} color={"#1EA584"}/>
                 <StatusBar style="auto" />
                 <View style = {styles.titre}>
-                    <Text style={styles.text}>
-                        Indicateur Taille
-                    </Text>
+                    <Text style={styles.text}>{name} </Text>
                 </View>
                 <View style={{height:"78%", alignItems:"center"}}>
-                    <Text style={styles.textCourbe}>
-                        Courbe
-                    </Text>
-                    <View style={{height:"30%", marginTop:"5%", paddingVertical:"8%", borderWidth:5, borderColor:"#1EA584", borderRadius:20}}>
-                        <PureChart data={sampleData} type='line' style={{alignSelf:"center"}}/>
-                    </View >
-                    <View style={{height:"30%",margin:"5%"}}>
-                        <Text style={styles.textMes}>Mesures</Text>
-                        <FlatList
-                            data={mesures}
-                            renderItem={({item}) => <View style={{flexDirection:"row"}}><MaterialCommunityIcons style= {{alignSelf:"center"}} name={"square-small"} color="#000" size={45}/><Text style={styles.item}>{item.key}</Text></View>}
-                        />
-                    </View>
+                    {measure.length==0 ?  null : displayGraphics()}
                     <View style={{height:"15%"}}>
-                        <Bouton styleButton={styles.nouvelIndicateurBtn} styleText={styles.textAjout} onPress={() =>  navigation.navigate('DosMedIndicateurAjMes', {
+                        <Bouton styleButton={styles.nouvelIndicateurBtn} styleText={styles.textAjout} onPress={() =>  navigation.navigate('DosMedIndicateurAjMes', {prenom:prenom,nom:nom,indicateurs:indicateurs,id:id
                         })} text="Ajouter une mesure" icone="plus" styleIcone ={styles.iconDossier}/>
                     </View>
 
