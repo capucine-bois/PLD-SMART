@@ -88,7 +88,7 @@ const Traitements = ({route,navigation})=> {
                     </View>
 
                     {isTouchedList ?
-                        <View style={{height:"50%",width:"100%"}}>
+                        <View style={{height:"70%",width:"100%"}}>
                             <FlatList
                                 style={{width:"100%"}}
                                 data={treatments}

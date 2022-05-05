@@ -14,7 +14,16 @@ const TreatmentCameraSave = ({route,navigation})=> {
     }
 
     const addMedic = () => {
+        let location = route.params.image.uri.substring(route.params.image.uri.indexOf('C') + 1);
+        location = location.substring(location.indexOf('/')+1);
+        console.log(location);
         MediaLibrary.saveToLibraryAsync(route.params.image.uri).then(() =>{
+                navigation.navigate("AddMedicationForm", {
+                    "idMedication": route.params.idMedication,
+                    "idTreatment": route.params.idTreatment,
+                    "reset": true,
+                })
+
 
         })
     }
@@ -25,7 +34,7 @@ const TreatmentCameraSave = ({route,navigation})=> {
         location = location.substring(location.indexOf('/')+1);
         console.log(location);
         MediaLibrary.saveToLibraryAsync(route.params.image.uri).then(() =>{
-            navigation.navigate("TestCam",{"uri":location});
+            navigation.navigate("Traitements");
         })
     }
 
@@ -47,7 +56,7 @@ const TreatmentCameraSave = ({route,navigation})=> {
                 </Pressable>
 
                 <Pressable style={styles.button}>
-                    <Text style={styles.buttonText}>
+                    <Text style={styles.buttonText} onPress={addMedic}>
                         Ajouter un nouveau medicament
                     </Text>
                 </Pressable>

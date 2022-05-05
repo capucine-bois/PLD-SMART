@@ -22,7 +22,8 @@ const AddMedicationFormRemark = ({route,navigation})=> {
     const addPic = async () => {
         await addRemark()
         navigation.navigate("TreatmentCamera",{
-            "idMedication":route.params.idMedication
+            "idMedication":route.params.idMedication,
+            "idTreatment":route.params.idTreatment
         })
     }
 
