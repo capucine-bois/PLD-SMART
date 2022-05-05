@@ -45,6 +45,7 @@ import AddMedicationFormRemark from "./Traitements/AddMedicationFormRemark";
 //import TestCam from "./Traitements/TestCam";
 
 const Stack = createNativeStackNavigator();
+
 const urlBack = "http://172.20.10.2:8080";
 export default function App() {
 

@@ -136,25 +136,16 @@ const onPressMobileNumberClick = (number) => {
       .then((token) => {
            fetch(route.params.url+'/metric/name/taille/token/'+token,params)
            .then(response => {if(response.ok){
-            
-                  navigation.navigate('DossierMedical', {
-                    prenom: prenom,
-                    nom: nom,
-                  
-                    })
-                    
-                  }else{
-                    navigation.navigate('inscrDossierMedical', {
-                      prenom: prenom,
-                      nom: nom,
-                    
-                      }
-                  )
-              
-            
-                  }
+            navigation.navigate('DossierMedical', {
+              prenom: prenom,
+              nom: nom,
+              })
+            }else{
+              navigation.navigate('inscrDossierMedical', {
+                prenom: prenom,
+                nom: nom,
                 })
-           
+           }})
         })
     }
 
@@ -175,10 +166,7 @@ const onPressMobileNumberClick = (number) => {
                       )
 
               })
-
-
-
-          }
+      }
     }, [isFocused]);
 
     const PopUp = () => {
