@@ -14,7 +14,93 @@ import React, { useEffect, useState } from 'react';
 import styles from '../Style/styleHome'
 import ButtonMenu from "../Util/ButtonMenu";
 import Header from "../Util/Header";
-  
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import * as Print from 'expo-print';
+import { shareAsync } from 'expo-sharing';
+
+const htmlContent = `
+
+<h1 style="color: #5e9ca0;">Fiche r&eacute;capitulative</h1>
+<hr />
+<p><strong>Nom</strong> : Lemarchal</p>
+<p><strong>Pr&eacute;nom</strong> : Gr&eacute;gory</p>
+<hr />
+<h2 style="color: #2e6c80;">Dossier M&eacute;dical</h2>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+    <tbody>
+    <tr>
+        <td style="width: 50%;"><strong>Taille</strong> : 1m 85</td>
+        <td style="width: 50%;">
+            <p><strong>Poids</strong> : 84 kg</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;">
+    <tbody>
+    <tr>
+        <td style="width: 50%;">
+            <p><strong>Allergies</strong> :</p>
+            <ul>
+                <li>Allergie au poils de chats</li>
+                <li>Allergie au durian</li>
+            </ul>
+        </td>
+        <td style="width: 50%;">
+            <p><strong>Pathologies</strong> :</p>
+            <ul>
+                <li>Insuffisance cardiaque</li>
+                <li>Asthme</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 50%;">
+            <p><strong>Vaccins :</strong></p>
+            <ul>
+                <li>Tuberculose</li>
+                <li>H&eacute;patite</li>
+                <li>Rougeole</li>
+            </ul>
+            <p><strong>&nbsp;</strong></p>
+        </td>
+        <td style="width: 50%;">
+            <p><strong>Appareillage :<br /></strong></p>
+            <ul>
+                <li>Proth&egrave;se auditive</li>
+                <li>Pacemaker</li>
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<hr />
+<h2 style="color: #2e6c80;">Traitements</h2>
+<ul>
+    <li>Insuline</li>
+    <li>Dopamine</li>
+</ul>
+`;
+
+const generateHtml = () => {
+    return htmlContent;
+
+};
+
+const createAndSavePDF = async () => {
+  const html = generateHtml();
+  try {
+    const { uri } = await Print.printToFileAsync({ html });
+    if (Platform.OS === "ios") {
+      await shareAsync(uri);
+    } else {
+      const permission = await MediaLibrary.requestPermissionsAsync();      if (permission.granted) {
+        await MediaLibrary.createAssetAsync(uri);
+      }
+    }  } catch (error) {
+    console.error(error);
+  }
+};
 const onPressMobileNumberClick = (number) => {
 
   let phoneNumber = '';
@@ -33,13 +119,15 @@ const onPressMobileNumberClick = (number) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [prenom, setPrenom] = useState("");
     const [nom, setNom] = useState("");
+    const [token,setToken]=useState(route.params.token)
+
     
     const [medicaleFile,setMedicaleFile]=useState('inscrDossierMedical');
     
     
    
 
-    const checkMedicalFile = () => {
+    const checkMedicalFile = (bool) => {
       const params = {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
@@ -69,6 +157,7 @@ const onPressMobileNumberClick = (number) => {
           }
           AsyncStorage.getItem('token')
               .then((token) => {
+                setToken(token)
                   fetch(route.params.url+'/user/token/'+token,params)
                       .then(response => response.json())
                       .then(data => {
@@ -116,15 +205,17 @@ const onPressMobileNumberClick = (number) => {
       );
     };
 
+
     const textHeader = "Bonjour, " + prenom + " " + nom;
     return(
+
       <View style={styles.container}>
           <Header navigation={navigation} title = {textHeader} color={"#5169A7"}/>
           <StatusBar style="auto" />
           <PopUp/>
         <ButtonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={() => setModalVisible(true)} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
 
-        <ButtonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  checkMedicalFile() } text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
+        <ButtonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  checkMedicalFile()} text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
 
         <ButtonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Traitements', {
             prenom: prenom,
@@ -141,13 +232,11 @@ const onPressMobileNumberClick = (number) => {
             nom: nom,
             })} text="Mes rendez-vous" icone="calendar" styleIcone ={styles.iconRDV}/>
 
-        <ButtonMenu styleButton={styles.FicheBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Bonjour', {
-            prenom: prenom,
-            nom: nom,
-            })} text="Générer ma Fiche" icone="file" styleIcone ={styles.iconFiche}/>
+        <ButtonMenu styleButton={styles.FicheBtn} styleText={styles.text} onPress={() =>  createAndSavePDF()} text="Générer ma Fiche" icone="file" styleIcone ={styles.iconFiche}/>
         <ButtonMenu styleButton={styles.ParametreBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Parameters', {
             prenom: prenom,
             nom: nom,
+            token:token,
             })} text="Parametres" icone="cog" styleIcone ={styles.iconParametre}/>
 
       </View>

@@ -26,7 +26,7 @@ const AddTreatmentForm = ({route,navigation})=> {
     const [start, setStart] = useState("");
     const [end, setEnd] = useState("");
     const [remark, setRemark] = useState("");
-    const [boolTreat, setBoolTreat] = useState(false);
+    const [id,setId] = useState(-1);
 
     if(route.params.back){
         const params = {
@@ -36,8 +36,28 @@ const AddTreatmentForm = ({route,navigation})=> {
     }
 
     const deleteTreatment = () => {
+        if(id == -1 ){
+            navigation.navigate('Traitements')
+        }
+        else{
+            const params = {
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json'},
+            }
 
-        navigation.navigate('Traitements')
+            fetch(route.params.url+'/treatment/id/'+id,params)
+                .then(response =>{
+                    if(response.ok){
+                        navigation.navigate('Traitements')
+                    }
+                    else{
+                        alert("Il y a eu un problème")
+                    }
+
+                })
+
+
+        }
     }
     const addTreatment = () => {
         const params = {
@@ -51,13 +71,13 @@ const AddTreatmentForm = ({route,navigation})=> {
 
         AsyncStorage.getItem('token')
             .then((token) => {
-                fetch(route.params.url+'/treatment/user/'+token,params)
-                    .then(response =>{
-                        setBoolTreat(true);
+                fetch(route.params.url + '/treatment/user/' + token, params)
+                    .then(response => response.json())
+                    .then(data => {
                         navigation.navigate('AddMedicationForm', {
-                            nameTreatment: "name"
+                            "idTreatment": data.id,
                         })
-                    })
+                    });
             });
 
     }
