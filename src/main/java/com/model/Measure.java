@@ -74,13 +74,5 @@ public class Measure {
         this.metric = metric;
     }
 
-    @Override
-    public String toString() {
-        return "Measure{" +
-                "id=" + id +
-                ", value=" + value +
-                ", date=" + date +
-                ", metric=" + metric +
-                '}';
-    }
+
 }

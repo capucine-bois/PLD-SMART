@@ -59,6 +59,7 @@ public class Medication {
         this.timeBetweenIntakes = timeBetweenIntakes;
         this.remark = remark;
         this.treatment = treatment;
+        this.unit=unit;
     }
 
 

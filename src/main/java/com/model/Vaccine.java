@@ -82,14 +82,5 @@ public class Vaccine {
         this.medicalFile = medicalFile;
     }
 
-    @Override
-    public String toString() {
-        return "Vaccine{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", lastBooster=" + lastBooster +
-                ", lot='" + lot + '\'' +
-                ", medicalFile=" + medicalFile +
-                '}';
-    }
+
 }

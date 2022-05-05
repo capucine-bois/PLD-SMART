@@ -125,15 +125,5 @@ public class RendezVous {
         this.id = id;
     }
 
-    @Override
-    public java.lang.String toString() {
-        return "RendezVous{" +
-                "id=" + id +
-                ", typePractitioner='" + typePractitioner + '\'' +
-                ", namePractitioner='" + namePractitioner + '\'' +
-                ", date=" + date +
-                ", location='" + location + '\'' +
-                ", user=" + user +
-                '}';
-    }
+
 }

@@ -97,15 +97,5 @@ public class Pathology {
         this.medicalFile = medicalFile;
     }
 
-    @Override
-    public String toString() {
-        return "Pathology{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", endDate=" + endDate +
-                ", startDate=" + startDate +
-                ", description='" + description + '\'' +
-                ", medicalFile=" + medicalFile +
-                '}';
-    }
+
 }

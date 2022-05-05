@@ -99,15 +99,5 @@ public class Treatment {
         this.pathology = pathology;
     }
 
-    @Override
-    public String toString() {
-        return "Treatment{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", remark='" + remark + '\'' +
-                ", medications=" + medications +
-                ", user=" + user +
-                ", pathology=" + pathology +
-                '}';
-    }
+
 }
