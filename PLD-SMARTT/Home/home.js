@@ -124,6 +124,7 @@ const onPressMobileNumberClick = (number) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [prenom, setPrenom] = useState("");
     const [nom, setNom] = useState("");
+    const [token,setToken]=useState(route.params.token)
 
     
     const [medicaleFile,setMedicaleFile]=useState('inscrDossierMedical');
@@ -139,8 +140,8 @@ const onPressMobileNumberClick = (number) => {
       AsyncStorage.getItem('token')
       .then((token) => {
            fetch(route.params.url+'/metric/name/taille/token/'+token,params)
-           then(response => {if(response.ok){
-            if(bool=true){
+           .then(response => {if(response.ok){
+            
                   navigation.navigate('DossierMedical', {
                     prenom: prenom,
                     nom: nom,
@@ -157,9 +158,7 @@ const onPressMobileNumberClick = (number) => {
               
             
                   }
-                }else{
-                  
-            }})
+                })
            
         })
     }
@@ -172,6 +171,7 @@ const onPressMobileNumberClick = (number) => {
           }
           AsyncStorage.getItem('token')
               .then((token) => {
+                setToken(token)
                   fetch(route.params.url+'/user/token/'+token,params)
                       .then(response => response.json())
                       .then(data => {
@@ -253,6 +253,7 @@ const onPressMobileNumberClick = (number) => {
         <ButtonMenu styleButton={styles.ParametreBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Parameters', {
             prenom: prenom,
             nom: nom,
+            token:token,
             })} text="Parametres" icone="cog" styleIcone ={styles.iconParametre}/>
 
       </View>
