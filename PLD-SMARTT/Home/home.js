@@ -14,7 +14,6 @@ import React, { useEffect, useState } from 'react';
 import styles from '../Style/styleHome'
 import ButtonMenu from "../Util/ButtonMenu";
 import Header from "../Util/Header";
-import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import * as Print from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 
