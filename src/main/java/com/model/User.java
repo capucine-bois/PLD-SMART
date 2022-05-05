@@ -123,18 +123,5 @@ public class User {
         this.treatments = treatments;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", birthDate=" + birthDate +
-                ", sexe=" + sexe +
-                ", medicalFile=" + medicalFile +
-                ", rendezVous=" + rendezVous +
-                ", treatments=" + treatments +
-                ", token='" + token + '\'' +
-                '}';
-    }
+
 }

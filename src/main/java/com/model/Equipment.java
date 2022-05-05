@@ -94,15 +94,5 @@ public class Equipment {
         this.endDate = endDate;
     }
 
-    @Override
-    public String toString() {
-        return "Equipment{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", medicalFile=" + medicalFile +
-                '}';
-    }
+
 }

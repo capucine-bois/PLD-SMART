@@ -82,14 +82,5 @@ public class Metric {
         this.unit = unit;
     }
 
-    @Override
-    public String toString() {
-        return "Metric{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", unit='" + unit + '\'' +
-                ", measure=" + measure +
-                ", medicalFile=" + medicalFile +
-                '}';
-    }
+
 }

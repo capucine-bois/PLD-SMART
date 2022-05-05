@@ -131,19 +131,5 @@ public class Medication {
         this.treatment = treatment;
     }
 
-    @Override
-    public String toString() {
-        return "Treatment{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", numFrequency=" + numFrequency +
-                ", unitFrequency='" + unitFrequency + '\'' +
-                ", quantity=" + quantity +
-                ", remark='" + remark + '\'' +
-                ", treatment=" + treatment +
-                ", unit=" + unit +
-                '}';
-    }
+
 }
