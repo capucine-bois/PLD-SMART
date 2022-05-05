@@ -28,10 +28,16 @@ const RDV =({route,navigation})=>{
            fetch(route.params.url+'/rendezvous/user/'+token,params)
            .then(response => response.json())
            .then(data => {
+               console.log(data);
                for(let i in data){
                    data[i].location = data[i].location.trim();
                    data[i].namePractitioner = data[i].namePractitioner .trim();
-                   data[i].remark= data[i].remark.trim();
+                   if(data[i].remark != null) {
+                       data[i].remark = data[i].remark.trim();
+                   }
+                   else{
+                       data[i].remark = "";
+                   }
                    data[i].typePractitioner= data[i].typePractitioner.trim();
 
                    const date = data[i].date;
