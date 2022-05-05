@@ -1,10 +1,11 @@
 import React, { Component, useState } from 'react';
-import {StyleSheet,Picker, Text, ScrollView, View, TouchableOpacity, TextInput,Button} from 'react-native';
+import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput,Button} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../Util/Header";
+import {Picker} from "@react-native-picker/picker"
 
 function Bouton(props){
     return (

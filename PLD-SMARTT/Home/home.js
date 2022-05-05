@@ -51,19 +51,13 @@ const onPressMobileNumberClick = (number) => {
             navigation.navigate('DossierMedical', {
               prenom: prenom,
               nom: nom,
-             
               })
-              
             }else{
               navigation.navigate('inscrDossierMedical', {
                 prenom: prenom,
                 nom: nom,
-               
                 })
-              
-            
            }})
-           
         })
     }
 
@@ -83,10 +77,7 @@ const onPressMobileNumberClick = (number) => {
                       )
 
               })
-
-
-
-          }
+      }
     }, [isFocused]);
 
     const PopUp = () => {
