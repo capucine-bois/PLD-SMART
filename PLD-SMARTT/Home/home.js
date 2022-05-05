@@ -82,6 +82,14 @@ const onPressMobileNumberClick = (number) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [prenom, setPrenom] = useState("");
     const [nom, setNom] = useState("");
+    const [taille,setTaille]=useState('')
+    
+    const [poids,setPoids]=useState('')
+    const [allergies,setAllergies]=useState([])
+    const [pathologies,setPathologie]=useState(new Array())
+    const [vaccins, setVaccins]=useState(new Array())
+    const [appareillages,setAppareillages]=useState(new Array())
+
     
     const [medicaleFile,setMedicaleFile]=useState('inscrDossierMedical');
     
@@ -98,26 +106,89 @@ const onPressMobileNumberClick = (number) => {
            fetch(route.params.url+'/metric/name/taille/token/'+token,params)
            .then(response => {if(response.ok){
             
-              setMedicaleFile('DossierMedical');
-            }else{
-              setMedicaleFile('inscrDossierMedical');
+                  navigation.navigate('DossierMedical', {
+                    prenom: prenom,
+                    nom: nom,
+                  
+                    })
+                    
+                  }else{
+                    navigation.navigate('inscrDossierMedical', {
+                      prenom: prenom,
+                      nom: nom,
+                    
+                      }
+                  )
+              
             
-           }})
+                  }
+                
+                  
+            })
            
+        })
+    }
+
+    const checkMedicalFile2 = () => {
+      const params = {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      }
+      AsyncStorage.getItem('token')
+      .then((token) => {
+           fetch(route.params.url+'/metric/name/taille/token/'+token,params)
+           .then(response => {if(response.ok){
+            
+                  getInfoUser()
+              
+            
+                  }
+                
+                  
+            })
+           
+        })
+    }
+
+    const getInfoUser = () => {
+      const params = {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      }
+      AsyncStorage.getItem('token')
+      .then((token) => {
+           fetch(route.params.url+'/user/token/'+token,params)
+           .then(response => response.json())
+           .then(data => {
+              setAllergies(data.medicalFile.allergies)
+              setPathologie(data.medicalFile.pathologies)
+              setVaccins(data.medicalFile.vaccines)
+              setAppareillages(data.medicalFile.equipments)
+              createAndSavePDF()
+              
+           })
         })
     }
 
     useEffect(() => {
       if(isFocused){
-      checkMedicalFile();
-        const name = AsyncStorage.getItem("name")
-            .then(result => {
-                setPrenom(result);
-            })
-        const surname = AsyncStorage.getItem("surname")
-            .then(result => {
-                setNom(result);
-            })
+          const params = {
+              method: 'GET',
+              headers: {'Content-Type': 'application/json'},
+          }
+          AsyncStorage.getItem('token')
+              .then((token) => {
+                  fetch(route.params.url+'/user/token/'+token,params)
+                      .then(response => response.json())
+                      .then(data => {
+                          setNom(data.surname.trim())
+                          setPrenom(data.name.trim())}
+                      )
+
+              })
+
+
+
           }
     }, [isFocused]);
 
@@ -165,13 +236,9 @@ const onPressMobileNumberClick = (number) => {
           <Header navigation={navigation} title = {textHeader} color={"#5169A7"}/>
           <StatusBar style="auto" />
           <PopUp/>
-        <ButtonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={() => setModalVisible(true)} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
+        <ButtonMenu styleButton={styles.AppelBtn} styleText={styles.text} onPress={() => setModalVisible()} text="Appel d'urgence" icone="phone" styleIcone ={styles.iconTelephone}/>
 
-        <ButtonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  navigation.navigate("DossierMedical", {
-            prenom: prenom,
-            nom: nom,
-           
-            })} text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
+        <ButtonMenu styleButton={styles.DossierBtn} styleText={styles.text} onPress={() =>  checkMedicalFile()} text="Dossier Médical" icone="clipboard-plus-outline" styleIcone ={styles.iconDossier}/>
 
         <ButtonMenu styleButton={styles.TraitementBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Traitements', {
             prenom: prenom,
@@ -188,7 +255,7 @@ const onPressMobileNumberClick = (number) => {
             nom: nom,
             })} text="Mes rendez-vous" icone="calendar" styleIcone ={styles.iconRDV}/>
 
-        <ButtonMenu styleButton={styles.FicheBtn} styleText={styles.text} onPress={() =>  createAndSavePDF()} text="Générer ma Fiche" icone="file" styleIcone ={styles.iconFiche}/>
+        <ButtonMenu styleButton={styles.FicheBtn} styleText={styles.text} onPress={() =>  checkMedicalFile2()} text="Générer ma Fiche" icone="file" styleIcone ={styles.iconFiche}/>
         <ButtonMenu styleButton={styles.ParametreBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Parameters', {
             prenom: prenom,
             nom: nom,
