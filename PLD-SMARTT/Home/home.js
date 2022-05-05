@@ -19,7 +19,51 @@ import React, { useEffect,Component, useState } from 'react';
 import styles from '../Style/styleHome'
 import ButtonMenu from "../Util/ButtonMenu";
 import Header from "../Util/Header";
-  
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import * as Print from 'expo-print';
+import { shareAsync } from 'expo-sharing';
+
+const htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pdf Content</title>
+        <style>
+            body {
+                font-size: 16px;
+                color: rgb(255, 196, 0);
+            }            h1 {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Hello, UppLabs!</h1>
+    </body>
+    </html>
+`;
+
+const generateHtml = () => {
+    return htmlContent;
+
+};
+
+const createAndSavePDF = async () => {
+  const html = generateHtml();
+  try {
+    const { uri } = await Print.printToFileAsync({ html });
+    if (Platform.OS === "ios") {
+      await shareAsync(uri);
+    } else {
+      const permission = await MediaLibrary.requestPermissionsAsync();      if (permission.granted) {
+        await MediaLibrary.createAssetAsync(uri);
+      }
+    }  } catch (error) {
+    console.error(error);
+  }
+};
 const onPressMobileNumberClick = (number) => {
 
   let phoneNumber = '';
@@ -113,8 +157,10 @@ const onPressMobileNumberClick = (number) => {
       );
     };
 
+
     const textHeader = "Bonjour, " + prenom + " " + nom;
     return(
+
       <View style={styles.container}>
           <Header navigation={navigation} title = {textHeader} color={"#5169A7"}/>
           <StatusBar style="auto" />
@@ -142,10 +188,7 @@ const onPressMobileNumberClick = (number) => {
             nom: nom,
             })} text="Mes rendez-vous" icone="calendar" styleIcone ={styles.iconRDV}/>
 
-        <ButtonMenu styleButton={styles.FicheBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Bonjour', {
-            prenom: prenom,
-            nom: nom,
-            })} text="Générer ma Fiche" icone="file" styleIcone ={styles.iconFiche}/>
+        <ButtonMenu styleButton={styles.FicheBtn} styleText={styles.text} onPress={() =>  createAndSavePDF()} text="Générer ma Fiche" icone="file" styleIcone ={styles.iconFiche}/>
         <ButtonMenu styleButton={styles.ParametreBtn} styleText={styles.text} onPress={() =>  navigation.navigate('Parameters', {
             prenom: prenom,
             nom: nom,
