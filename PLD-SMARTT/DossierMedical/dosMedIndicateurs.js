@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TouchableHighlight, Modal, Keyboard} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StatusBar} from "expo-status-bar";
 import Header from "../Util/Header";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import {useIsFocused} from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Bouton(props){
     return (
@@ -31,16 +33,13 @@ function PopUp(props) {
                         <View style={styles.boutonsModalView}>
                             <TouchableOpacity
                                 style={styles.btnOui}
-                                onPress={() => {
-                                }}
+                                onPress={props.valider}
                             >
                                 <Text style={styles.text}>Oui</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.btnNon]}
-                                onPress={() => {
-                                    props.setter();
-                                }}
+                                onPress={props.annuler}
                             >
                                 <Text style={styles.text}>Non</Text>
                             </TouchableOpacity>
@@ -53,16 +52,70 @@ function PopUp(props) {
 }
 
 
-function DosMedIndicateurs({navigation}) {
-    const indicateurs =["Taille","Poids","test","test2","test3","test4","test5","test6","test7","test8"]
-    const prenom = "Gérard"
-    const nom = "Dupont".toUpperCase()
-    const [modalVisible, setModalVisible] = useState(false);
 
+
+function DosMedIndicateurs({navigation,route}) {
+    const {prenom,nom}=route.params
+    const [allergies,setAllergies]=useState([])
+    const [pathologies,setPathologie]=useState(route.params.pathologies)
+    const [vaccins, setVaccins]=useState(route.params.vaccins)
+    const [appareillages,setAppareillages]=useState(route.params.appareillages)
+    const [indicateurs,setIndicateurs]=useState(route.params.indicateurs)
+    const [modalVisible, setModalVisible] = useState(false);
+    const isFocused = useIsFocused();
+    const [idItemSelectionne,setIdItemSelectionne]=useState('0');
     const toggleModalVisible = () => {
+
         setModalVisible(false);
     }
 
+    const toggleModalVisible2 = (id) => {
+        deleteIndicateur(id)
+        //setModalVisible(false);
+    }
+
+    const checkMedicalFile = () => {
+        const params = {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+            .then((token) => {
+                fetch(route.params.url+'/user/token/'+token,params)
+                    .then(response => response.json())
+                    .then(data => {
+                        setAllergies(data.medicalFile.allergies)
+                        setPathologie(data.medicalFile.pathologies)
+                        setVaccins(data.medicalFile.vaccines)
+                        setAppareillages(data.medicalFile.equipments)
+                        setIndicateurs(data.medicalFile.metrics)
+
+                    })
+            })
+    }
+
+    const deleteIndicateur = (id) => {
+        const params = {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'},
+        }
+        AsyncStorage.getItem('token')
+            .then((token) => {
+                fetch(route.params.url+'/metric/'+id,params)
+                    .then(response => {
+                        if(response.ok){
+                            setModalVisible(false)
+                            checkMedicalFile()
+                        }});
+
+            })
+    }
+
+    useEffect(() => {
+        if(isFocused){
+            checkMedicalFile();
+        }
+    }, [isFocused]);
     return(
         <View style={styles.container}>
             <Pressable onPress={()=>Keyboard.dismiss()}>
@@ -72,24 +125,26 @@ function DosMedIndicateurs({navigation}) {
                         INDICATEURS
                     </Text>
                 </View>
-                <PopUp modalVisibility={modalVisible} setter={toggleModalVisible}/>
+                <PopUp modalVisibility={modalVisible} annuler={()=>toggleModalVisible()} valider={()=>toggleModalVisible2(idItemSelectionne)} />
                 <ScrollView style={{height:"63%"}}>
                     <StatusBar style="auto" />
-                    {indicateurs.map((element,index) => (
-                        <View key={`${element}-${index}`} style={styles.indicateur} underlayColor="white" >
-                            <View style={styles.containerIndicateur}>
-                                <TouchableOpacity style={styles.elementsView} onPress={()=> navigation.navigate('DosMedIndicateurPres', {})}>
-                                    <Text style={styles.text3}>
-                                        {element}
-                                    </Text>
-                                </TouchableOpacity>
-                                <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true)}}/>
-                            </View>
-                        </View>
-                    ))}
+                    {indicateurs.map((item) => {
+                        return(
+                            <TouchableHighlight key={item.id} style={styles.indicateur} underlayColor="white" onPress={()=> navigation.navigate('DosMedIndicateurPres', {prenom:prenom,nom:nom,indicateurs:indicateurs,id:item.id})}>
+                                <View style={styles.containerIndicateur}>
+                                    <View style={styles.elementsView}>
+                                        <Text style={styles.text3}>
+                                            {item.name.trim()}
+                                        </Text>
+                                    </View>
+                                    <MaterialCommunityIcons style = {styles.iconChevron} name='trash-can' color="grey" size={45} onPress={()=>{setModalVisible(true),setIdItemSelectionne(item.id)}}/>
+                                </View>
+                            </TouchableHighlight>
+                        );
+                    })}
                 </ScrollView>
                 <View style={{height:"15%"}}>
-                    <Bouton styleButton={styles.nouvelIndicateurBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedIndicateursAj', {
+                    <Bouton styleButton={styles.nouvelIndicateurBtn} styleText={styles.text} onPress={() =>  navigation.navigate('DosMedIndicateursAj', {prenom:prenom,nom:nom
                     })} text="Ajouter un indicateur" icone="plus" styleIcone ={styles.iconDossier}/>
                 </View>
             </Pressable>
