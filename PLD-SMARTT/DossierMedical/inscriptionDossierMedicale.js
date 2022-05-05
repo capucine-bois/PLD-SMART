@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Header from "../Util/Header";
 
 const InscrDosMed =({route,navigation})=>{
     const{prenom,nom}= route.params;
@@ -251,17 +252,7 @@ const InscrDosMed =({route,navigation})=>{
 
     return (
         <View style={styles.container}>
-            <View style={styles.headerBtn}>
-                <Text style={styles.text2}>
-                    
-                </Text>
-                <TouchableOpacity>
-                    <MaterialCommunityIcons style= {{marginRight:"5%"}} name='home' color="#fff" size={30} onPress={() =>  navigation.navigate('Accueil', {
-                        prenom: prenom,
-                        nom: nom,
-                    })}/>
-                </TouchableOpacity>
-            </View>
+            <Header navigation={navigation} title = {"Tutoriel"} color={"#1EA584"}/>
             <View style={{alignItems:"center"}}>
                     <Text style={styles.text1}>
                         Bonjour, {prenom} {nom} 
@@ -312,13 +303,7 @@ const InscrDosMed =({route,navigation})=>{
                  </View>
                 
                 <TouchableOpacity style={styles.loginBtn} onPress={() =>submitMetriqueTaille()}>
-
-                <Button
-                    title="Suivant"
-                    color={"#003f5c"}
-                    disabled={!bouton}
-
-                />
+                    <Text style={styles.text3}>Suivant</Text>
             </TouchableOpacity>
             </View>
 
@@ -358,25 +343,6 @@ const styles = StyleSheet.create({
         fontSize:20,
         textAlign:'center',
         alignSelf:'center'
-    },
-    
-    profil:{
-        marginTop:"10%",
-        marginBottom:"5%",
-        flexDirection:"row",
-        justifyContent : "space-evenly"
-    },
-    
-    
-    headerBtn: {
-        width: "100%",
-        height: "11%",
-        display:"flex",
-        flexDirection:"row",
-        alignItems:"flex-end",
-        paddingBottom:20,
-        backgroundColor: "#1EA584"
-
     },
     container: {
         backgroundColor: '#1EA584',

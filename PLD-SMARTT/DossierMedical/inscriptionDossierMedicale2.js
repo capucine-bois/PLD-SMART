@@ -25,6 +25,13 @@ const InscrDosMed2 =({route,navigation})=>{
     const[note,setNote]=useState('');
     const [selectedValue, setSelectedValue] = useState("type");
     const [bouton, setBouton] = useState(false);
+    const [value, onChangeText] = React.useState(''); // tracks the value of the text input.
+    const [valueAl, onChangeTextAl] = React.useState(''); // tracks the value of the text input.
+    const empty= ()=>{
+        onChangeText(''), [];
+        onChangeTextAl(''),[]
+    }
+    const clearInput = React.useCallback(empty);
 
     const submitAllergie= () => {
         const params = {
@@ -42,9 +49,7 @@ const InscrDosMed2 =({route,navigation})=>{
             fetch(route.params.url+'/allergy/'+token,params)
                 .then(response => {
                     if(response.ok) {
-                        console.log("paassee")
-                       setTitre("")
-                       setNote('')
+                       clearInput()
                     }
                 });
         });
@@ -54,24 +59,25 @@ const InscrDosMed2 =({route,navigation})=>{
     return (
         <View style={styles.container}>
             <Header navigation={navigation} title = {"Tutoriel"} color={"#1EA584"}/>
-            <View style={{alignItems:"center", height:"20%"}}>
+            <View style={{alignItems:"center", height:"30%"}}>
                 <Text style={styles.text1}>
                     Bonjour, {prenom} {nom}
                 </Text>
                 <View style={{marginTop:"2%",marginBottom:'5%'}}>
                     <Text style={styles.text3}>
-                        Avez-vous des allergies ? Si oui merci de les mentionner ci-dessous, sinon cliquez sur "passer" :
+                        Avez-vous des allergies ? Si non, vous pouvez cliquer sur "passer". Si oui, merci de les mentionner ci-dessous et de les ajouter les unes après les autres en cliquant sur "ajouter". Une fois terminé, cliquez sur "passer"
                     </Text>
                 </View>
             </View>
 
-            <View style={{height:"70%", alignItems:"center"}}>
+            <View style={{height:"65%", alignItems:"center"}}>
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.TextInput}
                         placeholder="Nom de l'allergène"
                         placeholderTextColor="#003f5c"
-                        onChangeText={(titre) => setTitre(titre)}
+                        onChangeText={(titre) => {setTitre(titre) ; onChangeTextAl(titre)}}
+                        value={valueAl}
                     />
                 </View>
 
@@ -80,13 +86,14 @@ const InscrDosMed2 =({route,navigation})=>{
                         style={styles.TextInputDesc}
                         placeholder="Descriptif"
                         placeholderTextColor="#003f5c"
-                        onChangeText={(note) => setNote(note)}
+                        onChangeText={(note) => {setNote(note) ; onChangeText(note)}}
+                        value={value}
                         multiline={true}
                     />
                 </View>
 
                 <View style={{height:"20%", marginHorizontal:"10%", marginTop:"5%", flexDirection:"row", justifyContent:"space-between"}}>
-                    <Bouton styleButton={styles.btnAjout} styleText={styles.textBtn} onPress={() =>  navigation.navigate('inscrDossierMedical4', {prenom: prenom,
+                    <Bouton styleButton={styles.btnPasser} styleText={styles.textBtn2} onPress={() =>  navigation.navigate('inscrDossierMedical4', {prenom: prenom,
                         nom:nom,})} text="Passer"/>
                     <Bouton styleButton={styles.btnAjout} styleText={styles.textBtn} onPress={() =>
                         submitAllergie()} text="Ajouter"/>
@@ -107,7 +114,6 @@ export default InscrDosMed2;
 
 const styles = StyleSheet.create({
     inputView: {
-        marginTop:"5%",
         backgroundColor: "#FFFF",
         borderRadius: 30,
         width: "80%",
@@ -125,9 +131,8 @@ const styles = StyleSheet.create({
         height: 50,
         flex: 1,
         padding: 10,
-        marginLeft: 20,
         color: "#000000",
-        fontSize:25,
+        fontSize:20,
     },
     TextInputDesc: {
         padding:"5%",
@@ -161,6 +166,13 @@ const styles = StyleSheet.create({
         color: "#1EA584",
         flex: 1
     },
+    textBtn2:{
+        fontSize: 20,
+        textAlign:"center",
+        fontWeight: 'bold',
+        color: "white",
+        flex: 1
+    },
     text3: {
         fontSize: 20,
         textAlign:"center",
@@ -174,6 +186,16 @@ const styles = StyleSheet.create({
         height: "45%",
         alignItems: "center",
         backgroundColor: "#fff",
+        marginTop:"10%",
+        marginHorizontal:"5%"
+    },
+    btnPasser: {
+        width: "45%",
+        flexDirection:"row",
+        borderRadius: 25,
+        height: "45%",
+        alignItems: "center",
+        backgroundColor: "#003f5c",
         marginTop:"10%",
         marginHorizontal:"5%"
     },

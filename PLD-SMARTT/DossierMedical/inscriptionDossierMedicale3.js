@@ -116,50 +116,15 @@ const InscrDosMed3 =({route,navigation})=>{
 export default InscrDosMed3;
 
 const styles = StyleSheet.create({
-    text: {
-        fontSize: 20,
-        fontWeight: 'bold'
-    },
     textProfil: {
         fontSize: 26,
         fontWeight: 'bold'
     },
-    inputView: {
-        marginTop:"10%",
-        backgroundColor: "#FFFF",
-        borderRadius: 30,
-        width: "80%",
-        height: 70,
-        
-
-        alignItems: "center",
-    },
-    TextInput: {
-        height: 50,
-        flex: 1,
-        padding: 10,
-        marginLeft: 20,
-        color: "#000000",
-        fontSize:25,
-    },
-    
     profil:{
         marginTop:"10%",
         marginBottom:"5%",
         flexDirection:"row",
         justifyContent : "space-evenly"
-    },
-    
-    
-    headerBtn: {
-        width: "100%",
-        height: "11%",
-        display:"flex",
-        flexDirection:"row",
-        alignItems:"flex-end",
-        paddingBottom:20,
-        backgroundColor: "#1EA584"
-
     },
     container: {
         backgroundColor: '#1EA584',
@@ -171,22 +136,6 @@ const styles = StyleSheet.create({
         textAlign:"center",
         fontWeight: 'bold',
         color:"#FFFFFF",
-
-    },
-    text2: {
-        fontSize: 20,
-        flex: 1,
-        textAlign:"center",
-        fontWeight: 'bold',
-        color: "grey",
-
-    },
-    text3: {
-        fontSize: 20,
-        
-        textAlign:"center",
-        fontWeight: 'bold',
-        color: "#fff",
 
     },
     iconChevron: {
