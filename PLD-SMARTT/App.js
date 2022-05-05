@@ -11,7 +11,6 @@ import AddTreatmentForm from './Traitements/AddTreatmentForm'
 import DossierMedical from './DossierMedical/dossierMedical';
 import InscrDosMed from './DossierMedical/inscriptionDossierMedicale';
 import InscrDosMed2 from './DossierMedical/inscriptionDossierMedicale2';
-import InscrDosMed3 from './DossierMedical/inscriptionDossierMedicale3';
 import InscrDosMed4 from './DossierMedical/inscriptionDossierMedicale4';
 import InscrDosMed5 from './DossierMedical/inscriptionDossierMedicale5';
 import InscrDosMed6 from './DossierMedical/inscriptionDossierMedicale6';
@@ -87,7 +86,6 @@ export default function App() {
         <Stack.Screen initialParams={{'url':urlBack}} name="DossierMedical" component={DossierMedical}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="inscrDossierMedical" component={InscrDosMed}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="inscrDossierMedical2" component={InscrDosMed2}   />
-        <Stack.Screen initialParams={{'url':urlBack}} name="inscrDossierMedical3" component={InscrDosMed3}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="inscrDossierMedical4" component={InscrDosMed4}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="inscrDossierMedical5" component={InscrDosMed5}   />
         <Stack.Screen initialParams={{'url':urlBack}} name="inscrDossierMedical6" component={InscrDosMed6}   />

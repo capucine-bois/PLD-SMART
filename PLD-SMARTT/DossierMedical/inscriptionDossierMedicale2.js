@@ -23,6 +23,9 @@ const InscrDosMed2 =({route,navigation})=>{
     const{prenom,nom,taille,poids,age}= route.params;
     const[titre,setTitre]=useState('');
     const[note,setNote]=useState('');
+    const [Bnom, setBNom] = useState(false);
+    const [Bdesc, setBDesc] = useState(false);
+
     const [selectedValue, setSelectedValue] = useState("type");
     const [bouton, setBouton] = useState(false);
     const [value, onChangeText] = React.useState(''); // tracks the value of the text input.
@@ -76,7 +79,7 @@ const InscrDosMed2 =({route,navigation})=>{
                         style={styles.TextInput}
                         placeholder="Nom de l'allergène"
                         placeholderTextColor="#003f5c"
-                        onChangeText={(titre) => {setTitre(titre) ; onChangeTextAl(titre)}}
+                        onChangeText={(titre) => {setTitre(titre) ; onChangeTextAl(titre); setBNom(true)}}
                         value={valueAl}
                     />
                 </View>
@@ -86,22 +89,28 @@ const InscrDosMed2 =({route,navigation})=>{
                         style={styles.TextInputDesc}
                         placeholder="Descriptif"
                         placeholderTextColor="#003f5c"
-                        onChangeText={(note) => {setNote(note) ; onChangeText(note)}}
+                        onChangeText={(note) => {setNote(note) ; onChangeText(note) ; setBDesc(true)}}
                         value={value}
                         multiline={true}
                     />
                 </View>
 
                 <View style={{height:"20%", marginHorizontal:"10%", marginTop:"5%", flexDirection:"row", justifyContent:"space-between"}}>
-                    <Bouton styleButton={styles.btnPasser} styleText={styles.textBtn2} onPress={() =>  navigation.navigate('inscrDossierMedical4', {prenom: prenom,
-                        nom:nom,})} text="Passer"/>
-                    <Bouton styleButton={styles.btnAjout} styleText={styles.textBtn} onPress={() =>
-                        submitAllergie()} text="Ajouter"/>
+                    <TouchableOpacity style={styles.btnPasser} onPress={() =>  navigation.navigate('inscrDossierMedical4', {prenom: prenom,
+                        nom:nom,})} text="Passer">
+                        <Text style={styles.textBtn2}>
+                            Passer
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity disabled={!(Bnom&&Bdesc)} style={styles.btnAjout} onPress={() =>  submitAllergie()} text="Ajouter">
+                        <Text style={styles.textBtn}>
+                            Ajouter
+                        </Text>
+                    </TouchableOpacity>
+
 
                 </View>
-                
             </View>
-
         </View>
 
 

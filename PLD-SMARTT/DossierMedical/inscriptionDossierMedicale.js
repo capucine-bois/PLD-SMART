@@ -14,8 +14,11 @@ const InscrDosMed =({route,navigation})=>{
     const [age, setAge] = useState('');
     const [idMetriqueTaille,setIdMetriqueTaille]=useState('');
     const [idMetriquePoids,setIdMetriquePoids]=useState('');
-    const [bouton, setBouton] = useState(false);
     const [date, setDate] = useState(new Date());
+    const [Bdate, setBDate] = useState(false);
+    const [Bpoids, setBPoids] = useState(false);
+    const [Btaille, setBTaille] = useState(false);
+
     const dateAjd =useState(new Date())
     const [dateAjdFormate,setDateAjdFormate]=useState('')
     const [dateFormate,setDateFormate]=useState('')
@@ -36,6 +39,7 @@ const InscrDosMed =({route,navigation})=>{
        };
        const handleConfirm = (date) => {
          setDate(date);
+         setBDate(true);
          var dd = date.getDate();
          var mm = date.getMonth() + 1; //January is 0!
          var yyyy = date.getFullYear();
@@ -269,7 +273,7 @@ const InscrDosMed =({route,navigation})=>{
                         placeholder="Saisissez votre Taille en cm"
                         placeholderTextColor="#003f5c"
                         onChangeText={(taille) => setTaille(taille)}
-                        onChange={()=>setBouton(true)}
+                        onChange={()=>setBTaille(true)}
                         keyboardType="numeric"
                     />
                 </View>
@@ -279,7 +283,7 @@ const InscrDosMed =({route,navigation})=>{
                     placeholder="Saisissez votre Poids en Kg"
                     placeholderTextColor="#003f5c"
                     onChangeText={(poids) => setPoids(poids)}
-                    onChange={()=>setBouton(true)}
+                    onChange={()=>setBPoids(true)}
                     keyboardType="numeric"
 
                 />
@@ -302,12 +306,10 @@ const InscrDosMed =({route,navigation})=>{
                 
                  </View>
                 
-                <TouchableOpacity style={styles.loginBtn} onPress={() =>submitMetriqueTaille()}>
+                <TouchableOpacity disabled={!(Bpoids&&Bdate&&Btaille)} style={styles.loginBtn} onPress={() =>submitMetriqueTaille()}>
                     <Text style={styles.text3}>Suivant</Text>
             </TouchableOpacity>
             </View>
-
-
         </View>
 
 
