@@ -1,6 +1,6 @@
 
 import React, { Component, useState,useEffect } from 'react';
-import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput,Button} from 'react-native';
+import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput, Button, Platform} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -261,9 +261,6 @@ const InscrDosMed =({route,navigation})=>{
                         nom: nom,
                     })}/>
                 </TouchableOpacity>
-
-
-
             </View>
             <View style={{alignItems:"center"}}>
                     <Text style={styles.text1}>
@@ -288,11 +285,12 @@ const InscrDosMed =({route,navigation})=>{
                 <View style={styles.inputView}>
                 <TextInput
                     style={styles.TextInput}
-
                     placeholder="Saisissez votre Poids en Kg"
                     placeholderTextColor="#003f5c"
                     onChangeText={(poids) => setPoids(poids)}
                     onChange={()=>setBouton(true)}
+                    keyboardType="numeric"
+
                 />
                 </View>
 
@@ -306,10 +304,10 @@ const InscrDosMed =({route,navigation})=>{
                 
                 
                   <DateTimePickerModal
-                  
                     isVisible={isDatePickerVisible}
                     mode="date"
                     locale="fr"
+                    display={Platform.OS === 'ios' ? 'spinner' : 'spinner'}
                     onConfirm={handleConfirm}
                     onCancel={hideDatePicker}
                   />
