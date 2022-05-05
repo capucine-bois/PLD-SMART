@@ -1,5 +1,5 @@
 
-import React, { Component, useState } from 'react';
+import React, { Component, useState,useEffect } from 'react';
 import {StyleSheet, Text, ScrollView, View, TouchableOpacity, TextInput,Button} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -52,12 +52,19 @@ const InscrDosMed =({route,navigation})=>{
          setDateFormate2( dd+"/"+mm+"/"+yyyy);
          hideDatePicker();
        };
+
+       const [token, setToken] = React.useState(null);
+       const tok = AsyncStorage.getItem("token")
+            .then(result => {
+                setToken(result);
+            })
        
 
        
 
 
-    const submitMetriqueTaille= () => {
+    const submitMetriqueTaille= async () => {
+        try {
         const params = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
@@ -66,20 +73,21 @@ const InscrDosMed =({route,navigation})=>{
                 "unit":'cm',
             })
         }
-        AsyncStorage.getItem('token')
-        .then((token) => {
-            fetch(route.params.url+'/metric/'+token,params)
-                .then(response => 
-                  
-                    response.json()
-                )
-                .then(data =>{
+        
+            const response = await fetch(route.params.url+'/metric/'+token,params)
+            const data = await response.json()
+                
+                        
                     console.log(data)
                     setIdMetriqueTaille(data.id)
                     submitTaille(data.id)
+                    
 
-                })
-        });
+                
+        
+    } catch (error) {
+        console.error(error);
+      }
             
       };
     
@@ -97,6 +105,7 @@ const InscrDosMed =({route,navigation})=>{
         }
         
         setDateAjdFormate(  yyyy + "-" + mm + "-" + dd);
+        console.log(dateAjdFormate)
         const params = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
@@ -145,19 +154,7 @@ const InscrDosMed =({route,navigation})=>{
       };
     
     const submitPoids= (id) => {
-        var dd = dateAjd[0].getDate();
-        var mm = dateAjd[0].getMonth() + 1; //January is 0!
-        var yyyy = dateAjd[0].getFullYear();
         
-      
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        
-        setDateAjdFormate(  yyyy + "-" + mm + "-" + dd);
         const params = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
@@ -169,11 +166,11 @@ const InscrDosMed =({route,navigation})=>{
         AsyncStorage.getItem('token')
         .then((token) => {
             fetch(route.params.url+'/measure/'+id,params)
-                .then(response => response.json()
-                )
-                .then(data => {console.log(data)
+                .then(response => {
+                    if(response.ok){
+                
                     submitBirthDate()
-                    })
+                    }});
         });
             
       };
@@ -238,6 +235,23 @@ const InscrDosMed =({route,navigation})=>{
         });
             
       };
+
+      useEffect(() => {
+        var dd = dateAjd[0].getDate();
+        var mm = dateAjd[0].getMonth() + 1; //January is 0!
+        var yyyy = dateAjd[0].getFullYear();
+        
+      
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        
+        setDateAjdFormate(  yyyy + "-" + mm + "-" + dd);
+
+    }, []);
 
 
     return (
