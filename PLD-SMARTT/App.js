@@ -44,7 +44,7 @@ import TreatmentCameraSave from "./Traitements/TreatmenCameraSave";
 import AddMedicationForm from "./Traitements/AddMedicationForm";
 
 const Stack = createNativeStackNavigator();
-const urlBack = "http://10.43.4.92:8080";
+const urlBack = "http://172.20.10.2:8080";
 export default function App() {
 
 

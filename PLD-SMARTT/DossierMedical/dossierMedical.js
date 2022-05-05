@@ -89,7 +89,7 @@ function DossierMedical({route,navigation}) {
                 var dateFormat = jour+"/"+mois+"/"+year;
                 var today = new Date();
                 var age = today.getFullYear() - year;
-                if (today.getMonth() < mois || (today.getMonth() == mois && today.getDate() < jour)) {
+                if (today.getMonth()+1 < mois || (today.getMonth()+1 == mois && today.getDate() < jour)) {
                     age--;
                 }
                 setAge(age)
