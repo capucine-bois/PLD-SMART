@@ -161,13 +161,13 @@ const InscrDosMed5 =({route,navigation})=>{
                     </View>
                 </View>
                 <View style={{height:"25%", marginTop:"7%", marginHorizontal:"10%", flexDirection:"row", alignSelf:"center"}}>
-                    <TouchableOpacity style={styles.btnPasser} onPress={() =>  navigation.navigate('inscrDossierMedical5', {prenom: prenom,
+                    <TouchableOpacity style={styles.btnPasser} onPress={() =>  navigation.navigate('inscrDossierMedical6', {prenom: prenom,
                         nom:nom,})} text="Passer">
                         <Text style={styles.textBtn2}>
                             Passer
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity disabled={!(Bnom)} style={styles.btnAjout} onPress={() =>  submitPathologie()} text="Ajouter">
+                    <TouchableOpacity style={styles.btnAjout} onPress={() =>  submitVaccin()} text="Ajouter">
                         <Text style={styles.textBtn}>
                             Ajouter
                         </Text>
