@@ -37,6 +37,9 @@ public class Medication {
     @Column(name="quantity")
     private float quantity;
 
+    @Column(name="unit")
+    private String unit;
+
     @Column(name="remark")
     private String remark;
 
@@ -45,7 +48,7 @@ public class Medication {
     @JsonBackReference
     private Treatment treatment;
 
-    public Medication(String name, Date start_date, Date end_date, int numFrequency, String unitFrequency, int quantity, String remark, Treatment treatment){
+    public Medication(String name, Date start_date, Date end_date, int numFrequency, String unitFrequency, int quantity, String remark, Treatment treatment, String unit){
         this.name = name;
         this.startDate = start_date;
         this.endDate = end_date;
@@ -54,6 +57,7 @@ public class Medication {
         this.quantity = quantity;
         this.remark = remark;
         this.treatment = treatment;
+        this.unit=unit;
     }
 
     public Medication() {
@@ -67,6 +71,13 @@ public class Medication {
     }
 
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 
     public String getName() {
         return name;
@@ -132,6 +143,7 @@ public class Medication {
                 ", quantity=" + quantity +
                 ", remark='" + remark + '\'' +
                 ", treatment=" + treatment +
+                ", unit=" + unit +
                 '}';
     }
 }

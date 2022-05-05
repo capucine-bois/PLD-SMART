@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 import com.repository.UserRepository;
 
 import java.util.Date;
+import java.util.List;
 
 
 @RestController
@@ -79,6 +80,15 @@ public class UserController {
                                   .orElseThrow(() -> new UserNotFoundException(token));
 
         return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/")
+    @ResponseBody
+    public ResponseEntity<List<User>> getUsers(){
+
+        List<User> listUser = userRepository.findAll();
+
+        return new ResponseEntity<List<User>>(listUser, HttpStatus.OK);
     }
 
     @GetMapping("/user/birthdate/token/{token}")

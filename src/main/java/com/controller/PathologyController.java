@@ -65,7 +65,7 @@ public class PathologyController {
         return new ResponseEntity<Pathology>(pathology, HttpStatus.OK);
     }
 
-    @DeleteMapping( "/pathology/{allergyid}")
+    @DeleteMapping( "/pathology/{pathologyid}")
     @ResponseBody
     @Transactional
     public ResponseEntity<Long> deletePathologyById (@PathVariable(value = "pathologyid") Long pathologyid) {
